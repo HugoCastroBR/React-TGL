@@ -25,7 +25,7 @@ type PageProps = {
     footerVisible?: boolean;
 }
 
-const Page:React.FC<PageProps> = ({children,footerVisible = true, headerVisible = true}) => {
+const Page = ({children,footerVisible = true, headerVisible = true}:PageProps & {children:React.ReactNode}) => {
     return(
         <Fragment>
             {headerVisible && <Header/>}

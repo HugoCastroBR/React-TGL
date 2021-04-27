@@ -1,18 +1,12 @@
 import React from 'react';
-import ArrowRight from '../assets/img/right-arrow.svg'
 import styled from "styled-components"
 import Fonts from '../styles/fonts';
+import ArrowRight from './icons/arrowRight';
 
 
 
 
-
-const ArrowRightStyle = styled.img`
-    height: 28px;
-    margin-left: 15px;
-`
-
-const ButtonStyle = styled.button`
+const ButtonStyle = styled.button<{FontSize:number}>`
     ${Fonts}
     color: #707070;
     display: flex;
@@ -20,18 +14,26 @@ const ButtonStyle = styled.button`
     align-items: center;
     border: none;
     background-color: transparent;
-    font: italic normal bold 20px/70px "Helvetica Neue Bold";
+    font: italic normal bold ${props => `${props.FontSize}`}px/70px "Helvetica Neue Bold";
     cursor: pointer;
 `
 
-const ArrowButton:React.FC = ({children}) => {
-    return(
-        <ButtonStyle>
-            {children}
-            <ArrowRightStyle src={ArrowRight}/>
-        </ButtonStyle>
+type SimpleButtonProps = {
+    children?: React.ReactNode,
+    Arrow?: boolean
+    ArrowSize?: number[] // X , Y
+    Color?: string
+    FontSize?: number
+}
 
+const SimpleButton = ({children = "",Arrow = false,
+                        ArrowSize =[45,28] ,Color = "#707070", FontSize = 20 }:SimpleButtonProps) => {
+    return(
+        <ButtonStyle FontSize={FontSize}>
+            {children}
+            {Arrow && <ArrowRight width={ArrowSize[0]} height={ArrowSize[1]} color={Color}/>}
+        </ButtonStyle>
     )
 }
 
-export default ArrowButton;
+export default SimpleButton;
