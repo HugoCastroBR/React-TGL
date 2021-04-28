@@ -23,12 +23,13 @@ const MainStyle = styled.main`
 type PageProps = {
     headerVisible?: boolean;
     footerVisible?: boolean;
+    WithHomeBtn?: boolean
 }
 
-const Page = ({children,footerVisible = true, headerVisible = true}:PageProps & {children:React.ReactNode}) => {
+const Page = ({children,footerVisible = true, headerVisible = true,WithHomeBtn = true}:PageProps & {children:React.ReactNode}) => {
     return(
         <Fragment>
-            {headerVisible && <Header/>}
+            {headerVisible && <Header WithHomeBtn={WithHomeBtn}/>}
             <MainStyle>
                 {children}
             </MainStyle>

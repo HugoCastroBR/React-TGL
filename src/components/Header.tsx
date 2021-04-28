@@ -2,6 +2,7 @@ import React from 'react';
 import styled from "styled-components"
 import Fonts from '../styles/fonts';
 import SimpleButton from './ArrowButton';
+import { Link } from 'react-router-dom';
 
 
 const HeaderStyle = styled.header`
@@ -21,15 +22,33 @@ const HeaderContainer = styled.div`
     justify-content: space-between;
     align-items: center;
 
+    & div{
+        display: flex;
+        height: 100%;
+        align-items: center;
+        & a {
+            font: italic normal bold 20px 'Helvetica Neue Bold';
+            color: #707070;
+            margin-left: 74px;
+            text-decoration: none;
+        }
+    }
+
 `
 
 const ButtonContainer = styled.div`
-    width: 220px;
+    width: 320px;
     display:flex;
     justify-content: space-between;
     align-items: center;
     height: 100%;
-
+    margin-right: 80px;
+    & a {
+        margin-right: -120px;
+        padding: 0px;
+        width: 160px;
+        text-decoration: none;
+    }
 `
 
 
@@ -62,18 +81,23 @@ const LogoContainer = styled.div`
     }
 `
 
-const Header = () => {
+
+
+const Header = ({WithHomeBtn = true}:{WithHomeBtn?:boolean}) => {
     return(
         <HeaderStyle>
             <HeaderContainer>
-                <LogoContainer>
-                    <h1>TGL</h1>
-                </LogoContainer>
+                <div>
+                    <LogoContainer>
+                        <h1>TGL</h1>
+                    </LogoContainer>
+                    {WithHomeBtn && <Link to="/">Home</Link>}
+                </div>
                 <ButtonContainer>
-                    <SimpleButton Arrow={false} > Account </SimpleButton>
-                    <SimpleButton Arrow={true}> Sair </SimpleButton>
+                    <Link to="/"><SimpleButton Arrow={false} > Account </SimpleButton></Link>
+                    <Link to="/login"><SimpleButton Arrow={true}> Log out </SimpleButton></Link>
                 </ButtonContainer>  
-            </HeaderContainer>
+            </HeaderContainer>  
         </HeaderStyle>
     )
 }

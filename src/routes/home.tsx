@@ -3,7 +3,10 @@ import styled  from 'styled-components';
 import SimpleButton from '../components/ArrowButton';
 import GameSelect from '../components/GameSelect';
 import Page from '../components/Page';
+import RecentGameItem from '../components/RecentGameItem';
 import Fonts from '../styles/fonts';
+import { SavedGame } from '../types/types';
+import { Link } from 'react-router-dom';
 
 
 const RecentGamesTitle = styled.div`
@@ -35,6 +38,7 @@ const RecentGamesTitle = styled.div`
             letter-spacing: 0px;
             color: #868686;
             margin-left: 30px;
+            
         }
     }
 
@@ -44,6 +48,10 @@ const RecentGamesTitle = styled.div`
         flex-direction: row;
         align-items: center;
         justify-content: center;
+
+        & a {
+            text-decoration: none;
+        }
     }
     & div:last-child{
         height: 100%;
@@ -66,12 +74,36 @@ const HomeContainer = styled.section`
     margin-top: 70px;
 `
 
+const RecentGamesContainer = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+`
+
+
+const RecentGames:SavedGame[] = [
+    {
+        color: "#7F3992",
+        price: 2.50,
+        numbers: [1,2,3,4,5,6,7,8,9,10],
+        type: "Lotofácil",
+        data: "30/11/2020"
+    },
+    {
+        color: "#01AC66",
+        price: 3.10,
+        numbers: [1,2,3,4,5,6,2,8,9,10],
+        type: "Megasena",
+        data: "20/12/2021"
+    }
+]
 
 const Home = () => {
     return(
-        <Page> 
+        <Page WithHomeBtn={false}> 
             <HomeContainer>
-
                 <RecentGamesTitle>
                     <div>
                         <h2>Recent Games</h2>
@@ -80,17 +112,19 @@ const Home = () => {
                     </div>
 
                     <div>
-                        <SimpleButton Arrow={true} Color={'#B5C401'} FontSize={24} >
-                        <span>
-                            New Bet
-                        </span>
-                        </SimpleButton>
+                        <Link to="/new-bet">
+                            <SimpleButton Arrow={true} Color={'#B5C401'} FontSize={24} >
+                                <span>
+                                    New Bet
+                                </span>
+                            </SimpleButton>
+                        </Link>
                     </div>
                 </RecentGamesTitle>
 
-                <div>
-
-                </div>
+                <RecentGamesContainer>
+                    {RecentGames.map(element => <RecentGameItem {...element}></RecentGameItem>)}
+                </RecentGamesContainer>
 
             </HomeContainer>
         </Page>

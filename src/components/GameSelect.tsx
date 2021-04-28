@@ -1,19 +1,15 @@
 import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import Fonts from '../styles/fonts';
-import { GameData } from '../types/types';
+import { GameData, GameSelectButtonType } from '../types/types';
 
 
 
-type GameSelectButtonType = {
-    color?: string;
-    active?: boolean;
-}
+
 
 const GameSelectButton = styled.button<GameSelectButtonType>`
     ${Fonts}
     font: italic normal bold 14px "Helvetica Neue Bold" ;
-
     color: ${(props) => {
         if (props.active) {
             return `white`
@@ -21,7 +17,6 @@ const GameSelectButton = styled.button<GameSelectButtonType>`
             return `${props.color ? props.color : 'gray'}`
         }
     }};
-
     width: 115px;
     height: 35px;
     border: 2px solid ${(props) => `${props.color ? props.color : 'gray'}`};
@@ -38,7 +33,7 @@ const GameSelectContainer = styled.div`
     justify-content: space-around;
 `
 
-let Game: GameData[] = [
+export let GameList: GameData[] = [
     {
         type: "Lotofácil",
         description: "Escolha 15 números para apostar na lotofácil. Você ganha acertando 11, 12, 13, 14 ou 15 números. São muitas chances de ganhar, e agora você joga de onde estiver!",
@@ -74,10 +69,10 @@ const GameSelect = () => {
     return (
         <GameSelectContainer>
             {
-                Game.map(element => {
+                GameList.map(element => {
                     return <GameSelectButton
                         active={false}
-                        color={element.color}
+                        color={element.color}   
                     >{element.type}</GameSelectButton>
                 })
             }

@@ -8,3 +8,15 @@ export type GameData = {
     "min-cart-value": number
 }
 
+export type GameSelectButtonType = {
+    color?: string;
+    active?: boolean;
+}
+
+export type SavedGame ={
+    type: string
+    price: number
+    color: string
+    data: string
+    numbers: number[]
+}
