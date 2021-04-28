@@ -12,8 +12,6 @@ import PragmaticaExtraLight from './fonts/PragmaticaExtraLight.ttf'
 import PragmaticaMedium from './fonts/PragmaticaMedium.otf'
 
 
-
-
 export const Fonts = css`
     @font-face{
         font-family: "Helvetica Neue Ultra Light";

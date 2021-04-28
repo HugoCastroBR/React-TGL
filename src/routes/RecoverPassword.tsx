@@ -5,24 +5,21 @@ import AuthFormTemplate from './../components/AuthFormTemplate';
 import AuthContainer from '../components/AuthContainer';
 import { Link } from 'react-router-dom';
 
-
-
-
-const Login = () => {
-    return (
+const RecoverPassword = () => {
+    return(
         <Page headerVisible={false}>
             <AuthContainer>
                 <div>
-                    <h2>Authentication</h2>
+                    <h2>Reset Password</h2>
                     {/* Form  */}
-                    <AuthFormTemplate ButtonSendText={"Log in"} Action="/" > 
-                        <input placeholder="Username"></input>
-                        <input placeholder="Password"></input>
-                        <Link to="reset-password">I forget my password</Link>
+                    <AuthFormTemplate ButtonSendText={"Send Link"} Action="" > 
+                        
+                        <input placeholder="Email"></input>
+                        
                     </AuthFormTemplate>
-                    <SimpleButton Arrow={true} FontSize={35} ArrowSize={[50, 40]} >
-                        <Link to="/register">
-                            Sign Up
+                    <SimpleButton Arrow={true} FontSize={35} ArrowSize={[50, 40]} ReverseArrow={true}>
+                        <Link to="/login">
+                            <p>Back</p>
                         </Link>
                     </SimpleButton>
                 </div>
@@ -31,4 +28,4 @@ const Login = () => {
     )
 }
 
-export default Login;
+export default RecoverPassword;

@@ -3,13 +3,11 @@ import styled from 'styled-components';
 import SimpleButton from '../components/ArrowButton';
 
 
-type AuthFormTemplateProps = {
-    ButtonSendText: string
-}
+
 
 const AuthFormTemplateStyle = styled.form`
 
-    height: 340px;
+    height: auto;
     width: 350px;
     background: #FFFFFF;
     box-shadow: 0px 3px 25px #00000014;
@@ -28,26 +26,31 @@ const AuthFormTemplateStyle = styled.form`
         min-width: 350px;
         flex-direction: column;
         align-items: center;
-        min-height: 68%;
         overflow: hidden;
 
     }
     & div{
-        max-height: 32%;
-        min-height: 32%;
+        overflow: hidden;
+        height: 120px;
+        min-height: 120px;
+        max-height: 120px;
         width: 100%;
         min-width: 350px;
-
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        transition: 0.2s;
+        & :hover{
+            transition: 0.2s;
+            background-color: #EBEBEB;
+        }
     }
 
     & input{
         padding: 0px;
         padding-top: 2px;
-        height: 73px;
+        height: 71px;
         width: 290px;
         border: none;
         border-bottom: 2px solid #EBEBEB;
@@ -62,15 +65,22 @@ const AuthFormTemplateStyle = styled.form`
     }
 
     & a {
-        height: 0px;
-        margin-top: 12px;
-        min-width: 100%;
+        margin-top: 25px;
+        margin-bottom: 30px;
+        height: 20px;
         text-align: right;
-        margin-left: -30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 150px;
         font: italic normal normal 17px/70px Helvetica Neue Roman;
         letter-spacing: 0px;
         color: #C1C1C1;
         text-decoration: none;  
+    }
+
+    & a:hover{
+        color: gray;
     }
 
 `
@@ -79,6 +89,7 @@ const ButtonText = styled.p<{ Color: String }>`
     color: ${props => `${props.Color}`};
     font-size: 35px;
     width: 100%;
+    
     
 `
 
@@ -93,12 +104,18 @@ const ButtonContainer = styled.button`
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    
 `
 
+type AuthFormTemplateProps = {
+    ButtonSendText: string
+    Action?: string
+}   
 
-const AuthFormTemplate = ({ ButtonSendText, children = "" }: AuthFormTemplateProps & { children?: React.ReactNode }) => {
+const AuthFormTemplate = ({ ButtonSendText, children = "", Action= "" }:
+AuthFormTemplateProps & { children?: React.ReactNode }) => {
     return (
-        <AuthFormTemplateStyle action="">
+        <AuthFormTemplateStyle action={Action}>
             <section>
                 {children}
             </section>
