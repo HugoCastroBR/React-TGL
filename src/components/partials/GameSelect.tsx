@@ -1,7 +1,7 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import Fonts from '../styles/fonts';
-import { GameData, GameSelectButtonType } from '../types/types';
+import Fonts from '../../styles/fonts';
+import { GameData, GameSelectButtonType } from '../../types/types';
 
 
 
@@ -69,10 +69,12 @@ const GameSelect = () => {
     return (
         <GameSelectContainer>
             {
-                GameList.map(element => {
+                // For Game in GameList make a Option save it on Redux
+                GameList.map((element,index) => {
                     return <GameSelectButton
                         active={false}
                         color={element.color}   
+                        key={index}
                     >{element.type}</GameSelectButton>
                 })
             }

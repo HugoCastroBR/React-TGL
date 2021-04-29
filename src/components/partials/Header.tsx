@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from "styled-components"
-import Fonts from '../styles/fonts';
-import SimpleButton from './ArrowButton';
+import Fonts from '../../styles/fonts';
+import SimpleButton from '../buttons/SimpleButton';
 import { Link } from 'react-router-dom';
 
 

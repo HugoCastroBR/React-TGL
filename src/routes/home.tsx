@@ -1,9 +1,9 @@
 import React from 'react';
 import styled  from 'styled-components';
-import SimpleButton from '../components/ArrowButton';
-import GameSelect from '../components/GameSelect';
-import Page from '../components/Page';
-import RecentGameItem from '../components/RecentGameItem';
+import SimpleButton from '../components/buttons/SimpleButton';
+import GameSelect from '../components/partials/GameSelect';
+import Page from '../components/partials/Page';
+import RecentGameItem from '../components/Cart/RecentGameItem';
 import Fonts from '../styles/fonts';
 import { SavedGame } from '../types/types';
 import { Link } from 'react-router-dom';
@@ -63,7 +63,6 @@ const RecentGamesTitle = styled.div`
 `
 
 
-
 const HomeContainer = styled.section`
     width: 100vw;
     max-width: 1200px;
@@ -82,8 +81,7 @@ const RecentGamesContainer = styled.div`
     height: auto;
 `
 
-
-const RecentGames:SavedGame[] = [
+const RecentGames:SavedGame[] = [  // List of Recent Games (get from redux)
     {
         color: "#7F3992",
         price: 2.50,
@@ -101,8 +99,9 @@ const RecentGames:SavedGame[] = [
 ]
 
 const Home = () => {
+    // return Page Template without home btn
     return(
-        <Page WithHomeBtn={false}> 
+        <Page WithHomeBtn={false}>  
             <HomeContainer>
                 
                 <RecentGamesTitle>
@@ -124,6 +123,7 @@ const Home = () => {
                 </RecentGamesTitle>
 
                 <RecentGamesContainer>
+                    {/* For Recent Games make a Recent Game Item in page */}
                     {RecentGames.map(element => <RecentGameItem {...element}></RecentGameItem>)}
                 </RecentGamesContainer>
 

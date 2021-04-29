@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import Fonts from '../styles/fonts';
-import BetNumberBtn from './BetNumberBtn';
-import GameSelect from './GameSelect';
+import BetNumberBtn from '../buttons/BetNumberBtn';
+import GameSelect from '../partials/GameSelect';
 
 const NewBetContainerStyle = styled.div`
     width: 100vw;
@@ -91,6 +90,7 @@ const FunctionsButtonsContainer = styled.div`
         cursor: pointer;
     }
 
+
     & div{
         & button{
             margin-right: 24px;
@@ -98,19 +98,35 @@ const FunctionsButtonsContainer = styled.div`
             border-radius: 10px;
             background-color: transparent;
             color: #27C383;
-            transition: 0.4s;
+            transition: 0.5s;
         }
 
         & button:hover{
-            transition: 0.4s;
-            box-shadow: inset 0px 0px 0px 28px  #27C383;
+            transition: 0.5s;
+            /* box-shadow: inset 190px 0px 0px -26px  #27C383; */
+            box-shadow: inset 0px -220px 0px -164px  #27C383;
             color: white;
         }
+
     }
 
 `
 
+
+
 const NewBetContainer = () => {
+
+    // inRange(4) => [1,2,3,4]
+    const inRange = (N:number) =>{
+        let Arr = []
+        while(Arr.length < N){
+            Arr.push(Arr.length ? Arr.length + 1: 1)
+        }
+        return Arr
+    }
+
+    const BetNumbers = inRange(50)
+
     return(
         <NewBetContainerStyle>
             <TitleContainer>
@@ -130,7 +146,9 @@ const NewBetContainer = () => {
             </GameRulesDesc>
             <BetNumberBtnContainer>
 
-                <BetNumberBtn number={1}/>
+                
+                {BetNumbers.map((element,index) => <BetNumberBtn number={element} key={index}/>)}
+                {/* <BetNumberBtn number={1} selected={true}/> */}
                 
             </BetNumberBtnContainer>
 

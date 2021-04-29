@@ -1,8 +1,8 @@
 import React from 'react';
 import styled  from 'styled-components';
-import NumbersFormatter from '../containers/NumbersFormater';
-import { SavedGame } from '../types/types';
-import DeleteIcon from './icons/deleteIcon';
+import NumbersFormatter from '../../functions/NumbersFormater';
+import { SavedGame } from '../../types/types';
+import DeleteIcon from '../icons/deleteIcon';
 
 
 type CartItemProps = {
@@ -29,6 +29,17 @@ const DeleteContainer = styled.div`
         background-color: transparent;
         border: 0px;
 
+        & svg{
+            transition: 0.5s;
+        }
+        & svg:hover{
+            transition: 0.5s;
+            fill: red;
+        }
+        & svg:active{
+            transition: 0.5s;
+            fill: red;
+        }
     }
 `
 

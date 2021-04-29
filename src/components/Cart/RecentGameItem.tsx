@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { GameSelectButtonType, SavedGame } from '../types/types';
-import NumbersFormatter from './../containers/NumbersFormater';
+import { GameSelectButtonType, SavedGame } from '../../types/types';
+import NumbersFormatter from '../../functions/NumbersFormater';
 
 
 const RecentGameItemStyle = styled.div<GameSelectButtonType>`

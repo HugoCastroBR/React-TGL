@@ -20,3 +20,15 @@ export type SavedGame ={
     data: string
     numbers: number[]
 }
+
+export type UserProps = {
+    name: string
+    password: string;
+}
+
+export type UserInfos = {
+    id: number
+    name: string
+    password: string
+    email: string
+}[]

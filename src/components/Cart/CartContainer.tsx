@@ -1,9 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import Page from '../components/Page';
-import Fonts from '../styles/fonts';
-import { SavedGame } from '../types/types';
-import SimpleButton from './ArrowButton';
+import { SavedGame } from '../../types/types';
+import SimpleButton from '../buttons/ArrowButton';
 import CartItem from './CartItem';
 
 
@@ -20,7 +18,7 @@ const CartContainerStyle = styled.div`
     justify-content: center;
     overflow: hidden;
 `
-const SaveButton = styled.button`
+const SaveButton = styled.div`
     height: 96px;
     display: flex;
     justify-content: center;
@@ -32,6 +30,12 @@ const SaveButton = styled.button`
     border: 0px;
     border-top: 1px solid #E2E2E2;
     cursor: pointer;
+    transition: 0.3s;
+
+    :hover{
+        transition: 0.3s;
+        background: #e6e9e8;
+    }
 `
 
 const CartItemsContainer = styled.div`
@@ -114,7 +118,7 @@ const CartContainer = () => {
                     Cart
                 </h2>
                 {CurrentGames?
-                CurrentGames.map(element => <CartItem {...element}/>):
+                CurrentGames.map((element,index) => <CartItem key={index} {...element}/>):
                 <EmptyCartAlert>
                 Empty Cart
                 </EmptyCartAlert>
@@ -130,7 +134,8 @@ const CartContainer = () => {
                     Total: R$ {genTotal(CurrentGames)}
                 </span>
             </CartTotalText>
-            <SaveButton>
+            <SaveButton
+            >
                 <SimpleButton Arrow={true} Color={"#27C383"} FontSize={35} >
                     <span color="#27C383">
                         Save

@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import CartContainer from '../components/CartContainer';
-import NewBetContainer from '../components/NewBetContainer';
-import Page from '../components/Page';
-import Fonts from '../styles/fonts';
+import CartContainer from '../components/Cart/CartContainer';
+import NewBetContainer from '../components/newBet/NewBetContainer';
+import Page from '../components/partials/Page';
+
 
 
 const NewBetPageContainer = styled.div`

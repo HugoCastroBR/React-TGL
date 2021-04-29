@@ -1,11 +1,16 @@
 import styled from 'styled-components';
 import React from 'react';
 
-const BetNumberBtnStyle = styled.button`
+
+
+
+
+
+const BetNumberBtnStyle = styled.button<{selected:boolean}>`
     width: 64px;
     height: 64px;
     border: 0px;
-    background-color: #ADC0C4;
+    background-color: ${props => `${props.selected?'#27C383':'#ADC0C4'}`};
     border-radius: 100px;
     color: white;
     font: normal normal bold 20px "Helvetica Neue Bold";
@@ -13,20 +18,26 @@ const BetNumberBtnStyle = styled.button`
     margin-right: 12px;
     margin-bottom: 12px;
     transition: 0.2s;
+
     :hover{
         transition: 0.2s;
-        background-color: #8da3a7;
+        background-color: ${props => `${props.selected?'#17a56a':'#8da3a7'}`};
+    }
+    :active{
+        transition: 0.2s;
+        background-color: ${props => `${props.selected?'#17a56a':'#8da3a7'}`};
     }
 `
 
 
 type BetNumberBtnProps = {
     number: number
-}
+    selected?: boolean
+}   
 
-const BetNumberBtn = ({number}:BetNumberBtnProps) => {
+const BetNumberBtn = ({number,selected=false}:BetNumberBtnProps) => {
     return(
-        <BetNumberBtnStyle>
+        <BetNumberBtnStyle selected={selected}>
             {number <= 9? `0${number}`: number }
         </BetNumberBtnStyle>
     )

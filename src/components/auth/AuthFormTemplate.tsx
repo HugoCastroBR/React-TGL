@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import SimpleButton from '../components/ArrowButton';
+
 
 
 
@@ -85,47 +85,18 @@ const AuthFormTemplateStyle = styled.form`
 
 `
 
-const ButtonText = styled.p<{ Color: String }>`
-    color: ${props => `${props.Color}`};
-    font-size: 35px;
-    width: 100%;
-    
-    
-`
 
 
 
-const ButtonContainer = styled.button`
-    border: none;
-    background-color: transparent;
-    width: 350px;
-    height: 130px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    
-`
 
-type AuthFormTemplateProps = {
-    ButtonSendText: string
-    Action?: string
-}   
 
-const AuthFormTemplate = ({ ButtonSendText, children = "", Action= "" }:
-AuthFormTemplateProps & { children?: React.ReactNode }) => {
+const AuthFormTemplate = ({ children = ""}:{ children?: React.ReactNode }) => {
     return (
-        <AuthFormTemplateStyle action={Action}>
-            <section>
+        // Remove action to auth
+        <AuthFormTemplateStyle >
+            
                 {children}
-            </section>
-            <div>
-                <ButtonContainer>
-                    <SimpleButton Arrow={true} Color={"#B5C401"} ArrowSize={[50,40]}>
-                        <ButtonText Color={"#B5C401"} >{ButtonSendText}</ButtonText>
-                    </SimpleButton>
-                </ButtonContainer>
-            </div>
+            
         </AuthFormTemplateStyle>
     )
 }

@@ -1,11 +1,7 @@
 import React from 'react';
-import Page from './../components/Page';
-import Fonts from '../styles/fonts';
-import SimpleButton from '../components/ArrowButton';
-import AuthFormTemplate from './../components/AuthFormTemplate';
-import { Link } from 'react-router-dom';
+import Page from '../partials/Page';
 import styled  from 'styled-components';
-import TextTitle from '../components/TextTitle';
+import TextTitle from '../partials/TextTitle';
 
 
 
