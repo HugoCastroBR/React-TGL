@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { GameSelectButtonType, SavedGame } from '../types/types';
+import NumbersFormatter from './../containers/NumbersFormater';
 
 
 const RecentGameItemStyle = styled.div<GameSelectButtonType>`
@@ -50,13 +51,7 @@ const RecentGameItem = ({type,price,color,data,numbers}:SavedGame) => {
         <RecentGameItemStyle color={color}>
             <RecentGameNumbers>
 
-                {numbers.map((element,index) => {
-                    if(index + 1 == numbers.length){
-                        return `${element}`
-                    }else{
-                        return `${element}, `
-                    }
-                })}
+                {numbers.map((element,index) => NumbersFormatter(numbers.length,element,index))}
 
             </RecentGameNumbers>
             <GameDataPrice>

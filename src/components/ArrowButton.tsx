@@ -42,7 +42,7 @@ type SimpleButtonProps = {
 
 const SimpleButton = ({children = "",Arrow = false,
 ArrowSize =[45,28] ,Color = "#707070", FontSize = 20,
-ReverseArrow=false}
+ReverseArrow=false} 
 :SimpleButtonProps) => {
     return(
         ReverseArrow ? 

@@ -36,20 +36,7 @@ const HeaderContainer = styled.div`
 
 `
 
-const ButtonContainer = styled.div`
-    width: 320px;
-    display:flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 100%;
-    margin-right: 80px;
-    & a {
-        margin-right: -120px;
-        padding: 0px;
-        width: 160px;
-        text-decoration: none;
-    }
-`
+
 
 
 const LogoContainer = styled.div`
@@ -81,7 +68,20 @@ const LogoContainer = styled.div`
     }
 `
 
-
+const ButtonContainer = styled.div`
+    width: 240px;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    margin-right: 80px;
+    & a {
+        margin-right: -116px;
+        padding: 0px;
+        width: 160px;
+        text-decoration: none;
+    }
+`
 
 const Header = ({WithHomeBtn = true}:{WithHomeBtn?:boolean}) => {
     return(

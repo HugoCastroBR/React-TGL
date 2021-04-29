@@ -104,6 +104,7 @@ const Home = () => {
     return(
         <Page WithHomeBtn={false}> 
             <HomeContainer>
+                
                 <RecentGamesTitle>
                     <div>
                         <h2>Recent Games</h2>
