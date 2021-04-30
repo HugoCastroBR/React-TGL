@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import Footer from './Footer';
 import styled  from 'styled-components';
 import Fonts from '../../styles/fonts.js';
-import Header from './Header';
+import Header from '../../containers/partials/Header';
 
 
 

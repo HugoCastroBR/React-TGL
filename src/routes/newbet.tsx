@@ -13,6 +13,11 @@ const NewBetPageContainer = styled.div`
     display: flex;
     justify-content: space-between;
     margin-top: 70px;
+
+    @media screen and (max-width: 1200px){
+        align-items: center;
+        flex-direction: column-reverse;
+    }
 `
 
 const NewBet = () => {

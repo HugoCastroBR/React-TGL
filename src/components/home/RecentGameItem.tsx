@@ -1,28 +1,48 @@
 import styled from 'styled-components';
 import { GameSelectButtonType, SavedGame } from '../../types/types';
 import NumbersFormatter from '../../functions/NumbersFormater';
+import { Fragment } from 'react';
 
 
 const RecentGameItemStyle = styled.div<GameSelectButtonType>`
-    margin-top: 15px;
-    margin-bottom: 15px;
-    width: 550px;
-    height: 94px;
+
+    
+    width: 100%;
+    height: auto;
     display: flex;
     flex-direction: column;
-    margin-left: 28px;
+    margin-left: 12px;
     justify-content: space-around;
+    
 
-    ::before{
+    /* ::before{
         margin-left: -20px;
         position: absolute;
         content: "";
         display: block;
         width: 6px;
-        height: 94px;
+        height: 100px;
         background-color: ${props =>`${props.color && props.color}`};
         border-radius: 100px;
-    }
+    } */
+
+    
+`
+
+const RecentGameItemContainer = styled.div`
+    margin-top: 30px;
+    width: calc(100% - 36px);
+    display: flex;
+    margin-left: 28px;
+`
+
+const PreBar = styled.div<GameSelectButtonType>`
+    margin-left: -20px;
+    display: block;
+    width: 6px;
+    height: auto;
+    background-color: ${props =>`${props.color && props.color}`};
+    border-radius: 100px;
 `
 
 const RecentGameNumbers = styled.span`
@@ -48,19 +68,25 @@ const GameType = styled.span<SavedGame>`
 const RecentGameItem = ({type,price,color,data,numbers}:SavedGame) => {
     const props = {type,price,color,data,numbers}
     return (
-        <RecentGameItemStyle color={color}>
-            <RecentGameNumbers>
+        <RecentGameItemContainer>
+            <PreBar color={color}>
 
-                {numbers.map((element,index) => NumbersFormatter(numbers.length,element,index))}
+            </PreBar>
+            <RecentGameItemStyle color={color}>
 
-            </RecentGameNumbers>
-            <GameDataPrice>
-                {data} - (R$ {String(price.toFixed(2)).replace(".",",")})
-            </GameDataPrice>
-            <GameType {...props}>
-                {type}
-            </GameType>
-        </RecentGameItemStyle>
+                <RecentGameNumbers>
+
+                    {numbers.map((element,index) => NumbersFormatter(numbers.length,element,index))}
+
+                </RecentGameNumbers>
+                <GameDataPrice>
+                    {data} - (R$ {String(price.toFixed(2)).replace(".",",")})
+                </GameDataPrice>
+                <GameType {...props}>
+                    {type}
+                </GameType>
+            </RecentGameItemStyle>
+        </RecentGameItemContainer>
     )
 }
 

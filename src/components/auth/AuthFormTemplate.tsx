@@ -5,10 +5,10 @@ import styled from 'styled-components';
 
 
 
-const AuthFormTemplateStyle = styled.form`
+const AuthFormTemplateStyle = styled.div`
 
     height: auto;
-    width: 350px;
+    min-width: 350px;
     background: #FFFFFF;
     box-shadow: 0px 3px 25px #00000014;
     border: 1px solid #DDDDDD;
@@ -19,7 +19,11 @@ const AuthFormTemplateStyle = styled.form`
     justify-content: space-between;
     padding: 0px;
     overflow: hidden;
+    margin-right: 40px;
 
+    @media screen and (max-width: 1200px){
+        margin-right: 0px;
+    }
 
     & section{
         display: flex;
@@ -65,8 +69,8 @@ const AuthFormTemplateStyle = styled.form`
     }
 
     & a {
-        margin-top: 25px;
-        margin-bottom: 30px;
+        margin-top: 30px;
+        margin-bottom: 5px;
         height: 20px;
         text-align: right;
         display: flex;
@@ -83,6 +87,7 @@ const AuthFormTemplateStyle = styled.form`
         color: gray;
     }
 
+    
 `
 
 
@@ -90,10 +95,14 @@ const AuthFormTemplateStyle = styled.form`
 
 
 
-const AuthFormTemplate = ({ children = ""}:{ children?: React.ReactNode }) => {
+const AuthFormTemplate = ({ children = "",name=""}:{ children?: React.ReactNode
+    name?: string
+    }) => {
+
+    
     return (
         // Remove action to auth
-        <AuthFormTemplateStyle >
+        <AuthFormTemplateStyle    >
             
                 {children}
             

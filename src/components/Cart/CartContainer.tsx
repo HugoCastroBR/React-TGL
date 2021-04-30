@@ -9,13 +9,13 @@ import CartItem from './CartItem';
 const CartContainerStyle = styled.div`
 
     width: 316px;
-    height: auto;
     background: #FFFFFF;
     border: 1px solid #E2E2E2;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    height: 100%;
     overflow: hidden;
 `
 const SaveButton = styled.div`
@@ -79,8 +79,20 @@ const CartTotalText = styled.div`
         margin-top: 1px;
         margin-left: 12px;
         font: normal normal normal 26px "Helvetica Neue Light" ;
+        
         color: #707070;
     }
+`
+
+const CartClosed = styled.div`
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font: italic normal bold 24px "Helvetica Neue Bold" ;
+    color: #707070;
+    & h2{ margin: 0px}
 `
 
 
@@ -112,36 +124,47 @@ const CartContainer = () => {
     }
 
     return(
+        // <CartContainerStyle>
+        //     <CartItemsContainer>
+        //         <h2>
+        //             Cart
+        //         </h2>
+        //         {CurrentGames?
+        //         CurrentGames.map((element,index) => <CartItem key={index} {...element}/>):
+        //         <EmptyCartAlert>
+        //         Empty Cart
+        //         </EmptyCartAlert>
+        //         }
+                
+                
+        //     </CartItemsContainer>
+        //     <CartTotalText>
+        //         <span>
+        //             Cart
+        //         </span>
+        //         <span>
+        //             Total: R$ {genTotal(CurrentGames)}
+        //         </span>
+        //     </CartTotalText>
+        //     <SaveButton
+        //     >
+        //         <SimpleButton Arrow={true} Color={"#27C383"} FontSize={35} >
+        //             <span color="#27C383">
+        //                 Save
+        //             </span>
+        //         </SimpleButton>
+        //     </SaveButton>
+        // </CartContainerStyle>
+
         <CartContainerStyle>
-            <CartItemsContainer>
-                <h2>
-                    Cart
-                </h2>
-                {CurrentGames?
-                CurrentGames.map((element,index) => <CartItem key={index} {...element}/>):
-                <EmptyCartAlert>
-                Empty Cart
-                </EmptyCartAlert>
-                }
-                
-                
-            </CartItemsContainer>
-            <CartTotalText>
-                <span>
-                    Cart
-                </span>
-                <span>
-                    Total: R$ {genTotal(CurrentGames)}
-                </span>
-            </CartTotalText>
-            <SaveButton
-            >
-                <SimpleButton Arrow={true} Color={"#27C383"} FontSize={35} >
-                    <span color="#27C383">
-                        Save
-                    </span>
-                </SimpleButton>
-            </SaveButton>
+        <CartClosed>
+            <h2>
+                Cart
+            </h2>
+            <h2>
+                Open
+            </h2>
+        </CartClosed>
         </CartContainerStyle>
     )
 }

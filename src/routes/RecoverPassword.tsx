@@ -1,5 +1,4 @@
 import React from 'react';
-import Page from '../components/partials/Page';
 import SimpleButton from '../components/buttons/ArrowButton';
 import AuthFormTemplate from '../components/auth/AuthFormTemplate';
 import AuthContainer from '../components/auth/AuthContainer';
@@ -28,14 +27,15 @@ const ButtonContainer = styled.div`
 `
 
 const RecoverPassword = () => {
-    return(
-        <Page headerVisible={false}>
-            <AuthContainer>
-                <div>
-                    <h2>Reset Password</h2>
-                    {/* Form  */}
-                    <AuthFormTemplate   > 
-                        
+    return (
+
+        <AuthContainer>
+            <div>
+                <h2>Reset Password</h2>
+                {/* Form  */}
+                <form action="">
+                    <AuthFormTemplate   >
+
                         <section>
                             <input placeholder="Email"></input>
                         </section>
@@ -46,16 +46,17 @@ const RecoverPassword = () => {
                                 </SimpleButton>
                             </ButtonContainer>
                         </div>
-                        
+
                     </AuthFormTemplate>
-                    <SimpleButton Arrow={true} FontSize={35} ArrowSize={[50, 40]} ReverseArrow={true}>
-                        <Link to="/login">
-                            <p>Back</p>
-                        </Link>
-                    </SimpleButton>
-                </div>
-            </AuthContainer>
-        </Page>
+                </form>
+                <SimpleButton Arrow={true} FontSize={35} ArrowSize={[50, 40]} ReverseArrow={true}>
+                    <Link to="/login">
+                        <p>Back</p>
+                    </Link>
+                </SimpleButton>
+            </div>
+        </AuthContainer>
+
     )
 }
 

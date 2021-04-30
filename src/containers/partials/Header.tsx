@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from "styled-components"
 import Fonts from '../../styles/fonts';
-import SimpleButton from '../buttons/SimpleButton';
+import SimpleButton from '../../components/buttons/ArrowButton';
 import { Link } from 'react-router-dom';
-
+import useTGL from './../../hooks/useStore';
+import { AuthLogout } from '../../store/actions'
 
 const HeaderStyle = styled.header`
     width: 100vw;
@@ -31,6 +32,13 @@ const HeaderContainer = styled.div`
             color: #707070;
             margin-left: 74px;
             text-decoration: none;
+            @media screen and (max-width: 600px){
+                margin-left: 10px;
+            }
+            @media screen and (max-width: 400px){
+                margin-left: 10px;
+                font: italic normal bold 16px 'Helvetica Neue Bold';
+            }
         }
     }
 
@@ -56,6 +64,11 @@ const LogoContainer = styled.div`
         justify-content: center;
         align-items: center;
         color: #707070;
+
+        @media screen and (max-width: 600px){
+            width: 30px;
+            font: italic normal bold 30px/35px 'Helvetica Neue Bold';
+        }
     }
     & h1::after{
         position: absolute;
@@ -65,7 +78,9 @@ const LogoContainer = styled.div`
         height: 7px;
         border-radius: 6px;
         margin-top: calc(80px - (7px/2));
+        
     }
+    
 `
 
 const ButtonContainer = styled.div`
@@ -80,10 +95,23 @@ const ButtonContainer = styled.div`
         padding: 0px;
         width: 160px;
         text-decoration: none;
+
+        @media screen and (max-width: 600px){
+            width: 130px;
+            margin-right: -100px;
+        }
+        @media screen and (max-width: 400px){
+            width: 120px;
+            margin-right: -60px;
+        }
+        
     }
 `
 
 const Header = ({WithHomeBtn = true}:{WithHomeBtn?:boolean}) => {
+
+    const { dispatch } = useTGL()
+
     return(
         <HeaderStyle>
             <HeaderContainer>
@@ -95,7 +123,7 @@ const Header = ({WithHomeBtn = true}:{WithHomeBtn?:boolean}) => {
                 </div>
                 <ButtonContainer>
                     <Link to="/"><SimpleButton Arrow={false} > Account </SimpleButton></Link>
-                    <Link to="/login"><SimpleButton Arrow={true}> Log out </SimpleButton></Link>
+                    <Link to="/login" onClick={() => dispatch(AuthLogout())}><SimpleButton Arrow={true}> Log out </SimpleButton></Link>
                 </ButtonContainer>  
             </HeaderContainer>  
         </HeaderStyle>

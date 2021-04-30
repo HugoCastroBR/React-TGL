@@ -4,7 +4,8 @@ import BetNumberBtn from '../buttons/BetNumberBtn';
 import GameSelect from '../partials/GameSelect';
 
 const NewBetContainerStyle = styled.div`
-    width: 100vw;
+    margin-top: 36px;
+    width: 98vw;
     max-width: 840px;
     height: auto; 
     display: flex;
@@ -66,17 +67,30 @@ const GameRulesDesc = styled.div`
 `
 
 const BetNumberBtnContainer = styled.div`
+    
     display: flex;
     flex-wrap: wrap;
     width: 100%;
     margin-bottom: 32px;
+
+    @media screen and (max-width: 1200px){
+        width: 98vw;
+        justify-content: center;
+
+    }
 `
 
 
 const FunctionsButtonsContainer = styled.div`
+    
     width: 100%;
     display: flex;
     justify-content: space-between;
+    margin-bottom: 36px;
+    @media screen and (max-width: 500px){
+        flex-direction: column;
+        align-items: center;
+    }
 
     & button{
         width: 164px;
@@ -88,17 +102,37 @@ const FunctionsButtonsContainer = styled.div`
         letter-spacing: 0px;
         color: white;
         cursor: pointer;
+
+        @media screen and (max-width: 1200px){
+            width: 140px;
+            height: 50px;  
+        }
+        @media screen and (max-width: 500px){
+            margin-top: 10px;
+            
+            width: 300px;
+            height: 70px;
+        }
     }
 
 
     & div{
+        @media screen and (max-width: 500px){
+            display: flex;
+            flex-direction: column;
+        }
         & button{
-            margin-right: 24px;
+            margin-right: 20px;
             border: 1px solid #27C383;
             border-radius: 10px;
             background-color: transparent;
             color: #27C383;
             transition: 0.5s;
+
+            @media screen and (max-width: 500px){
+                margin-right: 0px;
+            }   
+            
         }
 
         & button:hover{
@@ -106,8 +140,12 @@ const FunctionsButtonsContainer = styled.div`
             /* box-shadow: inset 190px 0px 0px -26px  #27C383; */
             box-shadow: inset 0px -220px 0px -164px  #27C383;
             color: white;
+            @media screen and (max-width: 500px){
+                box-shadow: inset 0px -240px 0px -164px  #27C383;
+            }  
+            
         }
-
+        
     }
 
 `

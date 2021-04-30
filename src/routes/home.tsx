@@ -1,9 +1,9 @@
 import React from 'react';
-import styled  from 'styled-components';
-import SimpleButton from '../components/buttons/SimpleButton';
+import styled from 'styled-components';
+import SimpleButton from '../components/buttons/ArrowButton';
 import GameSelect from '../components/partials/GameSelect';
 import Page from '../components/partials/Page';
-import RecentGameItem from '../components/Cart/RecentGameItem';
+import RecentGameItem from '../components/home/RecentGameItem';
 import Fonts from '../styles/fonts';
 import { SavedGame } from '../types/types';
 import { Link } from 'react-router-dom';
@@ -16,12 +16,26 @@ const RecentGamesTitle = styled.div`
     align-items: center;
     justify-content: space-between;
     height: 60px;
+    @media screen and (max-width: 1200px){
+        justify-content: center;
+    }
+    @media screen and (max-width: 800px){
+        margin-top: 30px;
+        flex-direction: column;
+    }
     & div:first-child{
         ${Fonts}
         width: 60%;
         justify-content: space-around;
         align-items: center;
-        flex-wrap: wrap;
+
+        @media screen and (max-width: 1200px){
+            width: 80%;
+            
+        }
+        @media screen and (max-width: 800px){
+            flex-direction: column;
+        }
 
         & h2{
             text-align: center;
@@ -30,23 +44,34 @@ const RecentGamesTitle = styled.div`
             color: #707070;
             text-transform: uppercase;
             margin: 0px;
+            @media screen and (max-width: 1200px){
+                font-size: 20px;
+            }
+            @media screen and (max-width: 800px){
+                font-size: 32px;
+            }
+            
         }
 
         & span{
             text-align: left;
-            font: italic normal normal 17px"Helvetica Neue Bold";
+            font: italic normal normal 16px"Helvetica Neue Bold";
             letter-spacing: 0px;
             color: #868686;
-            margin-left: 30px;
-            
+            margin-left: 20px;
+            @media screen and (max-width: 800px){
+                margin-top: 20px;
+                margin-bottom: 10px;
+                margin-left: 0px;
+            }
         }
     }
-
+    
     & div{
         
         display: flex;
         flex-direction: row;
-        align-items: center;
+        align-items: center;    
         justify-content: center;
 
         & a {
@@ -56,6 +81,10 @@ const RecentGamesTitle = styled.div`
     & div:last-child{
         height: 100%;
         align-items: center;
+
+        @media screen and (max-width: 800px){
+            margin-top: 20px;
+        }
     }
 
     
@@ -74,6 +103,10 @@ const HomeContainer = styled.section`
 `
 
 const RecentGamesContainer = styled.div`
+    @media screen and (max-width: 800px){
+        margin-top: 70px;
+
+    }
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -81,18 +114,18 @@ const RecentGamesContainer = styled.div`
     height: auto;
 `
 
-const RecentGames:SavedGame[] = [  // List of Recent Games (get from redux)
+const RecentGames: SavedGame[] = [  // List of Recent Games (get from redux)
     {
         color: "#7F3992",
         price: 2.50,
-        numbers: [1,2,3,4,5,6,7,8,9,10],
+        numbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
         type: "Lotofácil",
         data: "30/11/2020"
     },
     {
         color: "#01AC66",
         price: 3.10,
-        numbers: [1,2,3,4,5,6,2,8,9,10],
+        numbers: [1, 2, 3, 4, 5, 6, 2, 8, 9, 10,11,12,1, 2, 3, 4, 5, 6, 2, 8, 9, 10,11,12],
         type: "Megasena",
         data: "20/12/2021"
     }
@@ -100,15 +133,15 @@ const RecentGames:SavedGame[] = [  // List of Recent Games (get from redux)
 
 const Home = () => {
     // return Page Template without home btn
-    return(
-        <Page WithHomeBtn={false}>  
+    return (
+        <Page WithHomeBtn={false}>
             <HomeContainer>
-                
+
                 <RecentGamesTitle>
                     <div>
                         <h2>Recent Games</h2>
                         <span>Filters</span>
-                        <GameSelect/>
+                        <GameSelect />
                     </div>
 
                     <div>
@@ -124,7 +157,7 @@ const Home = () => {
 
                 <RecentGamesContainer>
                     {/* For Recent Games make a Recent Game Item in page */}
-                    {RecentGames.map(element => <RecentGameItem {...element}></RecentGameItem>)}
+                    {RecentGames.map((element, index) => <RecentGameItem {...element} key={index}></RecentGameItem>)}
                 </RecentGamesContainer>
 
             </HomeContainer>

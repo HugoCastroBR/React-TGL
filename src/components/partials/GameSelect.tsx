@@ -31,6 +31,14 @@ const GameSelectContainer = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    @media screen and (max-width: 800px){
+                width: 100vw;
+                margin: 0px;
+                & button{
+                    width: 100px;
+                    font-size: 12px;
+                }
+            }
 `
 
 export let GameList: GameData[] = [

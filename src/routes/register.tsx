@@ -1,5 +1,4 @@
 import React from 'react';
-import Page from '../components/partials/Page';
 import SimpleButton from '../components/buttons/ArrowButton';
 import AuthFormTemplate from '../components/auth/AuthFormTemplate';
 import AuthContainer from '../components/auth/AuthContainer';
@@ -29,13 +28,14 @@ const ButtonContainer = styled.div`
 
 
 const Register = () => {
-    return(
-        <Page headerVisible={false}>
-            <AuthContainer>
-                <div>
-                    <h2>Registration</h2>
-                    {/* Form  */}
-                    <AuthFormTemplate   > 
+    return (
+
+        <AuthContainer>
+            <div>
+                <h2>Registration</h2>
+                {/* Form  */}
+                <form action="">
+                    <AuthFormTemplate   >
                         <section>
                             <input placeholder="Username"></input>
                             <input placeholder="Email"></input>
@@ -49,15 +49,16 @@ const Register = () => {
                             </ButtonContainer>
                         </div>
                     </AuthFormTemplate>
+                </form>
 
-                    <SimpleButton Arrow={true} FontSize={35} ArrowSize={[50, 40]} ReverseArrow={true}>
-                        <Link to="/login">
-                            <p>Back</p>
-                        </Link>
-                    </SimpleButton>
-                </div>
-            </AuthContainer>
-        </Page>
+                <SimpleButton Arrow={true} FontSize={35} ArrowSize={[50, 40]} ReverseArrow={true}>
+                    <Link to="/login">
+                        <p>Back</p>
+                    </Link>
+                </SimpleButton>
+            </div>
+        </AuthContainer>
+
     )
 }
 
