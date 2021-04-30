@@ -74,6 +74,7 @@ const BetNumberBtnContainer = styled.div`
     margin-bottom: 32px;
 
     @media screen and (max-width: 1200px){
+        max-width: 840px;
         width: 98vw;
         justify-content: center;
 

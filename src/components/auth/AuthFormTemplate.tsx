@@ -19,7 +19,7 @@ const AuthFormTemplateStyle = styled.div`
     justify-content: space-between;
     padding: 0px;
     overflow: hidden;
-    margin-right: 40px;
+    
 
     @media screen and (max-width: 1200px){
         margin-right: 0px;
@@ -87,6 +87,7 @@ const AuthFormTemplateStyle = styled.div`
         color: gray;
     }
 
+    
     
 `
 

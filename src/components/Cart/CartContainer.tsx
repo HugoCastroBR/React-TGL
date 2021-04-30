@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { Fragment, useState } from 'react';
 import styled from 'styled-components';
 import { SavedGame } from '../../types/types';
 import SimpleButton from '../buttons/ArrowButton';
 import CartItem from './CartItem';
+
+import MenuIcon from './../icons/menuIcon';
 
 
 
@@ -84,15 +86,29 @@ const CartTotalText = styled.div`
     }
 `
 
-const CartClosed = styled.div`
+const CartClosedContainer = styled.div`
+    
+    width: 100%;
+`
+const CartClosed = styled.button`
+
+    border: none;
+    background-color: transparent;
     width: 100%;
     height: 60px;
     display: flex;
     align-items: center;
-    justify-content: space-around;
-    font: italic normal bold 24px "Helvetica Neue Bold" ;
+    justify-content: space-between;
+    font: italic normal bold 16px "Helvetica Neue Bold" ;
     color: #707070;
-    & h2{ margin: 0px}
+    margin-top: -26px;
+    & h2{ 
+        
+        margin: 0px;
+        text-align: left;
+        text-transform: uppercase;
+    }
+    cursor: pointer;
 `
 
 
@@ -117,6 +133,7 @@ const CurrentGames:SavedGame[] = [
 
 const CartContainer = () => {
 
+    const [cartVisible, setCartVisibility] = useState(false)
     const genTotal = (N:SavedGame[]) => {
         const NumberArr:number[] = N.map((E:SavedGame) => E.price)
         const sumReducer = (A:number,C:number) => A + C
@@ -124,49 +141,78 @@ const CartContainer = () => {
     }
 
     return(
-        // <CartContainerStyle>
-        //     <CartItemsContainer>
-        //         <h2>
-        //             Cart
-        //         </h2>
-        //         {CurrentGames?
-        //         CurrentGames.map((element,index) => <CartItem key={index} {...element}/>):
-        //         <EmptyCartAlert>
-        //         Empty Cart
-        //         </EmptyCartAlert>
-        //         }
-                
-                
-        //     </CartItemsContainer>
-        //     <CartTotalText>
-        //         <span>
-        //             Cart
-        //         </span>
-        //         <span>
-        //             Total: R$ {genTotal(CurrentGames)}
-        //         </span>
-        //     </CartTotalText>
-        //     <SaveButton
-        //     >
-        //         <SimpleButton Arrow={true} Color={"#27C383"} FontSize={35} >
-        //             <span color="#27C383">
-        //                 Save
-        //             </span>
-        //         </SimpleButton>
-        //     </SaveButton>
-        // </CartContainerStyle>
-
         <CartContainerStyle>
-        <CartClosed>
-            <h2>
-                Cart
-            </h2>
-            <h2>
-                Open
-            </h2>
-        </CartClosed>
+            
+            {cartVisible ?
+                <Fragment>
+                    <CartItemsContainer>
+                    {window.innerWidth < 1200 ?
+                        <CartClosed onClick={() => {
+                            setCartVisibility(!cartVisible)
+                        }}>
+                            <h2>
+                                Cart
+                            </h2>
+                            <MenuIcon/>
+                        </CartClosed>
+                        :
+                        <h2>
+                            Cart
+                        </h2>
+                    }
+                    
+
+                    {CurrentGames?
+                    CurrentGames.map((element,index) => <CartItem key={index} {...element}/>):
+                    <EmptyCartAlert>
+                    Empty Cart
+                    </EmptyCartAlert>
+                    }
+                    
+                    
+                </CartItemsContainer>
+                <CartTotalText>
+                    <span>
+                        Cart
+                    </span>
+                    <span>
+                        Total: R$ {genTotal(CurrentGames)}
+                    </span>
+                </CartTotalText>
+                <SaveButton
+                >
+                    <SimpleButton Arrow={true} Color={"#27C383"} FontSize={35} >
+                        <span color="#27C383">
+                            Save
+                        </span>
+                    </SimpleButton>
+                </SaveButton>
+                </Fragment>
+            : 
+            <CartClosedContainer>
+                <CartItemsContainer>
+                    <CartClosed
+                    onClick={() => {
+                        setCartVisibility(!cartVisible)
+                    }}>
+                    <h2>
+                        Cart
+                    </h2>
+                    <MenuIcon/>
+                    </CartClosed>
+                </CartItemsContainer>
+                
+
+            </CartClosedContainer>
+            }
+
+            
+
         </CartContainerStyle>
+
     )
 }
 
 export default CartContainer;   
+
+

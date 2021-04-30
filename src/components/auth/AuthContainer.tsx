@@ -14,6 +14,7 @@ const LoginContainer = styled.section`
     align-items: center;
     flex-wrap: wrap;
 
+
     @media screen and (max-width: 1200px){
         width: 100vw;
         height: auto;
@@ -45,6 +46,7 @@ const LoginContainer = styled.section`
         margin-bottom: 0px;
         }
     }
+    
 `
 
 const TextTitleContainer = styled.div`

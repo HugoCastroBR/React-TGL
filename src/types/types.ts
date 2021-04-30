@@ -27,8 +27,8 @@ export type UserProps = {
 }
 
 export type UserInfos = {
-    uid: number
     name: string
     password: string
     email: string
 }
+

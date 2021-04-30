@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { GameSelectButtonType, SavedGame } from '../../types/types';
 import NumbersFormatter from '../../functions/NumbersFormater';
-import { Fragment } from 'react';
+
 
 
 const RecentGameItemStyle = styled.div<GameSelectButtonType>`
