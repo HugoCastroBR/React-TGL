@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import React from 'react';
+import { NumberBtnProps } from '../../types/types';
 
 
 
@@ -30,14 +31,13 @@ const BetNumberBtnStyle = styled.button<{selected:boolean}>`
 `
 
 
-type BetNumberBtnProps = {
-    number: number
-    selected?: boolean
-}   
+type BetNumberBtnProps = NumberBtnProps & {
+    OnClick: (event:React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+}
 
-const BetNumberBtn = ({number,selected=false}:BetNumberBtnProps) => {
+const BetNumberBtn = ({number,selected=false,OnClick}:BetNumberBtnProps) => {
     return(
-        <BetNumberBtnStyle selected={selected}>
+        <BetNumberBtnStyle selected={selected} onClick={(event) => OnClick(event)}>
             {number <= 9? `0${number}`: number }
         </BetNumberBtnStyle>
     )

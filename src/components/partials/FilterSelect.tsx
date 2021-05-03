@@ -60,7 +60,8 @@ const FilterSelect = () => {
     })
     const solved:GameData[] = await res.json()
     console.log("fetching")
-    dispatch(SetGamesData(solved))
+    const NewData = solved.map((element) => {return {...element,active:false}})
+    dispatch(SetGamesData(NewData))
 }
 
 

@@ -38,3 +38,12 @@ export type UserInfos = {
 export type CurrentFiltersProps = SavedGame & {
 	active: boolean
 }
+
+export type GameDataProps = GameData & {
+	active: boolean
+}
+
+export type NumberBtnProps = {
+    number: number,
+    selected: boolean
+}

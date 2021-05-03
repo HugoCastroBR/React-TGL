@@ -1,5 +1,5 @@
 import { createSlice, current } from "@reduxjs/toolkit";
-import { GameData, SavedGame, UserInfos, UserProps, CurrentFiltersProps } from "../types/types";
+import { GameData, SavedGame, UserInfos, UserProps, CurrentFiltersProps,GameDataProps } from "../types/types";
 
 
 
@@ -8,10 +8,11 @@ import { GameData, SavedGame, UserInfos, UserProps, CurrentFiltersProps } from "
 export const CartSlice = createSlice({
 	name: "CartSlice",
 	initialState: {
-		GamesData: [] as GameData[],
+		GamesData: [] as GameDataProps[],
 		CurrentFilters: [] as CurrentFiltersProps[],
 		RecentGames: [] as SavedGame[],
-		Cart: [] as SavedGame[]
+		Cart: [] as SavedGame[],
+		CurrentGame: {} as SavedGame
 	},
 	reducers: {
 		ADD_TO_CART(state, actions) {
@@ -20,8 +21,8 @@ export const CartSlice = createSlice({
 			const newState = { ...oldState.Cart, NewItem };
 			state.Cart = newState;
 		},
-		SET_GAMES_DATA(state,{payload}:{payload:GameData[]}){
-			state.GamesData = payload
+		SET_GAMES_DATA(state,{payload}:{payload:GameDataProps[]}){
+			state.GamesData = [...payload]
 			if(current(state).RecentGames.length > 0){
 				state.CurrentFilters = current(state).RecentGames.map(element => {
 					const NewElement:CurrentFiltersProps = {...element,active:false}
@@ -44,7 +45,6 @@ export const CartSlice = createSlice({
 				}
 			}
 			)
-			
 		},
 		RESET_FILTERS(state){
 			state.CurrentFilters = state.CurrentFilters.map(element => {
@@ -55,8 +55,11 @@ export const CartSlice = createSlice({
 		},
 		SET_RECENT_GAMES(state,{payload}:{payload:SavedGame[]}){
 			console.log(payload)
-
 			state.RecentGames = [...payload]
+		},
+
+		SET_CURRENT_GAME(state,{payload}:{payload:SavedGame}){
+			state.CurrentGame = payload
 		}
 	},
 });
@@ -94,9 +97,10 @@ export const AuthSlice = createSlice({
 					data: "11/12/2020",
 					numbers: [1,2,3,4,5,6],
 					price: 11.4,
-					type: "Lotofácil"
+					type: "Mega-Sena"
 				}
-			]
+			] as SavedGame[]
+
 		},
 		isAuth: false,
         message: "",

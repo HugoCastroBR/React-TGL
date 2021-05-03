@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import CartContainer from '../components/Cart/CartContainer';
 import NewBetContainer from '../components/newBet/NewBetContainer';
 import Page from '../components/partials/Page';
+import useTGL from '../hooks/useStore';
+import { ResetFilters, SetGamesData } from '../store/actions';
+import { GameData } from '../types/types';
 
 
 
@@ -20,11 +23,62 @@ const NewBetPageContainer = styled.div`
     }
 `
 
+
+
 const NewBet = () => {
+    const { states, dispatch } = useTGL()
+
+
+    const getGamesData = async () => {
+        const res = await fetch("https://tglproject10-default-rtdb.firebaseio.com/types.json",{
+            headers : { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+        const solved:GameData[] = await res.json()
+        console.log("fetching")
+        const NewData = solved.map((element) => {return {...element,active:false}})
+        NewData[0].active = true
+        dispatch(SetGamesData(NewData))
+    }
+
+
+    // const GenerateTable = useCallback(() => {
+    //     const FoundItem = states.Cart.GamesData.find(element => element.active === true)
+    //     if(FoundItem){
+    //         return <NewBetContainer {...FoundItem}/>
+    //     }else{
+    //         // Select first
+    //         const NewState = [...states.Cart.GamesData]
+    //         console.log(NewState)
+    //         NewState[0].active = true
+    //         dispatch(SetGamesData(NewState))
+    //     }
+    // },[states.Cart.GamesData])
+
+    // let ToShow:any
+    // // useEffect(() => {
+    // //     ToShow = GenerateTable()
+    // // },[states.Cart])
+
+    useEffect(() => {
+        dispatch(ResetFilters())
+        getGamesData()
+    }, [])
+
+
+
+
     return(
         <Page>
             <NewBetPageContainer>
-                <NewBetContainer/>
+                {states.Cart.GamesData.map((element,index) => {
+                    if(element.active){
+                        return <NewBetContainer {...element} key={index}/> 
+                    }
+                })}
+                {/* <NewBetContainer/> */}
                     {/* 844px */}
                 <CartContainer/>
             </NewBetPageContainer>

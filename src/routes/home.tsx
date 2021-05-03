@@ -144,6 +144,9 @@ const RecentGames: SavedGame[] = [  // List of Recent Games (get from redux)
     }
 ]
 
+
+
+
 const Home = () => {
     // return Page Template without home btn
 
@@ -151,6 +154,29 @@ const Home = () => {
     useEffect(() => {
         dispatch(SetRecentGames(states.Auth.User.RecentGames))
     },[])
+
+    const GetRecentToShow = () => {
+        if(states.Cart.RecentGames.length > 0){
+            let isAllFalse = true
+            let toShow = states.Cart.CurrentFilters.map((element, index) => {
+                if(element.active){
+                    isAllFalse = false
+                    return <RecentGameItem {...element} key={index}></RecentGameItem>
+                }
+            })
+
+            if(isAllFalse){
+                return states.Cart.CurrentFilters.map((element, index) => {
+                    return <RecentGameItem {...element} key={index}></RecentGameItem>
+                })
+            }else{
+                return toShow
+            }
+        }else{
+            // To do show empty recent games if nothen
+            return <h1>Nada</h1>
+        }
+    }
 
     return (
         <Page WithHomeBtn={false}>
@@ -176,7 +202,7 @@ const Home = () => {
 
                 <RecentGamesContainer>
                     {/* For Recent Games make a Recent Game Item in page */}
-                    {states.Cart.RecentGames.length > 0 && states.Cart.RecentGames.map((element, index) => <RecentGameItem {...element} key={index}></RecentGameItem>)}
+                    {GetRecentToShow()}
                 </RecentGamesContainer>
 
             </HomeContainer>

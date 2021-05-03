@@ -1,7 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import { SetCurrentGame } from '../../store/actions';
+import { GameDataProps, NumberBtnProps } from '../../types/types';
 import BetNumberBtn from '../buttons/BetNumberBtn';
-import GameSelect from '../partials/FilterSelect';
+import GameSelect from '../partials/GameSelect';
+import useTGL from './../../hooks/useStore';
 
 const NewBetContainerStyle = styled.div`
     margin-top: 36px;
@@ -153,8 +156,10 @@ const FunctionsButtonsContainer = styled.div`
 
 
 
-const NewBetContainer = () => {
+const NewBetContainer = (props:GameDataProps) => {
 
+    const {states,dispatch} = useTGL()
+    
     // inRange(4) => [1,2,3,4]
     const inRange = (N:number) =>{
         let Arr = []
@@ -164,12 +169,79 @@ const NewBetContainer = () => {
         return Arr
     }
 
-    const BetNumbers = inRange(50)
+    const BetNumbers:NumberBtnProps[] = inRange(props.range).map((element) => {
+        if(states.Cart.CurrentGame.numbers?.length > 0){
+            if(states.Cart.CurrentGame.numbers.find(e => e === element)){
+                return {
+                    number:element,
+                    selected:true
+                }
+            }else{
+                return {
+                    number:element,
+                    selected:false
+                }
+            }
+        }else{
+            return {
+                number:element,
+                selected:false
+            }
+        }
+        
+    })
 
+
+
+    const HandleNumberClick = (number:number) => {
+        console.log(states.Cart.CurrentGame)
+        
+        const NowData = new Date()
+        const Data = NowData
+        const data = `${Data.getDay()}/${Data.getMonth()}/${Data.getFullYear()}`
+        const OldState = {...states.Cart.CurrentGame}
+        let NumberList:number[] = []
+
+        if(OldState?.numbers?.length){
+            if(OldState.numbers.length >= 1){
+                NumberList = [...OldState.numbers]
+            }
+        }else{
+            console.log("Just First")
+            NumberList = []
+        }
+
+        if(NumberList.length < props['max-number']){
+            const NumberToAdd = number
+            if(NumberList.length > 0){
+                const Iindex = OldState.numbers.indexOf(NumberToAdd)
+                if(Iindex !== -1){
+                    NumberList.splice(Iindex,1)
+                }else{
+                    NumberList.push(NumberToAdd)
+                }
+            }else{
+                NumberList.push(NumberToAdd)
+            }
+
+            
+            dispatch(SetCurrentGame({
+                color: props.color,
+                data,
+                numbers: NumberList,
+                price: props.price,
+                type: props.type
+            }))
+        }
+        
+    }
+
+    
     return(
+        
         <NewBetContainerStyle>
             <TitleContainer>
-                <h1>New bet <span>for mega-sena</span></h1>
+                <h1>New bet <span>for {props.type}</span></h1>
             </TitleContainer>
             <GameSelectorContainer>
                 <h2>
@@ -181,12 +253,15 @@ const NewBetContainer = () => {
             </GameSelectorContainer>
             <GameRulesDesc>
                 <h3>Fill your bet</h3>
-                <span>Mark as many numbers as you want up to a maximum of 50. Win by hitting 15, 16, 17, 18, 19, 20 or none of the 20 numbers drawn.</span>
+                <span>{props.description}</span>
             </GameRulesDesc>
             <BetNumberBtnContainer>
 
                 
-                {BetNumbers.map((element,index) => <BetNumberBtn number={element} key={index}/>)}
+                {BetNumbers.map((element,index) => 
+                <BetNumberBtn
+                OnClick={(event) => HandleNumberClick(Number(event.currentTarget.innerHTML))}
+                number={element.number} key={index} selected={element.selected} data-number={element.number}/>)}
                 {/* <BetNumberBtn number={1} selected={true}/> */}
                 
             </BetNumberBtnContainer>

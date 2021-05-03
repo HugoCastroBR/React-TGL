@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import useTGL from '../../hooks/useStore';
-import { ResetFilters, SetGamesData } from '../../store/actions';
+import { ResetFilters, SetCurrentGame, SetGamesData } from '../../store/actions';
 import Fonts from '../../styles/fonts';
-import { CurrentFiltersProps, GameData, GameSelectButtonType } from '../../types/types';
+import { CurrentFiltersProps, GameData, GameDataProps, GameSelectButtonType } from '../../types/types';
 import { SelectFilter, SetRecentGames } from '../../store/actions';
 
 
@@ -52,37 +52,51 @@ const GameSelect = () => {
 
     const { states, dispatch } = useTGL()
     const getGamesData = async () => {
-    const res = await fetch("https://tglproject10-default-rtdb.firebaseio.com/types.json",{
-        headers : { 
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
+        const res = await fetch("https://tglproject10-default-rtdb.firebaseio.com/types.json",{
+            headers : { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+        const solved:GameData[] = await res.json()
+        const NewData = solved.map((element) => {return {...element,active:false}})
+        if(states.Cart.GamesData.length > 0){
+            if(states.Cart.GamesData.find(element => element.active === true)){
+
+            }else{
+                NewData[0].active = true
+            }
         }
-    })
-    const solved:GameData[] = await res.json()
-    console.log("fetching")
-    dispatch(SetGamesData(solved))
-}
-
-
+        
+        
+        
+    }
 
     useEffect(() => {
         dispatch(ResetFilters())
-        dispatch(SetRecentGames(states.Auth.User.RecentGames))
         getGamesData()
     }, [])
 
 
-const SelectGame = (element:CurrentFiltersProps) => {
-    console.log(states.Cart.CurrentFilters)
-    dispatch(SelectFilter(element))
-}
+    const SelectGame = (element:GameDataProps) => {
+        let NewGameData = [...states.Cart.GamesData]
+        NewGameData = NewGameData.map(e => {
+            if(e.type === element.type){
+                return {...e,active:true}
+            }else{
+                return {...e,active:false}
+            }
+        })
+
+        dispatch(SetGamesData(NewGameData))
+    }
 
 
 
 return (
     <GameSelectContainer>
         {
-            states.Cart.CurrentFilters.map((element, index) => {
+            states.Cart.GamesData.map((element, index) => {
                 return <GameSelectButton
                 active={element.active}
                 color={element.color}
@@ -92,7 +106,7 @@ return (
                     event.preventDefault()
                     const Item = event.currentTarget
                     const id = Item.dataset.index
-                    const Element = states.Cart.CurrentFilters[Number(id)]
+                    const Element = states.Cart.GamesData[Number(id)]
                     SelectGame(Element)
                 }}
             >{element.type}</GameSelectButton>   

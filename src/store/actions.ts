@@ -1,5 +1,5 @@
 import { AuthActions } from "."
-import { CurrentFiltersProps, GameData, SavedGame, UserInfos, UserProps } from "../types/types"
+import { CurrentFiltersProps, GameData, GameDataProps, SavedGame, UserInfos, UserProps } from "../types/types"
 import { cartActions } from './index';
 
 
@@ -31,7 +31,7 @@ export const AuthResetPassword = (email:string,NewPassword:string) => {
     return AuthActions.RESET_PASSWORD({email:email,password:NewPassword})
 }
 
-export const SetGamesData = (GamesData:GameData[]) => {
+export const SetGamesData = (GamesData:GameDataProps[]) => {
     return cartActions.SET_GAMES_DATA(GamesData)
 }
 
@@ -45,4 +45,8 @@ export const ResetFilters = () => {
 
 export const SetRecentGames = (RecentGames:SavedGame[]) => {
     return cartActions.SET_RECENT_GAMES(RecentGames)
+}
+
+export const SetCurrentGame = (CurrentGame:SavedGame) => {
+    return cartActions.SET_CURRENT_GAME(CurrentGame)
 }
