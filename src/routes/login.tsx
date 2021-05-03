@@ -4,7 +4,7 @@ import AuthFormTemplate from '../components/auth/AuthFormTemplate';
 import AuthContainer from '../components/auth/AuthContainer';
 import { Link } from 'react-router-dom';
 import useTGL from './../hooks/useStore';
-import { UserProps } from '../types/types';
+import { SavedGame, UserProps } from '../types/types';
 import styled from 'styled-components';
 import { AuthLogin, AuthSetMessage, UsersResetRegisterSuccess } from './../store/actions';
 import AuthErrorText from '../containers/auth/AuthErrorText';
@@ -51,9 +51,11 @@ const Login = () => {
         console.log(states.Auth.Users)
         if(ValidAllInputs()){
             if(loginUsername.current?.value && loginPassword.current?.value){
+
                 const user:UserProps = {
                     name: loginUsername.current.value,
-                    password:  loginPassword.current.value
+                    password:  loginPassword.current.value,
+                    RecentGames: [] as SavedGame[]
                 }
                 dispatch(AuthLogin(user))
                 setMessage("Tentando entrar...","green")

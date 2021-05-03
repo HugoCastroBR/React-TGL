@@ -11,6 +11,7 @@ export type GameData = {
 export type GameSelectButtonType = {
     color?: string;
     active?: boolean;
+    index?: number
 }
 
 export type SavedGame ={
@@ -24,11 +25,16 @@ export type SavedGame ={
 export type UserProps = {
     name: string
     password: string;
+    RecentGames: SavedGame[]
 }
 
 export type UserInfos = {
     name: string
     password: string
     email: string
+    RecentGames: SavedGame[]
 }
 
+export type CurrentFiltersProps = SavedGame & {
+	active: boolean
+}

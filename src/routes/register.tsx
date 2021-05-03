@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import AuthErrorText from '../containers/auth/AuthErrorText';
 import useTGL from './../hooks/useStore';
 import { AuthSetMessage, UsersRegister } from './../store/actions';
-import { UserInfos, UserProps } from '../types/types';
+import { SavedGame, UserInfos, UserProps } from '../types/types';
 
 
 const ButtonText = styled.span<{ Color: String }>`
@@ -52,7 +52,8 @@ const Register = () => {
                 const user:UserInfos = {
                     name: registerUsername.current.value,
                     password:  registerPassword.current.value,
-                    email: registerEmail.current.value
+                    email: registerEmail.current.value,
+                    RecentGames: [] as SavedGame[]
                 }
                 dispatch(UsersRegister(user))
                 

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import BetNumberBtn from '../buttons/BetNumberBtn';
-import GameSelect from '../partials/GameSelect';
+import GameSelect from '../partials/FilterSelect';
 
 const NewBetContainerStyle = styled.div`
     margin-top: 36px;

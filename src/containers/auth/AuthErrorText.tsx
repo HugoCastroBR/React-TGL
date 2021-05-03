@@ -17,6 +17,7 @@ const AuthErrorTextStyle = styled.p<{messageColor:string}>`
 
 const AuthErrorText = () => {
     const { states } = useTGL()
+
     return(
         <AuthErrorTextStyle messageColor={states.Auth.messageColor}>
             {states.Auth.message}

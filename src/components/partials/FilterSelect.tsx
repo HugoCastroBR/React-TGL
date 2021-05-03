@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import useTGL from '../../hooks/useStore';
 import { ResetFilters, SetGamesData } from '../../store/actions';
 import Fonts from '../../styles/fonts';
-import { CurrentFiltersProps, GameData, GameSelectButtonType } from '../../types/types';
+import { GameData, GameSelectButtonType, CurrentFiltersProps } from '../../types/types';
 import { SelectFilter, SetRecentGames } from '../../store/actions';
 
 
@@ -48,7 +48,7 @@ const GameSelectContainer = styled.div`
 
 
 
-const GameSelect = () => {
+const FilterSelect = () => {
 
     const { states, dispatch } = useTGL()
     const getGamesData = async () => {
@@ -104,4 +104,4 @@ return (
 )
 }
 
-export default GameSelect;
+export default FilterSelect;

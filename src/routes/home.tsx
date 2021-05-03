@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import SimpleButton from '../components/buttons/ArrowButton';
-import GameSelect from '../components/partials/GameSelect';
+import FilterSelect from '../components/partials/FilterSelect';
 import Page from '../components/partials/Page';
 import RecentGameItem from '../components/home/RecentGameItem';
 import Fonts from '../styles/fonts';
 import { SavedGame } from '../types/types';
 import { Link } from 'react-router-dom';
+import useTGL from '../hooks/useStore';
+import { SetRecentGames } from '../store/actions';
 
 
 const RecentGamesTitle = styled.div`
@@ -24,16 +26,19 @@ const RecentGamesTitle = styled.div`
         flex-direction: column;
     }
     & div:first-child{
+
         ${Fonts}
         width: 60%;
-        justify-content: space-around;
+        justify-content: flex-start;
         align-items: center;
 
         @media screen and (max-width: 1200px){
             width: 80%;
-            
+            justify-content: center;
         }
         @media screen and (max-width: 800px){
+            justify-content: center;
+            align-items: center;
             flex-direction: column;
         }
 
@@ -54,11 +59,13 @@ const RecentGamesTitle = styled.div`
         }
 
         & span{
+
             text-align: left;
             font: italic normal normal 16px"Helvetica Neue Bold";
             letter-spacing: 0px;
             color: #868686;
             margin-left: 20px;
+            margin-right: 32px;
             @media screen and (max-width: 800px){
                 margin-top: 20px;
                 margin-bottom: 10px;
@@ -68,20 +75,26 @@ const RecentGamesTitle = styled.div`
     }
     
     & div{
-        
         display: flex;
         flex-direction: row;
-        align-items: center;    
-        justify-content: center;
+        align-items: flex-start;    
+        justify-content: flex-start;
+        @media screen and (max-width: 800px){
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 2px;
+        }
 
+    }
+    & aside{
+        height: 100%;
+        align-items: center;
+        margin-top: -74px;
         & a {
             text-decoration: none;
         }
-    }
-    & div:last-child{
-        height: 100%;
-        align-items: center;
-
         @media screen and (max-width: 800px){
             margin-top: 20px;
         }
@@ -133,6 +146,12 @@ const RecentGames: SavedGame[] = [  // List of Recent Games (get from redux)
 
 const Home = () => {
     // return Page Template without home btn
+
+    const { states, dispatch } = useTGL()
+    useEffect(() => {
+        dispatch(SetRecentGames(states.Auth.User.RecentGames))
+    },[])
+
     return (
         <Page WithHomeBtn={false}>
             <HomeContainer>
@@ -141,10 +160,10 @@ const Home = () => {
                     <div>
                         <h2>Recent Games</h2>
                         <span>Filters</span>
-                        <GameSelect />
+                        <FilterSelect />
                     </div>
 
-                    <div>
+                    <aside>
                         <Link to="/new-bet">
                             <SimpleButton Arrow={true} Color={'#B5C401'} FontSize={24} >
                                 <span>
@@ -152,12 +171,12 @@ const Home = () => {
                                 </span>
                             </SimpleButton>
                         </Link>
-                    </div>
+                    </aside>
                 </RecentGamesTitle>
 
                 <RecentGamesContainer>
                     {/* For Recent Games make a Recent Game Item in page */}
-                    {RecentGames.map((element, index) => <RecentGameItem {...element} key={index}></RecentGameItem>)}
+                    {states.Cart.RecentGames.length > 0 && states.Cart.RecentGames.map((element, index) => <RecentGameItem {...element} key={index}></RecentGameItem>)}
                 </RecentGamesContainer>
 
             </HomeContainer>

@@ -1,11 +1,17 @@
 import { createSlice, current } from "@reduxjs/toolkit";
-import { SavedGame, UserInfos, UserProps } from "../types/types";
+import { GameData, SavedGame, UserInfos, UserProps, CurrentFiltersProps } from "../types/types";
+
+
+
 
 
 export const CartSlice = createSlice({
 	name: "CartSlice",
 	initialState: {
-		Cart: [] as SavedGame[],
+		GamesData: [] as GameData[],
+		CurrentFilters: [] as CurrentFiltersProps[],
+		RecentGames: [] as SavedGame[],
+		Cart: [] as SavedGame[]
 	},
 	reducers: {
 		ADD_TO_CART(state, actions) {
@@ -14,6 +20,44 @@ export const CartSlice = createSlice({
 			const newState = { ...oldState.Cart, NewItem };
 			state.Cart = newState;
 		},
+		SET_GAMES_DATA(state,{payload}:{payload:GameData[]}){
+			state.GamesData = payload
+			if(current(state).RecentGames.length > 0){
+				state.CurrentFilters = current(state).RecentGames.map(element => {
+					const NewElement:CurrentFiltersProps = {...element,active:false}
+					return NewElement
+				})
+			}else{
+				console.log("a")
+			}
+		},
+		SELECT_FILTER(state,{payload}:{payload:CurrentFiltersProps}){
+			state.CurrentFilters = current(state).CurrentFilters.map( element => {
+				console.log(element.type,payload.type)
+				if(element.type === payload.type){
+					const NewElement = {...element}
+					NewElement.active = !element.active
+					return NewElement
+				}else{
+					console.log("aaaaaaaaaaa")
+					return element
+				}
+			}
+			)
+			
+		},
+		RESET_FILTERS(state){
+			state.CurrentFilters = state.CurrentFilters.map(element => {
+				const NewElement = {...element}
+				NewElement.active = false
+				return NewElement
+			})
+		},
+		SET_RECENT_GAMES(state,{payload}:{payload:SavedGame[]}){
+			console.log(payload)
+
+			state.RecentGames = [...payload]
+		}
 	},
 });
 
@@ -23,6 +67,15 @@ let UserList: UserInfos[] = [
 		name: "hugo",
 		password: "1234567",
 		email: "hugo",
+		RecentGames: [
+			{
+				color: "#01AC66",
+				data: "11/12/2020",
+				numbers: [1,2,3,4,5,6],
+				price: 11.4,
+				type: "Mega-Sena"
+			}
+		] as SavedGame[]
 	},
 ];
 
@@ -31,12 +84,26 @@ let UserList: UserInfos[] = [
 export const AuthSlice = createSlice({
 	name: "AuthSlice",
 	initialState: {
-		User: {} as UserProps,
+		// User: {} as UserProps,
+		User: {
+			name: "hugo",
+			password: "1234567",
+			RecentGames: [
+				{
+					color: "#01AC66",
+					data: "11/12/2020",
+					numbers: [1,2,3,4,5,6],
+					price: 11.4,
+					type: "Lotofácil"
+				}
+			]
+		},
 		isAuth: false,
         message: "",
 		messageColor: "red",
 		Users: UserList,
-		RegisterSuccess: false
+		RegisterSuccess: false,
+		NewAndValidEmail: false
 	},
 	reducers: {
 		AUTH_USER(state, {payload}:{payload:UserProps}) {
@@ -57,9 +124,10 @@ export const AuthSlice = createSlice({
 			console.log(FoundUser)
 			if (FoundUser) {
 				state.isAuth = true;
-				state.User = NewItem;
+				state.User = FoundUser;
 			} else {
 				console.log("deu ruim")
+				console.log(current(state).Users)
                 state.isAuth = false;
 			}
 			
@@ -75,13 +143,68 @@ export const AuthSlice = createSlice({
 		REGISTER_USER(state, {payload}:{payload:UserInfos}) {
 			const oldState = { ...current(state) };
 			const NewItem = { ...payload };
+			const FoundUser = current(state.Users).find((element) => {
+				if (
+					element.name === NewItem.name ||
+					element.email === NewItem.email
+				) {
+					return element;
+				}
+			});
 			// const newState = { ...oldState.Users, NewItem };
-			console.log(payload)
-			state.Users.push(NewItem)
-			state.RegisterSuccess = true
+
+			if(FoundUser){
+				// Usuario já Cadastrado
+			}else{
+				console.log(payload)
+				state.Users.push(NewItem)
+				state.RegisterSuccess = true
+			}
+			
 		},
 		RESET_SUCCESS(state){
 			state.RegisterSuccess = false
+			state.NewAndValidEmail = false
 		},
+		RESET_PASSWORD(state,{payload}:{payload:{
+			password: string,
+			email: string
+		}}){
+			let NoldState = { ...current(state) };
+			let oldState = [... NoldState.Users]
+			oldState = oldState.map((element,index) => {
+				if(element.email === payload.email){
+					let NewElement = {...element}
+					NewElement.password = payload.password
+					return NewElement
+				}else{
+					return element
+				}
+			})
+			state.RegisterSuccess = true
+			state.Users = [...oldState]
+		},
+		IS_EMAIL_VALID_AND_NEW(state,{payload}:{payload:{email:string}}){
+			const NewItem = { ...payload };
+			const FindEmail = current(state.Users).find((element) => {
+				if (
+					element.email === NewItem.email
+				) {
+					return element;
+				}
+			});
+
+			if(FindEmail){
+				if(/^[^@]+@\w+(\.\w+)+\w$/.test(payload.email)){
+					console.log("q")
+					state.NewAndValidEmail = true
+				}else{
+					state.message = "Email invalido ou não cadastrado"
+				}
+			}else{
+				console.log(current(state).message)
+				state.message = "Email invalido ou não cadastrado"
+			}
+		}
 	},
 });

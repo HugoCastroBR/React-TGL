@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { SavedGame } from '../../types/types';
 import SimpleButton from '../buttons/ArrowButton';
@@ -133,6 +133,10 @@ const CurrentGames:SavedGame[] = [
 
 const CartContainer = () => {
 
+    useEffect(() => {
+        window.innerWidth < 1200 ? setCartVisibility(false) : setCartVisibility(true)
+    },[])
+
     const [cartVisible, setCartVisibility] = useState(false)
     const genTotal = (N:SavedGame[]) => {
         const NumberArr:number[] = N.map((E:SavedGame) => E.price)
@@ -161,7 +165,6 @@ const CartContainer = () => {
                         </h2>
                     }
                     
-
                     {CurrentGames?
                     CurrentGames.map((element,index) => <CartItem key={index} {...element}/>):
                     <EmptyCartAlert>

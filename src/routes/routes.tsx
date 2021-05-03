@@ -3,7 +3,7 @@ import { Route, Switch, BrowserRouter, Redirect } from "react-router-dom"
 import Home from './home';
 import Register from './register';
 import Login from './login';
-import RecoverPassword from './RecoverPassword';
+import ResetPassword from './ResetPassword';
 import NewBet from './newbet';
 import useTGL from './../hooks/useStore';
 
@@ -17,7 +17,7 @@ const Routes = () => {
     return (
         <BrowserRouter>
             <Switch>
-                {states.Auth.isAuth ?
+                {/* {states.Auth.isAuth ?
                     <Redirect exact from="/login" to="/" /> :
                     <Redirect exact from="/" to="/login" />
                 }
@@ -28,11 +28,14 @@ const Routes = () => {
                 {states.Auth.RegisterSuccess &&
                     <Redirect exact from="/register" to="/login" /> 
                 }
+                {states.Auth.RegisterSuccess &&
+                    <Redirect exact from="/reset-password" to="/login" /> 
+                } */}
                 <Route exact path="/" render={props => <Home />} />
                 <Route exact path="/login" render={props => <Login />} />
                 <Route exact path="/new-bet" render={props => <NewBet />} />
                 <Route exact path="/register" render={props => <Register />} />
-                <Route exact path="/reset-password" render={props => <RecoverPassword />} />
+                <Route exact path="/reset-password" render={props => <ResetPassword />} />
             </Switch>
         </BrowserRouter>
     )
