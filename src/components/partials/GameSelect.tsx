@@ -32,16 +32,28 @@ const GameSelectButton = styled.button<GameSelectButtonType>`
 const GameSelectContainer = styled.div`
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
-    height: 35px;
-    @media screen and (max-width: 800px){
-                width: 100vw;
-                margin: 0px;
-                & button{
-                    width: 100px;
-                    font-size: 12px;
-                }
+    @media screen and (max-width: 1200px){
+        width: 100vw;
+        margin: 0px;
+        justify-content: center;
+        
+        & button{
+            width: 100px;
+            font-size: 12px;
             }
+        }
+
+    @media screen and (max-width: 800px){
+        flex-direction: column;
+        align-items: center;
+
+        & button{
+            width: 200px;
+            height: 42px;
+            font-size: 16px;
+            }
+        
+    }
 `
 
 

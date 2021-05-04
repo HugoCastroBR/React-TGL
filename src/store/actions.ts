@@ -3,6 +3,8 @@ import { CurrentFiltersProps, GameData, GameDataProps, SavedGame, UserInfos, Use
 import { GameActions } from './index';
 
 
+// -- Auth Actions -- //
+
 export const AuthLogin = (User:UserProps) => {
     return AuthActions.AUTH_USER(User)
 }
@@ -35,16 +37,18 @@ export const AddToUserRecentGames = (RecentGames:SavedGame[]) => {
     return  AuthActions.ADD_TO_USER_RECENT_GAMES(RecentGames)
 }
 
-
 export const SyncUserRecentGames = () => {
     return  AuthActions.SYNC_USER_RECENT_GAMES()
 }
+
+
+// -- Game Actions -- //
 
 export const SetGamesData = (GamesData:GameDataProps[]) => {
     return GameActions.SET_GAMES_DATA(GamesData)
 }
 
-export const SelectFilter = (GameData:CurrentFiltersProps) => {
+export const SelectFilter = (GameData:string) => {
     return GameActions.SELECT_FILTER(GameData)
 }
 
@@ -74,4 +78,8 @@ export const SetCartErrorMsg = (msg:string,color:string) =>{
 
 export const SyncGameRecentGames = (RecentGames:SavedGame[]) => {
     return  GameActions.SYNC_RECENT_GAMES(RecentGames)
+}
+
+export const ResetCart = () => {
+    return GameActions.RESET_CART()
 }

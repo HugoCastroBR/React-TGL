@@ -6,7 +6,7 @@ import CartItem from './CartItem';
 
 import MenuIcon from './../icons/menuIcon';
 import useTGL from '../../hooks/useStore';
-import { AddToUserRecentGames, SetCartErrorMsg, SyncGameRecentGames, SyncUserRecentGames, SetRecentGames } from './../../store/actions';
+import { AddToUserRecentGames, SetCartErrorMsg, SyncGameRecentGames, SyncUserRecentGames, SetRecentGames, ResetCart } from './../../store/actions';
 
 
 
@@ -135,6 +135,7 @@ const CartContainer = () => {
 
     useEffect(() => {
         window.innerWidth < 1200 ? setCartVisibility(false) : setCartVisibility(true)
+        dispatch(ResetCart())
         // To do Clear Cart
     },[])
 
@@ -202,15 +203,17 @@ const CartContainer = () => {
                 <SaveButton
                 onClick={() => {
                     if(states.Game.Cart.length > 0){
-                        if(Number(genTotal(states.Game.Cart).replaceAll(",",".")) < 30){
-                            dispatch(AddToUserRecentGames(states.Game.Cart))
-                            dispatch(SetCartErrorMsg("AO valor minimo é de R$ 30.00","red"))
-                        }else{
+                        if(Number(genTotal(states.Game.Cart).replaceAll(",",".")) < 0){
                             
+                            dispatch(SetCartErrorMsg("O valor minimo é de R$ 30.00","red"))
+                        }else{
+                            dispatch(ResetCart())
+                            dispatch(AddToUserRecentGames(states.Game.Cart))
+                            console.log(states.Auth.User)
                             dispatch(SetCartErrorMsg("Compra Salva","green"))
                         }
                     }else{
-                        dispatch(SetCartErrorMsg("Compra Salva","green"))
+                        dispatch(SetCartErrorMsg("Carrinho vazio","red"))
                     }
                     InitialSync()
                     console.log("isso ai")

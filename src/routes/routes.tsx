@@ -29,7 +29,7 @@ const Routes = () => {
     return (
         <BrowserRouter>
             <Switch>
-                {/* {states.Auth.isAuth ?
+                {states.Auth.isAuth ?
                     <Redirect exact from="/login" to="/" /> :
                     <Redirect exact from="/" to="/login" />
                 }
@@ -42,7 +42,7 @@ const Routes = () => {
                 }
                 {states.Auth.RegisterSuccess &&
                     <Redirect exact from="/reset-password" to="/login" /> 
-                } */}
+                }
                 <Route exact path="/" render={props => {
                     return <Home/>
                 }} />

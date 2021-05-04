@@ -4,8 +4,7 @@ import SimpleButton from '../components/buttons/ArrowButton';
 import FilterSelect from '../components/partials/FilterSelect';
 import Page from '../components/partials/Page';
 import RecentGameItem from '../components/home/RecentGameItem';
-import Fonts from '../styles/fonts';
-import { SavedGame } from '../types/types';
+import { CurrentFiltersProps, SavedGame } from '../types/types';
 import { Link } from 'react-router-dom';
 import useTGL from '../hooks/useStore';
 import { SetRecentGames, SyncGameRecentGames, SyncUserRecentGames } from '../store/actions';
@@ -17,26 +16,22 @@ const RecentGamesTitle = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    height: 60px;
+    
+
     @media screen and (max-width: 1200px){
-        justify-content: center;
-    }
-    @media screen and (max-width: 800px){
         margin-top: 30px;
         flex-direction: column;
     }
     & div:first-child{
 
-        ${Fonts}
+        
         width: 60%;
         justify-content: flex-start;
         align-items: center;
 
+
         @media screen and (max-width: 1200px){
-            width: 80%;
-            justify-content: center;
-        }
-        @media screen and (max-width: 800px){
+            margin-top: -32px;
             justify-content: center;
             align-items: center;
             flex-direction: column;
@@ -50,10 +45,11 @@ const RecentGamesTitle = styled.div`
             text-transform: uppercase;
             margin: 0px;
             @media screen and (max-width: 1200px){
-                font-size: 20px;
+                font-size: 32px;
             }
             @media screen and (max-width: 800px){
-                font-size: 32px;
+                font-size: 24px;
+                margin-top: 0px;
             }
             
         }
@@ -66,10 +62,18 @@ const RecentGamesTitle = styled.div`
             color: #868686;
             margin-left: 20px;
             margin-right: 32px;
-            @media screen and (max-width: 800px){
-                margin-top: 20px;
+            @media screen and (max-width: 1200px){
                 margin-bottom: 10px;
-                margin-left: 0px;
+                margin-left: 32px;
+            }
+        }
+        & div{
+            height: auto;
+            @media screen and(max-width: 1200px){
+                margin-bottom: -40px;
+            }
+            & button{
+                margin-top: 12px;
             }
         }
     }
@@ -79,7 +83,7 @@ const RecentGamesTitle = styled.div`
         flex-direction: row;
         align-items: flex-start;    
         justify-content: flex-start;
-        @media screen and (max-width: 800px){
+        @media screen and (max-width: 1200px){
             width: 100%;
             justify-content: center;
             align-items: center;
@@ -89,14 +93,16 @@ const RecentGamesTitle = styled.div`
 
     }
     & aside{
-        height: 100%;
+        height: 40px;
         align-items: center;
         margin-top: -74px;
+        
         & a {
             text-decoration: none;
         }
-        @media screen and (max-width: 800px){
-            margin-top: 20px;
+        @media screen and (max-width: 1200px){
+            margin-left: 14px;
+            margin-top: 32px;
         }
     }
 
@@ -116,7 +122,7 @@ const HomeContainer = styled.section`
 `
 
 const RecentGamesContainer = styled.div`
-    @media screen and (max-width: 800px){
+    @media screen and (max-width: 1200px){
         margin-top: 70px;
 
     }
@@ -125,24 +131,24 @@ const RecentGamesContainer = styled.div`
     flex-direction: column;
     align-items: flex-start;
     height: auto;
+    margin-bottom: 36px;
 `
 
-const RecentGames: SavedGame[] = [  // List of Recent Games (get from redux)
-    {
-        color: "#7F3992",
-        price: 2.50,
-        numbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-        type: "Lotofácil",
-        data: "30/11/2020"
-    },
-    {
-        color: "#01AC66",
-        price: 3.10,
-        numbers: [1, 2, 3, 4, 5, 6, 2, 8, 9, 10,11,12,1, 2, 3, 4, 5, 6, 2, 8, 9, 10,11,12],
-        type: "Megasena",
-        data: "20/12/2021"
+const EmptyRecentGames = styled.span`
+    margin-top: 12px;
+    font: italic normal normal 22px"Helvetica Neue Medium";
+    letter-spacing: 0px;
+    color: #868686;
+
+    @media screen and (max-width: 1200px){
+        margin-top: 70px;
+        width: 100%;
+        margin-left: -22px;
+        text-align: center;
     }
-]
+`
+
+
 
 
 
@@ -158,33 +164,72 @@ const Home = () => {
         dispatch(SyncUserRecentGames())
         dispatch(SyncGameRecentGames(states.Auth.User.RecentGames))
         dispatch(SetRecentGames(states.Auth.User.RecentGames))
-    },[states.Auth.User])
+    }, [states.Auth.User])
 
-    
+
     useEffect(() => {
         InitialSync()
-    },[])
-    
+    }, [])
+
+    const Organize = (ToOrganize: CurrentFiltersProps[]) => {
+        let GamesToShow = [...ToOrganize]
+        let TypesExist: any = []
+
+        GamesToShow.forEach(element => {
+            if (TypesExist.includes(element.type)) {
+
+            } else {
+                TypesExist.push(element.type)
+            }
+        })
+        const fullLength = GamesToShow.length
+        let ExitList: CurrentFiltersProps[] = []
+
+        if (TypesExist.length > 0) {
+            while (ExitList.length < fullLength) {
+                console.log("...")
+                GamesToShow.forEach((element, index) => {
+                    if (index === (GamesToShow.length - 1)) {
+                        if (element.type === TypesExist[0]) {
+                            ExitList.push(element)
+                            GamesToShow.slice(index, 1)
+                        }
+                        TypesExist.shift(index)
+                    } else {
+                        if (element.type === TypesExist[0]) {
+                            ExitList.push(element)
+                            GamesToShow.slice(index, 1)
+                        }
+                    }
+                })
+            }
+        }
+        return ExitList
+
+    }
+
+
     const GetRecentToShow = () => {
-        if(states.Game.RecentGames.length > 0){
+        if (states.Game.RecentGames.length > 0) {
             let isAllFalse = true
-            let toShow = states.Game.CurrentFilters.map((element, index) => {
-                if(element.active){
+            let toShow = Organize(states.Game.CurrentFilters).map((element, index) => {
+                if (element.active) {
                     isAllFalse = false
                     return <RecentGameItem {...element} key={index}></RecentGameItem>
                 }
             })
 
-            if(isAllFalse){
-                return states.Game.CurrentFilters.map((element, index) => {
+            if (isAllFalse) {
+                console.log(states.Game.CurrentFilters)
+                return Organize(states.Game.CurrentFilters).map((element, index) => {
                     return <RecentGameItem {...element} key={index}></RecentGameItem>
                 })
-            }else{
+            } else {
                 return toShow
             }
-        }else{
-            // To do show empty recent games if nothen
-            return <h1>Nada</h1>
+        } else {
+            //  show empty recent games 
+            return <EmptyRecentGames>No Recent games</EmptyRecentGames>
         }
     }
 
@@ -195,7 +240,7 @@ const Home = () => {
                 <RecentGamesTitle>
                     <div>
                         <h2>Recent Games</h2>
-                        <span>Filters</span>
+                        <span>{states.Game.RecentGames.length > 0 && "Filters"}</span>
                         <FilterSelect />
                     </div>
 

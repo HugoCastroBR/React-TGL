@@ -40,7 +40,7 @@ const Login = () => {
     // To change ! 
 
 
-    const loginUsername = useRef<HTMLInputElement>(null)
+    const loginEmail= useRef<HTMLInputElement>(null)
     const loginPassword = useRef<HTMLInputElement>(null)
 
     // Call redux action to login
@@ -50,10 +50,10 @@ const Login = () => {
 
         console.log(states.Auth.Users)
         if(ValidAllInputs()){
-            if(loginUsername.current?.value && loginPassword.current?.value){
+            if(loginEmail.current?.value && loginPassword.current?.value){
 
                 const user:UserProps = {
-                    name: loginUsername.current.value,
+                    name: loginEmail.current.value,
                     password:  loginPassword.current.value,
                     RecentGames: [] as SavedGame[]
                 }
@@ -72,27 +72,42 @@ const Login = () => {
     }
 
     const ValidAllInputs = () => {
-        if(ValidUsername() && ValidPassword()){
+        if(validEmail() && ValidPassword()){
             setMessage('')
             return true
         }
     }
-
-    const ValidUsername = () => {
-        if (loginUsername.current) {
-            if(loginUsername.current.value.length >= 2){
+    const validEmail = () => {
+        if(loginEmail.current?.value){
+            if(/^[^@]+@\w+(\.\w+)+\w$/.test(loginEmail.current.value)){
                 setMessage('')
-                return loginUsername.current.value
+                return true
             }else{
-                setMessage('O nome de usuario deve ter ao menos 2 caracteres')
+                setMessage('Email Invalido')
                 return false
             }
             
-        } else {
-            setMessage('O nome de usuario deve ser preenchida')
+        }else{
+            setMessage('O email deve ser preenchido')
             return false
         }
     }
+
+    // const ValidUsername = () => {
+    //     if (loginUsername.current) {
+    //         if(loginUsername.current.value.length >= 2){
+    //             setMessage('')
+    //             return loginUsername.current.value
+    //         }else{
+    //             setMessage('O nome de usuario deve ter ao menos 2 caracteres')
+    //             return false
+    //         }
+            
+    //     } else {
+    //         setMessage('O nome de usuario deve ser preenchida')
+    //         return false
+    //     }
+    // }
 
     const ValidPassword = () => {
         if (loginPassword.current?.value) {
@@ -118,7 +133,7 @@ const Login = () => {
                 <form action="" onSubmit={(event) => FunctionLogin(event)}>
                     <AuthFormTemplate name="LoginForm">
                         <section>
-                            <input placeholder="Username" ref={loginUsername} onBlur={() => ValidUsername()} />
+                            <input placeholder="Email" ref={loginEmail} onBlur={() => validEmail()} />
                             <input placeholder="Password" ref={loginPassword} onBlur={() => ValidPassword()} />
                             <Link to="reset-password">I forget my password</Link>
                         </section>

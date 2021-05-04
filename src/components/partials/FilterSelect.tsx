@@ -73,7 +73,7 @@ const FilterSelect = () => {
     }, [])
 
 
-const SelectGame = (element:CurrentFiltersProps) => {
+const SelectGame = (element:string) => {
     console.log(states.Game.CurrentFilters)
     dispatch(SelectFilter(element))
 }
@@ -96,13 +96,17 @@ const GenerateToShow = () => {
         active={element.active}
         color={element.color}
         key={index}
-        data-index={index}
+        data-type={element.type}
         onClick={(event) => {
             event.preventDefault()
             const Item = event.currentTarget
-            const id = Item.dataset.index
-            const Element = states.Game.CurrentFilters[Number(id)]
-            SelectGame(Element)
+            const ItemType = Item.dataset.type
+            // // console.log(Item)
+            // const Element = states.Game.CurrentFilters[Number(id)]
+            // console.log(Element)
+            if(ItemType){
+                SelectGame(ItemType)
+            }
         }}
     >{element.type}</GameSelectButton>  
     })

@@ -44,10 +44,24 @@ const GameSelectorContainer = styled.div`
     }
 
     & div{
+        width: 100%;
+        justify-content: flex-start;
         margin-left: -4px;
-        display: flex;
+        height: auto;
+        flex-wrap: wrap;
+        & div{
+            @media screen and(max-width: 1200px){
+                margin-bottom: -40px;
+                justify-content: center;
+            }
+        }
+        @media screen and(max-width: 1200px){
+            margin-bottom: -40px;
+            justify-content: center;
+            
+        }
         & button{
-        margin-right: 16px;
+            margin-top: 12px;
         }
     }
     margin-bottom: 28px;

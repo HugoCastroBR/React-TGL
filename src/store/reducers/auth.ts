@@ -13,15 +13,7 @@ let UserList: UserInfos[] = [
 		name: "hugo",
 		password: "1234567",
 		email: "hugo",
-		RecentGames: [
-			{
-				color: "#01AC66",
-				data: "11/12/2020",
-				numbers: [1,2,3,4,5,6],
-				price: 11.4,
-				type: "Mega-Sena"
-			}
-		] as SavedGame[]
+		RecentGames: [] as SavedGame[]
 	},
 ];
 
@@ -55,7 +47,7 @@ export const AuthSlice = createSlice({
 			// eslint-disable-next-line array-callback-return
 			const FoundUser = current(state.Users).find((element) => {
 				if (
-					element.name === NewItem.name &&
+					element.email === NewItem.name &&
 					element.password === NewItem.password
 				) {
 					return element;
@@ -151,12 +143,18 @@ export const AuthSlice = createSlice({
             let OldUsers = [...current(state).Users]
             const CurrentUser = {...current(state).User}
             let CurrentUserIndexList = OldUsers.map((user,index) => {
-                if(user.name === CurrentUser.name){
+                console.log(user.name,CurrentUser.name)
+                if(user.email === CurrentUser.name){
                     return index
                 }
             })
 
             let CurrentUserIndex:number
+            CurrentUserIndexList = CurrentUserIndexList.filter(element => {
+                if(element !== undefined){
+                    return element
+                }
+            })
 
             if(CurrentUserIndexList.length > 0){
                 if(CurrentUserIndexList[0] !== undefined){
@@ -166,15 +164,22 @@ export const AuthSlice = createSlice({
                     console.log("salvo",NewRecentGames)
                     let NewUsers = [...OldUsers]
                     let CurrentUserInList = {...NewUsers[CurrentUserIndex]}
-                    CurrentUserInList.RecentGames = NewRecentGames
+                    CurrentUserInList.RecentGames = [...NewRecentGames]
                     console.log(CurrentUserInList)
-                    NewUsers[CurrentUserIndex] = CurrentUserInList
+                    
+                    NewUsers[CurrentUserIndex] = {...CurrentUserInList}
+                    console.log(NewUsers[CurrentUserIndex])
                     state.Users = [...NewUsers]
                     let NewUserStats = {...current(state).User}
-                    NewUserStats.RecentGames = [...OldUsers][CurrentUserIndex].RecentGames
-                    state.User = NewUserStats
+                    NewUserStats.RecentGames = [...NewUsers][CurrentUserIndex].RecentGames
+                    state.User = {...NewUserStats}
+                    console.log(NewUserStats)
+                }else{
+                    console.log("aaaanao")
                 }
-                }
+            }else{
+                console.log("vish")
+            }
                 
                 
             

@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from "styled-components"
-import Fonts from '../../styles/fonts';
 import ArrowRight from '../icons/arrowRight';
 import ArrowLeft from '../icons/arrowLeft';
 
@@ -9,7 +8,7 @@ import ArrowLeft from '../icons/arrowLeft';
 
 
 const ButtonStyle = styled.button<{FontSize:number, LinkColor: string,AuthTemplate: boolean}>`
-    ${Fonts}
+    
 
     color: #707070;
     display: flex;
