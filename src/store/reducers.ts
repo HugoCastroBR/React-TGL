@@ -15,12 +15,6 @@ export const CartSlice = createSlice({
 		CurrentGame: {} as SavedGame
 	},
 	reducers: {
-		ADD_TO_CART(state, actions) {
-			const oldState = { ...current(state) };
-			const NewItem = { ...actions.payload };
-			const newState = { ...oldState.Cart, NewItem };
-			state.Cart = newState;
-		},
 		SET_GAMES_DATA(state,{payload}:{payload:GameDataProps[]}){
 			state.GamesData = [...payload]
 			if(current(state).RecentGames.length > 0){
@@ -60,7 +54,17 @@ export const CartSlice = createSlice({
 
 		SET_CURRENT_GAME(state,{payload}:{payload:SavedGame}){
 			state.CurrentGame = payload
+		},
+		ADD_ITEM_TO_CART(state){
+			state.Cart.push({...current(state).CurrentGame})
+			console.log(current(state).Cart)
+		},
+		DELETE_ITEM_INTO_CART(state,{payload}:{payload:number}){
+			const OldCart = [...current(state).Cart]
+			OldCart.splice(payload,1)
+			state.Cart = [...OldCart]
 		}
+
 	},
 });
 

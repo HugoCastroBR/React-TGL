@@ -1,6 +1,8 @@
 import React from 'react';
 import styled  from 'styled-components';
 import NumbersFormatter from '../../functions/NumbersFormater';
+import useTGL from '../../hooks/useStore';
+import { DeleteCartItem } from '../../store/actions';
 import { SavedGame } from '../../types/types';
 import DeleteIcon from '../icons/deleteIcon';
 
@@ -104,12 +106,21 @@ const CartItem = ({
         data = '',
         numbers = [],
         price = 0,
-        type = ""
-    } :SavedGame) => {
+        type = "",
+        index = -1
+    } :SavedGame & {index:number}) => {
+
+    const {dispatch} = useTGL()
+
+
+    const DeleteFunction = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        dispatch(DeleteCartItem(index))
+    }
+    
     return (
         <CartItemStyle>
             <DeleteContainer>
-                <button>
+                <button onClick={DeleteFunction}>
                     <DeleteIcon/>
                 </button>
             </DeleteContainer>

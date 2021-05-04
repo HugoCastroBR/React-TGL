@@ -5,6 +5,7 @@ import SimpleButton from '../buttons/ArrowButton';
 import CartItem from './CartItem';
 
 import MenuIcon from './../icons/menuIcon';
+import useTGL from '../../hooks/useStore';
 
 
 
@@ -133,6 +134,9 @@ const CurrentGames:SavedGame[] = [
 
 const CartContainer = () => {
 
+    const {states} = useTGL()
+
+
     useEffect(() => {
         window.innerWidth < 1200 ? setCartVisibility(false) : setCartVisibility(true)
     },[])
@@ -165,8 +169,8 @@ const CartContainer = () => {
                         </h2>
                     }
                     
-                    {CurrentGames?
-                    CurrentGames.map((element,index) => <CartItem key={index} {...element}/>):
+                    {states.Cart.Cart.length?
+                    states.Cart.Cart.map((element,index) => <CartItem key={index} index={index} {...element}/>):
                     <EmptyCartAlert>
                     Empty Cart
                     </EmptyCartAlert>
@@ -179,7 +183,11 @@ const CartContainer = () => {
                         Cart
                     </span>
                     <span>
-                        Total: R$ {genTotal(CurrentGames)}
+                        {states.Cart.Cart.length > 0 ? 
+                        `Total: R$ ${genTotal(states.Cart.Cart)}`
+                        : `Total: R$ 0,00`
+                        }
+                        
                     </span>
                 </CartTotalText>
                 <SaveButton

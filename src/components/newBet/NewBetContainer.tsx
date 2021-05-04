@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import { SetCurrentGame } from '../../store/actions';
+import { AddItemToCart, SetCurrentGame } from '../../store/actions';
 import { GameDataProps, NumberBtnProps } from '../../types/types';
 import BetNumberBtn from '../buttons/BetNumberBtn';
 import GameSelect from '../partials/GameSelect';
 import useTGL from './../../hooks/useStore';
+
 
 const NewBetContainerStyle = styled.div`
     margin-top: 36px;
@@ -156,75 +157,74 @@ const FunctionsButtonsContainer = styled.div`
 
 
 
-const NewBetContainer = (props:GameDataProps) => {
+const NewBetContainer = (props: GameDataProps) => {
 
-    const {states,dispatch} = useTGL()
-    
+    const { states, dispatch } = useTGL()
+
     // inRange(4) => [1,2,3,4]
-    const inRange = (N:number) =>{
+    const inRange = (N: number) => {
         let Arr = []
-        while(Arr.length < N){
-            Arr.push(Arr.length ? Arr.length + 1: 1)
+        while (Arr.length < N) {
+            Arr.push(Arr.length ? Arr.length + 1 : 1)
         }
         return Arr
     }
 
-    const BetNumbers:NumberBtnProps[] = inRange(props.range).map((element) => {
-        if(states.Cart.CurrentGame.numbers?.length > 0){
-            if(states.Cart.CurrentGame.numbers.find(e => e === element)){
+    const BetNumbers: NumberBtnProps[] = inRange(props.range).map((element) => {
+        if (states.Cart.CurrentGame.numbers?.length > 0) {
+            if (states.Cart.CurrentGame.numbers.find(e => e === element)) {
                 return {
-                    number:element,
-                    selected:true
+                    number: element,
+                    selected: true
                 }
-            }else{
+            } else {
                 return {
-                    number:element,
-                    selected:false
+                    number: element,
+                    selected: false
                 }
             }
-        }else{
+        } else {
             return {
-                number:element,
-                selected:false
+                number: element,
+                selected: false
             }
         }
-        
+
     })
 
 
 
-    const HandleNumberClick = (number:number) => {
+    const HandleNumberClick = (NumberToAdd: number) => {
         console.log(states.Cart.CurrentGame)
-        
+
         const NowData = new Date()
         const Data = NowData
         const data = `${Data.getDay()}/${Data.getMonth()}/${Data.getFullYear()}`
-        const OldState = {...states.Cart.CurrentGame}
-        let NumberList:number[] = []
+        const OldState = { ...states.Cart.CurrentGame }
+        let NumberList: number[] = []
 
-        if(OldState?.numbers?.length){
-            if(OldState.numbers.length >= 1){
+        if (OldState?.numbers?.length) {
+            if (OldState.numbers.length >= 1) {
                 NumberList = [...OldState.numbers]
             }
-        }else{
+        } else {
             console.log("Just First")
             NumberList = []
         }
 
-        if(NumberList.length < props['max-number']){
-            const NumberToAdd = number
-            if(NumberList.length > 0){
+        if (NumberList.length < props['max-number']) {
+            if (NumberList.length > 0) {
                 const Iindex = OldState.numbers.indexOf(NumberToAdd)
-                if(Iindex !== -1){
-                    NumberList.splice(Iindex,1)
-                }else{
+                if (Iindex !== -1) {
+                    NumberList.splice(Iindex, 1)
+                } else {
                     NumberList.push(NumberToAdd)
                 }
-            }else{
+            } else {
                 NumberList.push(NumberToAdd)
             }
 
-            
+
             dispatch(SetCurrentGame({
                 color: props.color,
                 data,
@@ -232,13 +232,57 @@ const NewBetContainer = (props:GameDataProps) => {
                 price: props.price,
                 type: props.type
             }))
+        } else {
+            const Iindex = OldState.numbers.indexOf(NumberToAdd)
+            if (Iindex !== -1) {
+                NumberList.splice(Iindex, 1)
+                dispatch(SetCurrentGame({
+                    color: props.color,
+                    data,
+                    numbers: NumberList,
+                    price: props.price,
+                    type: props.type
+                }))
+            }
         }
-        
+
+
+
     }
 
-    
-    return(
-        
+
+    const HandlerDispatch = (numbers: number[]) => {
+        const NowData = new Date()
+        const Data = NowData
+        const data = `${Data.getDay()}/${Data.getMonth()}/${Data.getFullYear()}`
+
+        dispatch(SetCurrentGame({
+            color: props.color,
+            data,
+            numbers: numbers,
+            price: props.price,
+            type: props.type
+        }))
+    }
+
+    const RandomComplete = () => {
+        const allNumbers = document.querySelectorAll('.bet__number__button') // get all the number buttons
+        let randomNumbers: number[]
+        if (states.Cart.CurrentGame.numbers) {
+            randomNumbers = [...states.Cart.CurrentGame.numbers]
+        } else {
+            randomNumbers = []
+        } // concat random numbers + current game numbers
+
+        while (randomNumbers.length < (props['max-number'])) { // while don't have the required number of numbers
+            randomNumbers.push(Math.floor(Math.random() * props.range + 1)) // add a random number to the list
+            randomNumbers = randomNumbers.filter((element, index) => randomNumbers.indexOf(element) === index) // remove the repeated numbers
+        }
+        HandlerDispatch(randomNumbers)
+    }
+
+    return (
+
         <NewBetContainerStyle>
             <TitleContainer>
                 <h1>New bet <span>for {props.type}</span></h1>
@@ -248,7 +292,7 @@ const NewBetContainer = (props:GameDataProps) => {
                     Choose a game
                 </h2>
                 <div>
-                    <GameSelect/>
+                    <GameSelect />
                 </div>
             </GameSelectorContainer>
             <GameRulesDesc>
@@ -257,21 +301,44 @@ const NewBetContainer = (props:GameDataProps) => {
             </GameRulesDesc>
             <BetNumberBtnContainer>
 
-                
-                {BetNumbers.map((element,index) => 
-                <BetNumberBtn
-                OnClick={(event) => HandleNumberClick(Number(event.currentTarget.innerHTML))}
-                number={element.number} key={index} selected={element.selected} data-number={element.number}/>)}
+
+                {BetNumbers.map((element, index) =>
+                    <BetNumberBtn
+                        OnClick={(event) => HandleNumberClick(Number(event.currentTarget.innerHTML))}
+                        number={element.number} key={index} selected={element.selected} data-number={element.number} />)}
                 {/* <BetNumberBtn number={1} selected={true}/> */}
-                
+
             </BetNumberBtnContainer>
 
             <FunctionsButtonsContainer>
                 <div>
-                    <button>Complete game</button>
-                    <button>Clear game</button>
+                    <button
+                        onClick={
+                            () => {
+                                
+                                RandomComplete()
+                            }
+                        }
+                    >Complete game</button>
+
+                    <button onClick={
+                        () => {
+                            HandlerDispatch([])
+                        }
+                    }>Clear game</button>
                 </div>
-                <button>Add to cart</button>
+                <button
+                    onClick={
+                        () => {
+                            if (states.Cart.CurrentGame.numbers.length === props['max-number']) {
+                                dispatch(AddItemToCart())
+                                HandlerDispatch([])
+                            } else {
+                                // show error msg you need to select X numbers
+                            }
+                        }
+                    }
+                >Add to cart</button>
             </FunctionsButtonsContainer>
         </NewBetContainerStyle>
     )

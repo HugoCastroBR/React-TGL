@@ -50,3 +50,11 @@ export const SetRecentGames = (RecentGames:SavedGame[]) => {
 export const SetCurrentGame = (CurrentGame:SavedGame) => {
     return cartActions.SET_CURRENT_GAME(CurrentGame)
 }
+
+export const AddItemToCart = () => {
+    return cartActions.ADD_ITEM_TO_CART()
+}
+
+export const DeleteCartItem = (index:number) => {
+    return cartActions.DELETE_ITEM_INTO_CART(index)
+}
