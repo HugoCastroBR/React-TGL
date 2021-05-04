@@ -74,31 +74,49 @@ const FilterSelect = () => {
 
 
 const SelectGame = (element:CurrentFiltersProps) => {
-    console.log(states.Cart.CurrentFilters)
+    console.log(states.Game.CurrentFilters)
     dispatch(SelectFilter(element))
 }
 
+const GenerateToShow = () => {
+
+    let Filters = [...states.Game.CurrentFilters]
+    let exist:string[] = []
+    Filters = Filters.filter((element) => {
+        if(exist.includes(element.type)){
+
+        }else{
+            exist.push(element.type)
+            return element
+        }
+    })
+
+    let ToShow = Filters.map((element, index) => {
+        return <GameSelectButton
+        active={element.active}
+        color={element.color}
+        key={index}
+        data-index={index}
+        onClick={(event) => {
+            event.preventDefault()
+            const Item = event.currentTarget
+            const id = Item.dataset.index
+            const Element = states.Game.CurrentFilters[Number(id)]
+            SelectGame(Element)
+        }}
+    >{element.type}</GameSelectButton>  
+    })
+    
+    return ToShow
+}
 
 
 return (
     <GameSelectContainer>
         {
-            states.Cart.CurrentFilters.map((element, index) => {
-                return <GameSelectButton
-                active={element.active}
-                color={element.color}
-                key={index}
-                data-index={index}
-                onClick={(event) => {
-                    event.preventDefault()
-                    const Item = event.currentTarget
-                    const id = Item.dataset.index
-                    const Element = states.Cart.CurrentFilters[Number(id)]
-                    SelectGame(Element)
-                }}
-            >{element.type}</GameSelectButton>   
-                
-            })
+            
+            GenerateToShow() 
+            
         }
 
     </GameSelectContainer>

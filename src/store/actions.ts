@@ -1,6 +1,6 @@
 import { AuthActions } from "."
 import { CurrentFiltersProps, GameData, GameDataProps, SavedGame, UserInfos, UserProps } from "../types/types"
-import { cartActions } from './index';
+import { GameActions } from './index';
 
 
 export const AuthLogin = (User:UserProps) => {
@@ -31,30 +31,47 @@ export const AuthResetPassword = (email:string,NewPassword:string) => {
     return AuthActions.RESET_PASSWORD({email:email,password:NewPassword})
 }
 
+export const AddToUserRecentGames = (RecentGames:SavedGame[]) => {
+    return  AuthActions.ADD_TO_USER_RECENT_GAMES(RecentGames)
+}
+
+
+export const SyncUserRecentGames = () => {
+    return  AuthActions.SYNC_USER_RECENT_GAMES()
+}
+
 export const SetGamesData = (GamesData:GameDataProps[]) => {
-    return cartActions.SET_GAMES_DATA(GamesData)
+    return GameActions.SET_GAMES_DATA(GamesData)
 }
 
 export const SelectFilter = (GameData:CurrentFiltersProps) => {
-    return cartActions.SELECT_FILTER(GameData)
+    return GameActions.SELECT_FILTER(GameData)
 }
 
 export const ResetFilters = () => {
-    return cartActions.RESET_FILTERS()
+    return GameActions.RESET_FILTERS()
 }
 
 export const SetRecentGames = (RecentGames:SavedGame[]) => {
-    return cartActions.SET_RECENT_GAMES(RecentGames)
+    return GameActions.SET_RECENT_GAMES(RecentGames)
 }
 
 export const SetCurrentGame = (CurrentGame:SavedGame) => {
-    return cartActions.SET_CURRENT_GAME(CurrentGame)
+    return GameActions.SET_CURRENT_GAME(CurrentGame)
 }
 
 export const AddItemToCart = () => {
-    return cartActions.ADD_ITEM_TO_CART()
+    return GameActions.ADD_ITEM_TO_CART()
 }
 
 export const DeleteCartItem = (index:number) => {
-    return cartActions.DELETE_ITEM_INTO_CART(index)
+    return GameActions.DELETE_ITEM_INTO_CART(index)
+}
+
+export const SetCartErrorMsg = (msg:string,color:string) =>{
+    return GameActions.SET_CART_MSG({msg,color})
+}
+
+export const SyncGameRecentGames = (RecentGames:SavedGame[]) => {
+    return  GameActions.SYNC_RECENT_GAMES(RecentGames)
 }

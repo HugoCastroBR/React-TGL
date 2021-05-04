@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { SavedGame } from '../../types/types';
 import SimpleButton from '../buttons/ArrowButton';
@@ -6,6 +6,7 @@ import CartItem from './CartItem';
 
 import MenuIcon from './../icons/menuIcon';
 import useTGL from '../../hooks/useStore';
+import { AddToUserRecentGames, SetCartErrorMsg, SyncGameRecentGames, SyncUserRecentGames, SetRecentGames } from './../../store/actions';
 
 
 
@@ -20,6 +21,7 @@ const CartContainerStyle = styled.div`
     justify-content: center;
     height: 100%;
     overflow: hidden;
+
 `
 const SaveButton = styled.div`
     height: 96px;
@@ -47,6 +49,8 @@ const CartItemsContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    max-height: 50vh;
+    overflow-y: auto;
     & h2{
         margin: 0px;
         width: 100%;
@@ -68,7 +72,7 @@ const EmptyCartAlert = styled.span`
 const CartTotalText = styled.div`
     display: flex;
     margin-top: 40px;
-    margin-bottom: 46px;
+    margin-bottom: 8px;
     width: auto;
     margin-left: 16px;
     text-transform: uppercase;
@@ -114,31 +118,24 @@ const CartClosed = styled.button`
 
 
 
-const CurrentGames:SavedGame[] = [
-    {
-        color: "blue",
-        data: '12/12/21',
-        numbers: [1,2,3,4,5,6],
-        price: 20,
-        type: "LotoFacil"
-    },
-    {
-        color: "#27C383",
-        data: '13/1/19',
-        numbers: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18],
-        price: 2.50,
-        type: "Mega-sena"
-    }
-]
 
+const SaveErrorMsg = styled.span<{color:string}>`
+    font: italic normal bold 16px "Helvetica Neue Light" ;
+    width: 100%;
+    height: 20px;
+    text-align: center;
+    margin-bottom: 10px;
+    color: ${props => `${props.color}`};
+`
 
 const CartContainer = () => {
 
-    const {states} = useTGL()
+    const {states,dispatch} = useTGL()
 
 
     useEffect(() => {
         window.innerWidth < 1200 ? setCartVisibility(false) : setCartVisibility(true)
+        // To do Clear Cart
     },[])
 
     const [cartVisible, setCartVisibility] = useState(false)
@@ -147,6 +144,15 @@ const CartContainer = () => {
         const sumReducer = (A:number,C:number) => A + C
         return String(NumberArr.reduce(sumReducer).toFixed(2)).replace(".",",")
     }
+
+    const InitialSync = useCallback(() => {
+
+        console.log(states.Auth.User)
+        dispatch(SyncUserRecentGames())
+        dispatch(SyncGameRecentGames(states.Auth.User.RecentGames))
+        dispatch(SetRecentGames(states.Auth.User.RecentGames))
+    },[states.Auth.User])
+
 
     return(
         <CartContainerStyle>
@@ -169,8 +175,8 @@ const CartContainer = () => {
                         </h2>
                     }
                     
-                    {states.Cart.Cart.length?
-                    states.Cart.Cart.map((element,index) => <CartItem key={index} index={index} {...element}/>):
+                    {states.Game.Cart.length?
+                    states.Game.Cart.map((element,index) => <CartItem key={index} index={index} {...element}/>):
                     <EmptyCartAlert>
                     Empty Cart
                     </EmptyCartAlert>
@@ -183,14 +189,32 @@ const CartContainer = () => {
                         Cart
                     </span>
                     <span>
-                        {states.Cart.Cart.length > 0 ? 
-                        `Total: R$ ${genTotal(states.Cart.Cart)}`
+                        {states.Game.Cart.length > 0 ? 
+                        `Total: R$ ${genTotal(states.Game.Cart)}`
                         : `Total: R$ 0,00`
                         }
                         
                     </span>
                 </CartTotalText>
+                <SaveErrorMsg color={states.Game.CartErrorMsg.color}>
+                    {states.Game.CartErrorMsg.msg}
+                </SaveErrorMsg>
                 <SaveButton
+                onClick={() => {
+                    if(states.Game.Cart.length > 0){
+                        if(Number(genTotal(states.Game.Cart).replaceAll(",",".")) < 30){
+                            dispatch(AddToUserRecentGames(states.Game.Cart))
+                            dispatch(SetCartErrorMsg("AO valor minimo é de R$ 30.00","red"))
+                        }else{
+                            
+                            dispatch(SetCartErrorMsg("Compra Salva","green"))
+                        }
+                    }else{
+                        dispatch(SetCartErrorMsg("Compra Salva","green"))
+                    }
+                    InitialSync()
+                    console.log("isso ai")
+                }}
                 >
                     <SimpleButton Arrow={true} Color={"#27C383"} FontSize={35} >
                         <span color="#27C383">

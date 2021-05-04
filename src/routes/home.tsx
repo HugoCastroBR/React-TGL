@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import SimpleButton from '../components/buttons/ArrowButton';
 import FilterSelect from '../components/partials/FilterSelect';
@@ -8,7 +8,7 @@ import Fonts from '../styles/fonts';
 import { SavedGame } from '../types/types';
 import { Link } from 'react-router-dom';
 import useTGL from '../hooks/useStore';
-import { SetRecentGames } from '../store/actions';
+import { SetRecentGames, SyncGameRecentGames, SyncUserRecentGames } from '../store/actions';
 
 
 const RecentGamesTitle = styled.div`
@@ -151,14 +151,24 @@ const Home = () => {
     // return Page Template without home btn
 
     const { states, dispatch } = useTGL()
-    useEffect(() => {
-        dispatch(SetRecentGames(states.Auth.User.RecentGames))
-    },[])
 
+    const InitialSync = useCallback(() => {
+
+        console.log(states.Auth.User)
+        dispatch(SyncUserRecentGames())
+        dispatch(SyncGameRecentGames(states.Auth.User.RecentGames))
+        dispatch(SetRecentGames(states.Auth.User.RecentGames))
+    },[states.Auth.User])
+
+    
+    useEffect(() => {
+        InitialSync()
+    },[])
+    
     const GetRecentToShow = () => {
-        if(states.Cart.RecentGames.length > 0){
+        if(states.Game.RecentGames.length > 0){
             let isAllFalse = true
-            let toShow = states.Cart.CurrentFilters.map((element, index) => {
+            let toShow = states.Game.CurrentFilters.map((element, index) => {
                 if(element.active){
                     isAllFalse = false
                     return <RecentGameItem {...element} key={index}></RecentGameItem>
@@ -166,7 +176,7 @@ const Home = () => {
             })
 
             if(isAllFalse){
-                return states.Cart.CurrentFilters.map((element, index) => {
+                return states.Game.CurrentFilters.map((element, index) => {
                     return <RecentGameItem {...element} key={index}></RecentGameItem>
                 })
             }else{

@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit"
-import { CartSlice, AuthSlice } from './reducers';
+import { GameSlice } from './reducers/game';
+import { AuthSlice } from './reducers/auth';
 
 const store = configureStore({
     reducer:{
-        Cart: CartSlice.reducer,
+        Game: GameSlice.reducer,
         Auth: AuthSlice.reducer
     }
 })
@@ -12,5 +13,5 @@ const store = configureStore({
 export default store;
 export type RootState = ReturnType<typeof store.getState>
 
-export const cartActions = CartSlice.actions
+export const GameActions = GameSlice.actions
 export const AuthActions = AuthSlice.actions

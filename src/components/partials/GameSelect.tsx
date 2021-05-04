@@ -60,8 +60,8 @@ const GameSelect = () => {
         })
         const solved:GameData[] = await res.json()
         const NewData = solved.map((element) => {return {...element,active:false}})
-        if(states.Cart.GamesData.length > 0){
-            if(states.Cart.GamesData.find(element => element.active === true)){
+        if(states.Game.GamesData.length > 0){
+            if(states.Game.GamesData.find(element => element.active === true)){
 
             }else{
                 NewData[0].active = true
@@ -79,7 +79,7 @@ const GameSelect = () => {
 
 
     const SelectGame = (element:GameDataProps) => {
-        let NewGameData = [...states.Cart.GamesData]
+        let NewGameData = [...states.Game.GamesData]
         NewGameData = NewGameData.map(e => {
             if(e.type === element.type){
                 return {...e,active:true}
@@ -96,7 +96,7 @@ const GameSelect = () => {
 return (
     <GameSelectContainer>
         {
-            states.Cart.GamesData.map((element, index) => {
+            states.Game.GamesData.map((element, index) => {
                 return <GameSelectButton
                 active={element.active}
                 color={element.color}
@@ -106,7 +106,7 @@ return (
                     event.preventDefault()
                     const Item = event.currentTarget
                     const id = Item.dataset.index
-                    const Element = states.Cart.GamesData[Number(id)]
+                    const Element = states.Game.GamesData[Number(id)]
                     SelectGame(Element)
                 }}
             >{element.type}</GameSelectButton>   

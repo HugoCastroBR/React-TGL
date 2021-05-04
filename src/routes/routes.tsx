@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Route, Switch, BrowserRouter, Redirect } from "react-router-dom"
 import Home from './home';
 import Register from './register';
@@ -6,14 +6,26 @@ import Login from './login';
 import ResetPassword from './ResetPassword';
 import NewBet from './newbet';
 import useTGL from './../hooks/useStore';
+import { SetRecentGames, SyncGameRecentGames, SyncUserRecentGames } from '../store/actions';
 
 
 // To do private route to access the new bet page !
 
 const Routes = () => {
 
-    const { states } = useTGL()
+    const { states,dispatch } = useTGL()
+    const InitialSync = useCallback(() => {
 
+        console.log(states.Auth.User)
+        dispatch(SyncUserRecentGames())
+        dispatch(SyncGameRecentGames(states.Auth.User.RecentGames))
+        dispatch(SetRecentGames(states.Auth.User.RecentGames))
+    },[states.Auth.User])
+
+    
+    useMemo(() => {
+        InitialSync()
+    },[])
     return (
         <BrowserRouter>
             <Switch>
@@ -31,7 +43,9 @@ const Routes = () => {
                 {states.Auth.RegisterSuccess &&
                     <Redirect exact from="/reset-password" to="/login" /> 
                 } */}
-                <Route exact path="/" render={props => <Home />} />
+                <Route exact path="/" render={props => {
+                    return <Home/>
+                }} />
                 <Route exact path="/login" render={props => <Login />} />
                 <Route exact path="/new-bet" render={props => <NewBet />} />
                 <Route exact path="/register" render={props => <Register />} />

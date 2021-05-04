@@ -171,8 +171,8 @@ const NewBetContainer = (props: GameDataProps) => {
     }
 
     const BetNumbers: NumberBtnProps[] = inRange(props.range).map((element) => {
-        if (states.Cart.CurrentGame.numbers?.length > 0) {
-            if (states.Cart.CurrentGame.numbers.find(e => e === element)) {
+        if (states.Game.CurrentGame.numbers?.length > 0) {
+            if (states.Game.CurrentGame.numbers.find(e => e === element)) {
                 return {
                     number: element,
                     selected: true
@@ -195,12 +195,12 @@ const NewBetContainer = (props: GameDataProps) => {
 
 
     const HandleNumberClick = (NumberToAdd: number) => {
-        console.log(states.Cart.CurrentGame)
+        console.log(states.Game.CurrentGame)
 
         const NowData = new Date()
         const Data = NowData
         const data = `${Data.getDay()}/${Data.getMonth()}/${Data.getFullYear()}`
-        const OldState = { ...states.Cart.CurrentGame }
+        const OldState = { ...states.Game.CurrentGame }
         let NumberList: number[] = []
 
         if (OldState?.numbers?.length) {
@@ -268,8 +268,8 @@ const NewBetContainer = (props: GameDataProps) => {
     const RandomComplete = () => {
         const allNumbers = document.querySelectorAll('.bet__number__button') // get all the number buttons
         let randomNumbers: number[]
-        if (states.Cart.CurrentGame.numbers) {
-            randomNumbers = [...states.Cart.CurrentGame.numbers]
+        if (states.Game.CurrentGame.numbers) {
+            randomNumbers = [...states.Game.CurrentGame.numbers]
         } else {
             randomNumbers = []
         } // concat random numbers + current game numbers
@@ -330,7 +330,7 @@ const NewBetContainer = (props: GameDataProps) => {
                 <button
                     onClick={
                         () => {
-                            if (states.Cart.CurrentGame.numbers.length === props['max-number']) {
+                            if (states.Game.CurrentGame.numbers.length === props['max-number']) {
                                 dispatch(AddItemToCart())
                                 HandlerDispatch([])
                             } else {

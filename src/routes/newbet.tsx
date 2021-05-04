@@ -44,24 +44,6 @@ const NewBet = () => {
     }
 
 
-    // const GenerateTable = useCallback(() => {
-    //     const FoundItem = states.Cart.GamesData.find(element => element.active === true)
-    //     if(FoundItem){
-    //         return <NewBetContainer {...FoundItem}/>
-    //     }else{
-    //         // Select first
-    //         const NewState = [...states.Cart.GamesData]
-    //         console.log(NewState)
-    //         NewState[0].active = true
-    //         dispatch(SetGamesData(NewState))
-    //     }
-    // },[states.Cart.GamesData])
-
-    // let ToShow:any
-    // // useEffect(() => {
-    // //     ToShow = GenerateTable()
-    // // },[states.Cart])
-
     useEffect(() => {
         dispatch(ResetFilters())
         getGamesData()
@@ -69,11 +51,10 @@ const NewBet = () => {
 
 
 
-
     return(
         <Page>
             <NewBetPageContainer>
-                {states.Cart.GamesData.map((element,index) => {
+                {states.Game.GamesData.map((element,index) => {
                     if(element.active){
                         return <NewBetContainer {...element} key={index}/> 
                     }
