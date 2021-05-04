@@ -1,12 +1,11 @@
 import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { SavedGame } from '../../types/types';
-import SimpleButton from '../buttons/ArrowButton';
+import SimpleButton from '../../components/buttons/ArrowButton';
 import CartItem from './CartItem';
-
-import MenuIcon from './../icons/menuIcon';
+import MenuIcon from '../../components/icons/menuIcon';
 import useTGL from '../../hooks/useStore';
-import { AddToUserRecentGames, SetCartErrorMsg, SyncGameRecentGames, SyncUserRecentGames, SetRecentGames, ResetCart } from './../../store/actions';
+import { AddToUserRecentGames, SetCartErrorMsg, SyncGameRecentGames, SyncUserRecentGames, SetRecentGames, ResetCart } from '../../store/actions';
 
 
 
@@ -137,6 +136,7 @@ const CartContainer = () => {
         window.innerWidth < 1200 ? setCartVisibility(false) : setCartVisibility(true)
         dispatch(ResetCart())
         // To do Clear Cart
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
     const [cartVisible, setCartVisibility] = useState(false)
@@ -147,11 +147,10 @@ const CartContainer = () => {
     }
 
     const InitialSync = useCallback(() => {
-
-        console.log(states.Auth.User)
         dispatch(SyncUserRecentGames())
         dispatch(SyncGameRecentGames(states.Auth.User.RecentGames))
         dispatch(SetRecentGames(states.Auth.User.RecentGames))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[states.Auth.User])
 
 
@@ -203,20 +202,18 @@ const CartContainer = () => {
                 <SaveButton
                 onClick={() => {
                     if(states.Game.Cart.length > 0){
-                        if(Number(genTotal(states.Game.Cart).replaceAll(",",".")) < 0){
+                        if(Number(genTotal(states.Game.Cart).replaceAll(",",".")) < 30){
                             
                             dispatch(SetCartErrorMsg("O valor minimo é de R$ 30.00","red"))
                         }else{
                             dispatch(ResetCart())
                             dispatch(AddToUserRecentGames(states.Game.Cart))
-                            console.log(states.Auth.User)
                             dispatch(SetCartErrorMsg("Compra Salva","green"))
                         }
                     }else{
                         dispatch(SetCartErrorMsg("Carrinho vazio","red"))
                     }
                     InitialSync()
-                    console.log("isso ai")
                 }}
                 >
                     <SimpleButton Arrow={true} Color={"#27C383"} FontSize={35} >

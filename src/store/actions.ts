@@ -1,5 +1,5 @@
 import { AuthActions } from "."
-import { CurrentFiltersProps, GameData, GameDataProps, SavedGame, UserInfos, UserProps } from "../types/types"
+import { GameDataProps, SavedGame, UserInfos, UserProps } from "../types/types"
 import { GameActions } from './index';
 
 

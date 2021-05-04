@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { Fragment, useCallback, useEffect, useRef, useState } from 'react';
 import SimpleButton from '../components/buttons/ArrowButton';
 import AuthFormTemplate from '../components/auth/AuthFormTemplate';
@@ -53,7 +54,6 @@ const ResetPassword = () => {
             let NewValidEmail = {...validEmail}
             NewValidEmail.email = resetEmail.current.value
             setValidEmail(NewValidEmail)
-            console.log("h")
             dispatch(ValidNewEmail(resetEmail.current.value))
         }  
     }
@@ -62,7 +62,6 @@ const ResetPassword = () => {
         if(states.Auth.NewAndValidEmail && validEmail.valid === false){
             if( resetEmail.current?.value ){
                 dispatch(AuthSetMessage("","red"))
-                console.log("bom d+")
                 resetEmail.current.value = ""
                 
             }
@@ -104,11 +103,11 @@ const ResetPassword = () => {
                         <section>
                             {validEmail.valid?
                             <Fragment>
-                                <input placeholder="New Password" ref={resetPass} onChange={() => VerifyEmail()} defaultValue=""/>
-                                <input placeholder="Repeat Password" ref={resetPass2} onChange={() => VerifyEmail()} defaultValue=""/>
+                                <input placeholder="New Password" type="password" ref={resetPass} onChange={() => VerifyEmail()} defaultValue=""/>
+                                <input placeholder="Repeat Password" type="password" ref={resetPass2} onChange={() => VerifyEmail()} defaultValue=""/>
                             </Fragment>
                                 :
-                            <input placeholder="Email" ref={resetEmail} onChange={() => VerifyEmail()}/>
+                            <input placeholder="Email" type="email" ref={resetEmail} onChange={() => VerifyEmail()}/>
                             }
                             
                             

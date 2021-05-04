@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useMemo } from 'react';
 import { Route, Switch, BrowserRouter, Redirect } from "react-router-dom"
 import Home from './home';
@@ -15,17 +16,14 @@ const Routes = () => {
 
     const { states,dispatch } = useTGL()
     const InitialSync = useCallback(() => {
-
-        console.log(states.Auth.User)
         dispatch(SyncUserRecentGames())
         dispatch(SyncGameRecentGames(states.Auth.User.RecentGames))
         dispatch(SetRecentGames(states.Auth.User.RecentGames))
     },[states.Auth.User])
-
-    
     useMemo(() => {
         InitialSync()
     },[])
+
     return (
         <BrowserRouter>
             <Switch>

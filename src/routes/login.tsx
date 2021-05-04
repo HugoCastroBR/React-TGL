@@ -25,6 +25,7 @@ const Login = () => {
     useEffect(() => {
         dispatch(UsersResetRegisterSuccess())
         setMessage('')
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
     const setMessage = useCallback((message='',messageColor='red') => {
@@ -48,7 +49,7 @@ const Login = () => {
         event.preventDefault()
 
 
-        console.log(states.Auth.Users)
+    
         if(ValidAllInputs()){
             if(loginEmail.current?.value && loginPassword.current?.value){
 
@@ -93,21 +94,6 @@ const Login = () => {
         }
     }
 
-    // const ValidUsername = () => {
-    //     if (loginUsername.current) {
-    //         if(loginUsername.current.value.length >= 2){
-    //             setMessage('')
-    //             return loginUsername.current.value
-    //         }else{
-    //             setMessage('O nome de usuario deve ter ao menos 2 caracteres')
-    //             return false
-    //         }
-            
-    //     } else {
-    //         setMessage('O nome de usuario deve ser preenchida')
-    //         return false
-    //     }
-    // }
 
     const ValidPassword = () => {
         if (loginPassword.current?.value) {
@@ -133,8 +119,8 @@ const Login = () => {
                 <form action="" onSubmit={(event) => FunctionLogin(event)}>
                     <AuthFormTemplate name="LoginForm">
                         <section>
-                            <input placeholder="Email" ref={loginEmail} onBlur={() => validEmail()} />
-                            <input placeholder="Password" ref={loginPassword} onBlur={() => ValidPassword()} />
+                            <input placeholder="Email" type="email" ref={loginEmail} onBlur={() => validEmail()} />
+                            <input placeholder="Password" type="password" ref={loginPassword} onBlur={() => ValidPassword()} />
                             <Link to="reset-password">I forget my password</Link>
                         </section>
                         <AuthErrorText/>

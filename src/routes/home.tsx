@@ -1,10 +1,11 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import SimpleButton from '../components/buttons/ArrowButton';
-import FilterSelect from '../components/partials/FilterSelect';
+import FilterSelect from '../containers/partials/FilterSelect';
 import Page from '../components/partials/Page';
 import RecentGameItem from '../components/home/RecentGameItem';
-import { CurrentFiltersProps, SavedGame } from '../types/types';
+import { CurrentFiltersProps } from '../types/types';
 import { Link } from 'react-router-dom';
 import useTGL from '../hooks/useStore';
 import { SetRecentGames, SyncGameRecentGames, SyncUserRecentGames } from '../store/actions';
@@ -160,7 +161,6 @@ const Home = () => {
 
     const InitialSync = useCallback(() => {
 
-        console.log(states.Auth.User)
         dispatch(SyncUserRecentGames())
         dispatch(SyncGameRecentGames(states.Auth.User.RecentGames))
         dispatch(SetRecentGames(states.Auth.User.RecentGames))
@@ -187,7 +187,6 @@ const Home = () => {
 
         if (TypesExist.length > 0) {
             while (ExitList.length < fullLength) {
-                console.log("...")
                 GamesToShow.forEach((element, index) => {
                     if (index === (GamesToShow.length - 1)) {
                         if (element.type === TypesExist[0]) {
@@ -212,6 +211,7 @@ const Home = () => {
     const GetRecentToShow = () => {
         if (states.Game.RecentGames.length > 0) {
             let isAllFalse = true
+            // eslint-disable-next-line array-callback-return
             let toShow = Organize(states.Game.CurrentFilters).map((element, index) => {
                 if (element.active) {
                     isAllFalse = false

@@ -1,9 +1,8 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import useTGL from '../../hooks/useStore';
 import { ResetFilters, SetGamesData } from '../../store/actions';
-import Fonts from '../../styles/fonts';
-import { GameData, GameSelectButtonType, CurrentFiltersProps } from '../../types/types';
+import { GameData, GameSelectButtonType } from '../../types/types';
 import { SelectFilter, SetRecentGames } from '../../store/actions';
 
 
@@ -59,7 +58,6 @@ const FilterSelect = () => {
         }
     })
     const solved:GameData[] = await res.json()
-    console.log("fetching")
     const NewData = solved.map((element) => {return {...element,active:false}})
     dispatch(SetGamesData(NewData))
 }
@@ -70,11 +68,11 @@ const FilterSelect = () => {
         dispatch(ResetFilters())
         dispatch(SetRecentGames(states.Auth.User.RecentGames))
         getGamesData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
 
 const SelectGame = (element:string) => {
-    console.log(states.Game.CurrentFilters)
     dispatch(SelectFilter(element))
 }
 
@@ -82,6 +80,7 @@ const GenerateToShow = () => {
 
     let Filters = [...states.Game.CurrentFilters]
     let exist:string[] = []
+    // eslint-disable-next-line array-callback-return
     Filters = Filters.filter((element) => {
         if(exist.includes(element.type)){
 

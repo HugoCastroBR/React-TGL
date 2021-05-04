@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect } from 'react';
+import React, {  useEffect } from 'react';
 import styled from 'styled-components';
 import useTGL from '../../hooks/useStore';
-import { ResetFilters, SetCurrentGame, SetGamesData } from '../../store/actions';
-import Fonts from '../../styles/fonts';
-import { CurrentFiltersProps, GameData, GameDataProps, GameSelectButtonType } from '../../types/types';
-import { SelectFilter, SetRecentGames } from '../../store/actions';
+import { ResetFilters, SetGamesData } from '../../store/actions';
+import {  GameData, GameDataProps, GameSelectButtonType } from '../../types/types';
+
 
 
 
@@ -87,6 +86,7 @@ const GameSelect = () => {
     useEffect(() => {
         dispatch(ResetFilters())
         getGamesData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
 

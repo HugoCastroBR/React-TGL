@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { AddItemToCart, SetCurrentGame } from '../../store/actions';
 import { GameDataProps, NumberBtnProps } from '../../types/types';
-import BetNumberBtn from '../buttons/BetNumberBtn';
+import BetNumberBtn from '../../components/buttons/BetNumberBtn';
 import GameSelect from '../partials/GameSelect';
-import useTGL from './../../hooks/useStore';
+import useTGL from '../../hooks/useStore';
 
 
 const NewBetContainerStyle = styled.div`
@@ -280,7 +280,6 @@ const NewBetContainer = (props: GameDataProps) => {
     }
 
     const RandomComplete = () => {
-        const allNumbers = document.querySelectorAll('.bet__number__button') // get all the number buttons
         let randomNumbers: number[]
         if (states.Game.CurrentGame.numbers) {
             randomNumbers = [...states.Game.CurrentGame.numbers]
@@ -290,6 +289,7 @@ const NewBetContainer = (props: GameDataProps) => {
 
         while (randomNumbers.length < (props['max-number'])) { // while don't have the required number of numbers
             randomNumbers.push(Math.floor(Math.random() * props.range + 1)) // add a random number to the list
+            // eslint-disable-next-line no-loop-func
             randomNumbers = randomNumbers.filter((element, index) => randomNumbers.indexOf(element) === index) // remove the repeated numbers
         }
         HandlerDispatch(randomNumbers)

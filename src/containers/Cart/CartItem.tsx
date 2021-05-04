@@ -4,7 +4,7 @@ import NumbersFormatter from '../../functions/NumbersFormater';
 import useTGL from '../../hooks/useStore';
 import { DeleteCartItem } from '../../store/actions';
 import { SavedGame } from '../../types/types';
-import DeleteIcon from '../icons/deleteIcon';
+import DeleteIcon from '../../components/icons/deleteIcon';
 
 
 type CartItemProps = {

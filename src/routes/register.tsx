@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import AuthErrorText from '../containers/auth/AuthErrorText';
 import useTGL from './../hooks/useStore';
 import { AuthSetMessage, UsersRegister } from './../store/actions';
-import { SavedGame, UserInfos, UserProps } from '../types/types';
+import { SavedGame, UserInfos } from '../types/types';
 
 
 const ButtonText = styled.span<{ Color: String }>`
@@ -15,17 +15,8 @@ const ButtonText = styled.span<{ Color: String }>`
     font-size: 35px;
 `
 
-const ButtonContainer = styled.div`
-    border: none;
-    background-color: transparent;
-    width: 350px;
-    height: 130px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    
-`
+
+
 
 
 const Register = () => {
@@ -131,9 +122,9 @@ const Register = () => {
                 <form action="" onSubmit={(event) => FunctionRegister(event)}>
                     <AuthFormTemplate   >
                         <section>
-                            <input placeholder="Username" ref={registerUsername} onBlur={() => ValidUsername()}></input>
-                            <input placeholder="Email" ref={registerEmail} onBlur={() => validEmail()}></input>
-                            <input placeholder="Password" ref={registerPassword} onBlur={() => ValidPassword()}></input>
+                            <input placeholder="Username" ref={registerUsername}  onBlur={() => ValidUsername()}></input>
+                            <input placeholder="Email" ref={registerEmail} type="email" onBlur={() => validEmail()}></input>
+                            <input placeholder="Password" ref={registerPassword} type="password" onBlur={() => ValidPassword()}></input>
                         </section>
                         <AuthErrorText/>
                         <div>

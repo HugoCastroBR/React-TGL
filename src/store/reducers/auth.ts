@@ -1,8 +1,5 @@
 import { createSlice, current } from "@reduxjs/toolkit";
-import { GameData, SavedGame, UserInfos, UserProps, CurrentFiltersProps,GameDataProps } from "../../types/types";
-
-
-
+import {  SavedGame, UserInfos, UserProps } from "../../types/types";
 
 
 
@@ -40,8 +37,7 @@ export const AuthSlice = createSlice({
 	},
 	reducers: {
 		AUTH_USER(state, {payload}:{payload:UserProps}) {
-			
-			console.log(payload);
+
 			const NewItem: UserProps = { ...payload };
 			// Return User: user and auth = false
 			// eslint-disable-next-line array-callback-return
@@ -54,13 +50,10 @@ export const AuthSlice = createSlice({
 				}
 			});
 
-			console.log(FoundUser)
 			if (FoundUser) {
 				state.isAuth = true;
 				state.User = FoundUser;
 			} else {
-				console.log("deu ruim")
-				console.log(current(state).Users)
                 state.isAuth = false;
 			}
 			
@@ -74,8 +67,8 @@ export const AuthSlice = createSlice({
 			state.messageColor = payload.messageColor
 		},
 		REGISTER_USER(state, {payload}:{payload:UserInfos}) {
-			const oldState = { ...current(state) };
 			const NewItem = { ...payload };
+			// eslint-disable-next-line array-callback-return
 			const FoundUser = current(state.Users).find((element) => {
 				if (
 					element.name === NewItem.name ||
@@ -89,7 +82,6 @@ export const AuthSlice = createSlice({
 			if(FoundUser){
 				// Usuario já Cadastrado
 			}else{
-				console.log(payload)
 				state.Users.push(NewItem)
 				state.RegisterSuccess = true
 			}
@@ -103,8 +95,8 @@ export const AuthSlice = createSlice({
 			password: string,
 			email: string
 		}}){
-			let NoldState = { ...current(state) };
-			let oldState = [... NoldState.Users]
+			let NewOldState = { ...current(state) };
+			let oldState = [...NewOldState.Users]
 			oldState = oldState.map((element,index) => {
 				if(element.email === payload.email){
 					let NewElement = {...element}
@@ -119,6 +111,7 @@ export const AuthSlice = createSlice({
 		},
 		IS_EMAIL_VALID_AND_NEW(state,{payload}:{payload:{email:string}}){
 			const NewItem = { ...payload };
+			// eslint-disable-next-line array-callback-return
 			const FindEmail = current(state.Users).find((element) => {
 				if (
 					element.email === NewItem.email
@@ -129,27 +122,26 @@ export const AuthSlice = createSlice({
 
 			if(FindEmail){
 				if(/^[^@]+@\w+(\.\w+)+\w$/.test(payload.email)){
-					console.log("q")
 					state.NewAndValidEmail = true
 				}else{
 					state.message = "Email invalido ou não cadastrado"
 				}
 			}else{
-				console.log(current(state).message)
 				state.message = "Email invalido ou não cadastrado"
 			}
 		},
         ADD_TO_USER_RECENT_GAMES(state,{payload}:{payload:SavedGame[]}){
             let OldUsers = [...current(state).Users]
             const CurrentUser = {...current(state).User}
+            // eslint-disable-next-line array-callback-return
             let CurrentUserIndexList = OldUsers.map((user,index) => {
-                console.log(user.name,CurrentUser.name)
                 if(user.email === CurrentUser.name){
                     return index
                 }
             })
 
             let CurrentUserIndex:number
+            // eslint-disable-next-line array-callback-return
             CurrentUserIndexList = CurrentUserIndexList.filter(element => {
                 if(element !== undefined){
                     return element
@@ -160,25 +152,15 @@ export const AuthSlice = createSlice({
                 if(CurrentUserIndexList[0] !== undefined){
                     CurrentUserIndex = CurrentUserIndexList[0]
                     const NewRecentGames = [...OldUsers[CurrentUserIndex].RecentGames,...payload]
-                    console.log("Adicionando",payload)
-                    console.log("salvo",NewRecentGames)
                     let NewUsers = [...OldUsers]
                     let CurrentUserInList = {...NewUsers[CurrentUserIndex]}
                     CurrentUserInList.RecentGames = [...NewRecentGames]
-                    console.log(CurrentUserInList)
-                    
                     NewUsers[CurrentUserIndex] = {...CurrentUserInList}
-                    console.log(NewUsers[CurrentUserIndex])
                     state.Users = [...NewUsers]
                     let NewUserStats = {...current(state).User}
                     NewUserStats.RecentGames = [...NewUsers][CurrentUserIndex].RecentGames
                     state.User = {...NewUserStats}
-                    console.log(NewUserStats)
-                }else{
-                    console.log("aaaanao")
                 }
-            }else{
-                console.log("vish")
             }
                 
                 
@@ -187,6 +169,7 @@ export const AuthSlice = createSlice({
         SYNC_USER_RECENT_GAMES(state){
             let OldUsers = [...current(state).Users]
             const CurrentUser = {...current(state).User}
+            // eslint-disable-next-line array-callback-return
             let CurrentUserIndexList = OldUsers.map((user,index) => {
                 if(user.name === CurrentUser.name){
                     return index
@@ -207,9 +190,8 @@ export const AuthSlice = createSlice({
                     let NewUserStats = {...current(state).User}
                     NewUserStats.RecentGames = [...OldUsers][CurrentUserIndex].RecentGames
                     state.User = NewUserStats
-                    console.log(current(state).User)
                 }
-                }
+            }
         }
 	},
 });

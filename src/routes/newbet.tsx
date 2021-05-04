@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import CartContainer from '../components/Cart/CartContainer';
-import NewBetContainer from '../components/newBet/NewBetContainer';
+import CartContainer from '../containers/Cart/CartContainer';
+import NewBetContainer from '../containers/newBet/NewBetContainer';
 import Page from '../components/partials/Page';
 import useTGL from '../hooks/useStore';
 import { ResetFilters, SetGamesData } from '../store/actions';
@@ -37,7 +37,6 @@ const NewBet = () => {
             }
         })
         const solved:GameData[] = await res.json()
-        console.log("fetching")
         const NewData = solved.map((element) => {return {...element,active:false}})
         NewData[0].active = true
         dispatch(SetGamesData(NewData))
@@ -47,6 +46,7 @@ const NewBet = () => {
     useEffect(() => {
         dispatch(ResetFilters())
         getGamesData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
 
@@ -54,6 +54,7 @@ const NewBet = () => {
     return(
         <Page>
             <NewBetPageContainer>
+                {/*  eslint-disable-next-line array-callback-return */}
                 {states.Game.GamesData.map((element,index) => {
                     if(element.active){
                         return <NewBetContainer {...element} key={index}/> 

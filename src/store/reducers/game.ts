@@ -22,7 +22,6 @@ export const GameSlice = createSlice({
 					return NewElement
 				})
 			}else{
-				console.log("a")
 			}
 		},
 		SELECT_FILTER(state,{payload}:{payload:string}){
@@ -32,7 +31,6 @@ export const GameSlice = createSlice({
 					NewElement.active = !element.active
 					return NewElement
 				}else{
-					console.log("aaaaaaaaaaa")
 					return element
 				}
 			}
@@ -56,7 +54,6 @@ export const GameSlice = createSlice({
 		},
 		ADD_ITEM_TO_CART(state){
 			state.Cart.push({...current(state).CurrentGame})
-			console.log(current(state).Cart)
 		},
 		DELETE_ITEM_INTO_CART(state,{payload}:{payload:number}){
 			const OldCart = [...current(state).Cart]
