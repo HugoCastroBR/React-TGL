@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import Footer from './Footer';
 import styled  from 'styled-components';
-import Fonts from '../../styles/fonts.js';
 import Header from '../../containers/partials/Header';
 
 
@@ -9,7 +8,6 @@ import Header from '../../containers/partials/Header';
 
 
 const MainStyle = styled.main`
-    ${Fonts}
     width: 100vw;
     min-height: calc(100vh - 80px);
     background-color: #F7F7F7;

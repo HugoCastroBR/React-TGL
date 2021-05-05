@@ -1,10 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import Fonts from '../../styles/fonts';
 
 
 const TextContainer = styled.span`
-    ${Fonts}
+    
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -65,7 +64,7 @@ const TextContainer = styled.span`
         text-transform: uppercase;
         @media screen and (max-width: 800px){
             margin-bottom: 20px;
-            font-size: 7vw;
+            font-size: 7vw; 
             line-height: 7.5vw;
             
         } 

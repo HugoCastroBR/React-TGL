@@ -1,11 +1,10 @@
 import React from 'react';
 import styled from "styled-components"
-import Fonts from '../../styles/fonts';
+
 
 
 
 const FooterStyle = styled.footer`
-    ${Fonts}
     width: 100vw;
     background-color: #F7F7F7;
     height: 78px;

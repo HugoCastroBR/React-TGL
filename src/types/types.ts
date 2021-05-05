@@ -35,6 +35,14 @@ export type UserInfos = {
     RecentGames: SavedGame[]
 }
 
+export type UserPublicInfos = {
+    id?: number
+    name?: string
+    email?: string
+    fullName?: string
+    about?:string
+}
+
 export type CurrentFiltersProps = SavedGame & {
 	active: boolean
 }

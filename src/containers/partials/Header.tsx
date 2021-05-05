@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from "styled-components"
-import Fonts from '../../styles/fonts';
 import SimpleButton from '../../components/buttons/ArrowButton';
 import { Link } from 'react-router-dom';
 import useTGL from './../../hooks/useStore';
@@ -48,7 +47,7 @@ const HeaderContainer = styled.div`
 
 
 const LogoContainer = styled.div`
-    ${Fonts}
+    
     width: 110px;
     height: 100%;
     display: flex;
@@ -122,7 +121,7 @@ const Header = ({WithHomeBtn = true}:{WithHomeBtn?:boolean}) => {
                     {WithHomeBtn && <Link to="/">Home</Link>}
                 </div>
                 <ButtonContainer>
-                    <Link to="/"><SimpleButton Arrow={false} > Account </SimpleButton></Link>
+                    <Link to="/account"><SimpleButton Arrow={false} > Account </SimpleButton></Link>
                     <Link to="/login" onClick={() => dispatch(AuthLogout())}><SimpleButton Arrow={true}> Log out </SimpleButton></Link>
                 </ButtonContainer>  
             </HeaderContainer>  
