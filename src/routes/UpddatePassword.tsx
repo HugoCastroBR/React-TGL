@@ -3,13 +3,13 @@ import React, { Fragment, useCallback, useEffect, useRef, useState } from 'react
 import SimpleButton from '../components/buttons/ArrowButton';
 import AuthFormTemplate from '../components/auth/AuthFormTemplate';
 import AuthContainer from '../components/auth/AuthContainer';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { UsersResetRegisterSuccess, ValidNewEmail } from '../store/actions';
 import useTGL from './../hooks/useStore';
 import AuthErrorText from '../containers/auth/AuthErrorText';
 import { AuthSetMessage, AuthResetPassword } from './../store/actions';
-import { tryResetPassword } from './../store/FetchActions/FetchAuth';
+import { tryUpdatePassword } from '../store/FetchActions/FetchAuth';
 
 
 const ButtonText = styled.p<{ Color: String }>`
@@ -32,39 +32,41 @@ const ButtonContainer = styled.div`
     
 `
 
-const ResetPassword = () => {
+const UpdatePassword = () => {
 
+    // const ResetValues = useCallback(() => {
+    //     let NewValidEmail = {...validEmail}
+    //     NewValidEmail.valid = false
+    //     setValidEmail(NewValidEmail)
+
+    //     dispatch(UsersResetRegisterSuccess())
+    // },[])
+    // useEffect(ResetValues,[])
 
     const { states, dispatch } = useTGL()
-
+    const [validEmail,setValidEmail] = useState({email:"",valid:false})
     
-    const resetEmail = useRef<HTMLInputElement>(null)
+
+    const resetPass = useRef<HTMLInputElement>(null)
+    const resetPass2 = useRef<HTMLInputElement>(null)
 
 
+    const params:{token:string} = useParams()
     const ResetPassSubmit = () => {
-        if(resetEmail.current?.value){
-            if(/^[^@]+@\w+(\.\w+)+\w$/.test(resetEmail.current.value)){
-                console.log(resetEmail.current.value)
-                dispatch(tryResetPassword(resetEmail.current.value))
+        if(resetPass.current?.value && resetPass2.current?.value){
+            if(resetPass.current.value === resetPass2.current.value){
+                dispatch(tryUpdatePassword(resetPass.current.value,resetPass2.current.value,params.token))
             }else{
-                dispatch(AuthSetMessage("Invalid Mail","red"))
+                dispatch(AuthSetMessage("The fields have to be equal","red"))
             }
+            
         }else{
-            dispatch(AuthSetMessage("Please fill the email field","red"))
+            dispatch(AuthSetMessage("Please fill all fields","red"))
         }
         
-            
+        
     }
-
-    const VerifyEmail = () => {
-        if(resetEmail.current?.value){
-            if(/^[^@]+@\w+(\.\w+)+\w$/.test(resetEmail.current.value)){
-                dispatch(AuthSetMessage("","red"))
-            }else{
-                dispatch(AuthSetMessage("Invalid Mail","red"))
-            }
-        }
-    }
+    
 
     return (
         <AuthContainer>
@@ -77,9 +79,13 @@ const ResetPassword = () => {
                 }}>
                     <AuthFormTemplate   >
                         <section>
+                            <Fragment>
+                                <input placeholder="New Password" type="password" ref={resetPass}  defaultValue=""/>
+                                <input placeholder="Repeat Password" type="password" ref={resetPass2}  defaultValue=""/>
+                            </Fragment>
 
-                            <input placeholder="Email" type="email" ref={resetEmail} onChange={() => VerifyEmail()}/>
-
+                            
+                            
                         </section>
                         <AuthErrorText/>
                         <div>
@@ -102,4 +108,4 @@ const ResetPassword = () => {
     )
 }
 
-export default ResetPassword;
+export default UpdatePassword;

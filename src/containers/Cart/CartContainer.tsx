@@ -6,6 +6,7 @@ import CartItem from './CartItem';
 import MenuIcon from '../../components/icons/menuIcon';
 import useTGL from '../../hooks/useStore';
 import { AddToUserRecentGames, SetCartErrorMsg, SyncGameRecentGames, SyncUserRecentGames, SetRecentGames, ResetCart } from '../../store/actions';
+import { addToUserBets } from '../../store/FetchActions/FetchBets';
 
 
 
@@ -142,8 +143,10 @@ const CartContainer = () => {
     const [cartVisible, setCartVisibility] = useState(false)
     const genTotal = (N:SavedGame[]) => {
         const NumberArr:number[] = N.map((E:SavedGame) => E.price)
-        const sumReducer = (A:number,C:number) => A + C
-        return String(NumberArr.reduce(sumReducer).toFixed(2)).replace(".",",")
+        const sumReducer = (A:number,C:number) => {return Number(A) + Number(C)}
+        const result = NumberArr.reduce(sumReducer)
+ 
+        return String(Number(result).toFixed(2)).replace(".",",")
     }
 
     const InitialSync = useCallback(() => {
@@ -203,16 +206,33 @@ const CartContainer = () => {
                 onClick={() => {
                     if(states.Game.Cart.length > 0){
                         if(Number(genTotal(states.Game.Cart).replaceAll(",",".")) < 30){
-                            
                             dispatch(SetCartErrorMsg("O valor minimo é de R$ 30.00","red"))
                         }else{
                             dispatch(ResetCart())
                             dispatch(AddToUserRecentGames(states.Game.Cart))
                             dispatch(SetCartErrorMsg("Compra Salva","green"))
+
+                            const elementsToPost = [...states.Game.Cart].map(element => {
+                                const GameId = states.Game.GamesData.find(e => e.type === element.type)
+
+                                if(typeof(GameId?.id) !== 'number'){
+                                    return {numbers:element.numbers, game_id: 0}
+                                }else{
+                                    return {numbers:element.numbers, game_id: GameId.id}
+                                }
+                                
+                            })
+                            console.log(elementsToPost)
+                            addToUserBets(elementsToPost)
+                            // addToUserBets([{
+                            //     "numbers":[1,2,3,4,5,6,7,8,9,10],
+                            //     "game_id": 1
+                            //     }])
                         }
                     }else{
                         dispatch(SetCartErrorMsg("Carrinho vazio","red"))
                     }
+                    
                     InitialSync()
                 }}
                 >

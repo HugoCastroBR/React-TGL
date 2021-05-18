@@ -6,6 +6,7 @@ import Page from '../components/partials/Page';
 import useTGL from '../hooks/useStore';
 import { ResetFilters, SetGamesData } from '../store/actions';
 import { GameData } from '../types/types';
+import { getGames } from '../store/FetchActions/FetchGames';
 
 
 
@@ -30,22 +31,23 @@ const NewBet = () => {
 
 
     const getGamesData = async () => {
-        const res = await fetch("https://tglproject10-default-rtdb.firebaseio.com/types.json",{
-            headers : { 
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        })
-        const solved:GameData[] = await res.json()
-        const NewData = solved.map((element) => {return {...element,active:false}})
-        NewData[0].active = true
-        dispatch(SetGamesData(NewData))
+        // const res = await fetch("https://tglproject10-default-rtdb.firebaseio.com/types.json",{
+        //     headers : { 
+        //         'Content-Type': 'application/json',
+        //         'Accept': 'application/json'
+        //     }
+        // })
+        // const solved:GameData[] = await res.json()
+        // const NewData = solved.map((element) => {return {...element,active:false}})
+        // NewData[0].active = true
+        dispatch(getGames())
+        
     }
 
 
     useEffect(() => {
         dispatch(ResetFilters())
-        getGamesData()
+        dispatch(getGames())
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 

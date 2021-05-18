@@ -5,8 +5,8 @@ import { GameActions } from './index';
 
 // -- Auth Actions -- //
 
-export const AuthLogin = (User:UserProps) => {  // Login Action
-    return AuthActions.AUTH_USER(User)
+export const AuthLogin = (valid:boolean) => {  // Login Action
+    return AuthActions.AUTH_USER(valid)
 }
 
 export const AuthLogout = () => {  // Logout Action
@@ -17,8 +17,8 @@ export const AuthSetMessage = (message:string,messageColor:string) => {  // Set 
     return AuthActions.SET_MESSAGE({message,messageColor})
 }
 
-export const UsersRegister = (user:UserInfos) => {  // Register Action
-    return AuthActions.REGISTER_USER(user)
+export const UsersRegisterSuccess = () => {  // Register Action
+    return AuthActions.REGISTER_USER_SUCCESS()
 }
 
 export const UsersResetRegisterSuccess = () => {  // After Register, reset 2 temp states
@@ -41,10 +41,15 @@ export const SyncUserRecentGames = () => {  // Verify if user and user in users 
     return  AuthActions.SYNC_USER_RECENT_GAMES()
 }
 
+export const SetToken =  (token:string) => {
+    console.log("foi: ",token)
+    return AuthActions.SET_USER_TOKEN(token)
+}
 
 // -- Game Actions -- //
 
-export const SetGamesData = (GamesData:GameDataProps[]) => {  // Set the available games
+export const SetGamesData = (GamesData:GameDataProps[]) => {
+    console.log("SetGameDataAction:", GamesData)  // Set the available games
     return GameActions.SET_GAMES_DATA(GamesData)
 }
 

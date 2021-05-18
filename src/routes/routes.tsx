@@ -9,6 +9,7 @@ import NewBet from './newbet';
 import useTGL from './../hooks/useStore';
 import { SetRecentGames, SyncGameRecentGames, SyncUserRecentGames } from '../store/actions';
 import Account from './account';
+import UpdatePassword from './UpddatePassword';
 
 
 // To do private route to access the new bet page !
@@ -28,7 +29,8 @@ const Routes = () => {
     return (
         <BrowserRouter>
             <Switch>
-                {/* {states.Auth.isAuth ?
+                
+                {states.Auth.isAuth ?
                     <Redirect exact from="/login" to="/" /> :
                     <Redirect exact from="/" to="/login" />
                 }
@@ -40,17 +42,19 @@ const Routes = () => {
                     <Redirect exact from="/register" to="/login" /> 
                 }
                 {states.Auth.RegisterSuccess &&
-                    <Redirect exact from="/reset-password" to="/login" /> 
-                } */}
+                    <Redirect exact from="/update-password/:token" to="/login" /> 
+                }
+
                 <Route exact path="/" render={props => {
-                    return <Home/>
+                    return <Home/>  
                 }} />
-                                
+                
                 <Route exact path="/account" render={props => <Account />} />
                 <Route exact path="/login" render={props => <Login />} />
                 <Route exact path="/new-bet" render={props => <NewBet />} />
                 <Route exact path="/register" render={props => <Register />} />
                 <Route exact path="/reset-password" render={props => <ResetPassword />} />
+                <Route exact path="/update-password/:token" render={props => <UpdatePassword />} />
             </Switch>
         </BrowserRouter>
     )

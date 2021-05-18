@@ -15,7 +15,14 @@ export const GameSlice = createSlice({
 	},
 	reducers: {
 		SET_GAMES_DATA(state,{payload}:{payload:GameDataProps[]}){
-			state.GamesData = [...payload]
+			
+			if(payload.find(e => e.active === true)){
+				state.GamesData = [...payload]
+			}else{
+				payload[0].active = true
+				state.GamesData = [...payload]
+			}
+			
 			if(current(state).RecentGames.length > 0){
 				state.CurrentFilters = current(state).RecentGames.map(element => {
 					const NewElement:CurrentFiltersProps = {...element,active:false}
@@ -23,6 +30,7 @@ export const GameSlice = createSlice({
 				})
 			}else{
 			}
+			
 		},
 		SELECT_FILTER(state,{payload}:{payload:string}){
 			state.CurrentFilters = current(state).CurrentFilters.map( element => {

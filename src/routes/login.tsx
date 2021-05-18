@@ -8,6 +8,7 @@ import { SavedGame, UserProps } from '../types/types';
 import styled from 'styled-components';
 import { AuthLogin, AuthSetMessage, UsersResetRegisterSuccess } from './../store/actions';
 import AuthErrorText from '../containers/auth/AuthErrorText';
+import { tryAuth } from './../store/FetchActions/FetchAuth';
 
 
 const ButtonText = styled.span<{ Color: String }>`
@@ -58,15 +59,19 @@ const Login = () => {
                     password:  loginPassword.current.value,
                     RecentGames: [] as SavedGame[]
                 }
-                dispatch(AuthLogin(user))
+                // dispatch(AuthLogin(user))
+
+                dispatch(tryAuth(user.name,user.password))
                 setMessage("Tentando entrar...","green")
-                setTimeout(() => {
-                    if(states.Auth.isAuth){
-                        setMessage('Sucesso',"green")
-                    }else{
-                        setMessage('usuario ou senha invalido',"red")
-                    }
-                },1000)
+
+
+                // setTimeout(() => {
+                //     if(states.Auth.isAuth){
+                //         setMessage('Sucesso',"green")
+                //     }else{
+                //         setMessage('usuario ou senha invalido',"red")
+                //     }
+                // },1000)
             }
         }
 

@@ -1,10 +1,10 @@
 import React, {  useEffect } from 'react';
 import styled from 'styled-components';
 import useTGL from '../../hooks/useStore';
-import { ResetFilters, SetGamesData } from '../../store/actions';
-import {  GameData, GameDataProps, GameSelectButtonType } from '../../types/types';
+import { ResetFilters, SetCurrentGame, SetGamesData } from '../../store/actions';
+import {  GameData, GameDataProps, GameSelectButtonType, SavedGame } from '../../types/types';
 
-
+import { getGames } from '../../store/FetchActions/FetchGames'
 
 
 
@@ -83,14 +83,24 @@ const GameSelect = () => {
         
     }
 
-    useEffect(() => {
-        dispatch(ResetFilters())
-        getGamesData()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    // useEffect(() => {
+    //     dispatch(ResetFilters())
+    //     getGamesData()
+    // // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [])
+
+    // useEffect(() => {
+
+    //     // dispatch(SetGamesData([] as GameDataProps[]))
+    //     // dispatch(SetGamesData([...getGames()] as GameDataProps[]))
+
+    //     console.log("ui",states.Game.GamesData)
+    // // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [])
 
 
     const SelectGame = (element:GameDataProps) => {
+        dispatch(SetCurrentGame({} as SavedGame))
         let NewGameData = [...states.Game.GamesData]
         NewGameData = NewGameData.map(e => {
             if(e.type === element.type){
@@ -99,7 +109,7 @@ const GameSelect = () => {
                 return {...e,active:false}
             }
         })
-
+        
         dispatch(SetGamesData(NewGameData))
     }
 

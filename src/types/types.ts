@@ -1,4 +1,8 @@
 export type GameData = {
+    id: number
+    created_at?: string
+    updated_at?:string
+
     type: string
     description: string
     range: number

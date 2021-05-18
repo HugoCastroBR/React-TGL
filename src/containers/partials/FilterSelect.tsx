@@ -4,6 +4,7 @@ import useTGL from '../../hooks/useStore';
 import { ResetFilters, SetGamesData } from '../../store/actions';
 import { GameData, GameSelectButtonType } from '../../types/types';
 import { SelectFilter, SetRecentGames } from '../../store/actions';
+import { getGames } from '../../store/FetchActions/FetchGames';
 
 
 
@@ -67,7 +68,8 @@ const FilterSelect = () => {
     useEffect(() => {
         dispatch(ResetFilters())
         dispatch(SetRecentGames(states.Auth.User.RecentGames))
-        getGamesData()
+        dispatch(getGames())
+        
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 

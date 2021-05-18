@@ -36,26 +36,9 @@ export const AuthSlice = createSlice({
 		NewAndValidEmail: false
 	},
 	reducers: {
-		AUTH_USER(state, {payload}:{payload:UserProps}) {
+		AUTH_USER(state,{payload}:{payload:boolean}) {
 
-			const NewItem: UserProps = { ...payload };
-			// Return User: user and auth = false
-			// eslint-disable-next-line array-callback-return
-			const FoundUser = current(state.Users).find((element) => {
-				if (
-					element.email === NewItem.name &&
-					element.password === NewItem.password
-				) {
-					return element;
-				}
-			});
-
-			if (FoundUser) {
-				state.isAuth = true;
-				state.User = FoundUser;
-			} else {
-                state.isAuth = false;
-			}
+			state.isAuth = payload
 			
 		},
 		LOGOUT(state) {
@@ -66,26 +49,8 @@ export const AuthSlice = createSlice({
 			state.message = payload.message
 			state.messageColor = payload.messageColor
 		},
-		REGISTER_USER(state, {payload}:{payload:UserInfos}) {
-			const NewItem = { ...payload };
-			// eslint-disable-next-line array-callback-return
-			const FoundUser = current(state.Users).find((element) => {
-				if (
-					element.name === NewItem.name ||
-					element.email === NewItem.email
-				) {
-					return element;
-				}
-			});
-			// const newState = { ...oldState.Users, NewItem };
-
-			if(FoundUser){
-				// Usuario já Cadastrado
-			}else{
-				state.Users.push(NewItem)
+		REGISTER_USER_SUCCESS(state) {
 				state.RegisterSuccess = true
-			}
-			
 		},
 		RESET_SUCCESS(state){
 			state.RegisterSuccess = false
@@ -192,6 +157,10 @@ export const AuthSlice = createSlice({
                     state.User = NewUserStats
                 }
             }
-        }
+        },
+		SET_USER_TOKEN(state,{payload}:{payload:string}){
+			localStorage.setItem("token",payload)
+		}
 	},
+
 });

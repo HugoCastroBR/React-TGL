@@ -133,7 +133,7 @@ const CartItem = ({
                         {type}
                     </GameTypeText>
                     <GamePriceText>
-                        R$ {String(price.toFixed(2)).replace(".",",")}
+                        R$ {String(Number(price).toFixed(2)).replace(".",",")}
                     </GamePriceText>
                 </GameTypePriceContainer>
             </ItemInfosContainer>

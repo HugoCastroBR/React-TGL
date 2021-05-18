@@ -218,7 +218,6 @@ const Home = () => {
                     return <RecentGameItem {...element} key={index}></RecentGameItem>
                 }
             })
-
             if (isAllFalse) {
                 console.log(states.Game.CurrentFilters)
                 return Organize(states.Game.CurrentFilters).map((element, index) => {

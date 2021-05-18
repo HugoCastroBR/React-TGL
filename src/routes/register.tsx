@@ -6,8 +6,9 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import AuthErrorText from '../containers/auth/AuthErrorText';
 import useTGL from './../hooks/useStore';
-import { AuthSetMessage, UsersRegister } from './../store/actions';
+import { AuthSetMessage} from './../store/actions';
 import { SavedGame, UserInfos } from '../types/types';
+import { tryRegister } from '../store/FetchActions/FetchAuth';
 
 
 const ButtonText = styled.span<{ Color: String }>`
@@ -27,6 +28,7 @@ const Register = () => {
     const registerUsername = useRef<HTMLInputElement>(null)
     const registerEmail = useRef<HTMLInputElement>(null)
     const registerPassword = useRef<HTMLInputElement>(null)
+    const confirmPassword = useRef<HTMLInputElement>(null)
 
     const setMessage = useCallback((message='',messageColor='red') => {
         dispatch(AuthSetMessage(message,messageColor))
@@ -39,26 +41,19 @@ const Register = () => {
     const FunctionRegister= (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         if(ValidAllInputs()){
-            if(registerUsername.current?.value && registerPassword.current?.value && registerEmail.current?.value){
+            if(registerUsername.current?.value && confirmPassword.current?.value &&
+                registerPassword.current?.value && registerEmail.current?.value){
                 const user:UserInfos = {
                     name: registerUsername.current.value,
                     password:  registerPassword.current.value,
                     email: registerEmail.current.value,
                     RecentGames: [] as SavedGame[]
                 }
-                dispatch(UsersRegister(user))
-                
-                setMessage('tentando registrar..',"green")
-                if(states.Auth.RegisterSuccess){
-                    setMessage('Sucesso',"green")
-                }else{
-                    setMessage('Usuario ou email já cadastrados',"red")
-                }
+                dispatch(tryRegister(user.name,user.email,user.password,confirmPassword.current.value))
+                setMessage('trying to register user...',"green")
             }
         }
-
     }
-
     const ValidAllInputs = () => {
         if(ValidUsername() && ValidPassword() && validEmail()){
             setMessage('')
@@ -85,8 +80,18 @@ const Register = () => {
     const ValidPassword = () => {
         if (registerPassword.current?.value) {
             if(registerPassword.current.value.length >= 6){
-                setMessage('')
-                return registerPassword.current.value
+                if(confirmPassword.current?.value){
+                    if(confirmPassword.current.value === registerPassword.current.value){
+                        setMessage('')
+                        return registerPassword.current.value
+                    }else{
+                        setMessage('As senhas não coencidem')
+                    }
+                    
+                }else{
+                    setMessage('A confirmação de senha deve ser preenchida')
+                }
+                
             }else{
                 setMessage('A senha deve ter ao menos 6 caracteres')
                 return false
@@ -125,6 +130,7 @@ const Register = () => {
                             <input placeholder="Username" ref={registerUsername}  onBlur={() => ValidUsername()}></input>
                             <input placeholder="Email" ref={registerEmail} type="email" onBlur={() => validEmail()}></input>
                             <input placeholder="Password" ref={registerPassword} type="password" onBlur={() => ValidPassword()}></input>
+                            <input placeholder="Password" ref={confirmPassword} type="password" onBlur={() => ValidPassword()}></input>
                         </section>
                         <AuthErrorText/>
                         <div>
