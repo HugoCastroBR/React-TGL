@@ -194,18 +194,13 @@ export const UpdateProfile = (Infos:UpdateInfos) => {
                     dispatch(UsersRegisterSuccess());
                 })
                 .catch((err) => {
-                    dispatch(AuthLogin(false));
                     console.log(err.response.data);
-                    if (err.response.status === 404) {
-                        dispatch(
-                            AuthSetMessage(
-                                `Expired Token`,
-                                "red",
-                            ),
-                        );
-                    } else {
-                        dispatch(AuthSetMessage("Error", "red"));
-                    }
+                    dispatch(
+                        AuthSetMessage(
+                            `${err.response.data[0].message.replaceAll("_"," ")}`,
+                            "red",
+                        ),
+                    );
                 });
         };
 }

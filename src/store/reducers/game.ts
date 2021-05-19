@@ -53,12 +53,15 @@ export const GameSlice = createSlice({
 			})
 		},
 		SET_RECENT_GAMES(state,{payload}:{payload:SavedGame[]}){
-			state.RecentGames = [...payload]
-			state.CurrentFilters = state.RecentGames.map(element => {
+			if(payload?.length >= 1){
+				state.RecentGames = [...payload]
+				state.CurrentFilters = state.RecentGames.map(element => {
 				const NewElement:any = {...element}
 				NewElement.active = false
 				return NewElement
 			})
+			}
+			
 		},
         ADD_TO_RECENT_GAMES(state,{payload}:{payload:SavedGame[]}){
             state.RecentGames = [...state.RecentGames,...payload]

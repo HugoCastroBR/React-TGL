@@ -4,17 +4,22 @@ import { Route, Switch, BrowserRouter, Redirect } from "react-router-dom"
 import Home from './home';
 import Register from './register';
 import Login from './login';
-import ResetPassword from './ResetPassword';
-import NewBet from './newbet';
+import ResetPassword from './resetPassword';
+import NewBet from './newBet';
 import useTGL from './../hooks/useStore';
 import { SetRecentGames, SyncGameRecentGames, SyncUserRecentGames } from '../store/actions';
 import Account from './account';
-import UpdatePassword from './UpddatePassword';
+import UpdatePassword from './updatePassword';
 
 
 // To do private route to access the new bet page !
 
 const Routes = () => {
+
+    const isAuth = () => {
+        const token = localStorage.getItem("token")
+        return token?.length && true
+    }
 
     const { states,dispatch } = useTGL()
     const InitialSync = useCallback(() => {
@@ -30,11 +35,11 @@ const Routes = () => {
         <BrowserRouter>
             <Switch>
                 
-                {states.Auth.isAuth ?
+                {states.Auth.isAuth || isAuth() ?
                     <Redirect exact from="/login" to="/" /> :
                     <Redirect exact from="/" to="/login" />
                 }
-                {states.Auth.isAuth ?
+                {states.Auth.isAuth || isAuth() ?
                     <Redirect exact from="/login" to="/" /> :
                     <Redirect exact from="/new-bet" to="/login" />
                 }

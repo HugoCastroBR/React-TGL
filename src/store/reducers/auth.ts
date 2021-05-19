@@ -44,6 +44,7 @@ export const AuthSlice = createSlice({
 		LOGOUT(state) {
 			state.isAuth = false;
 			state.User = {} as UserProps;
+			localStorage.removeItem("token")
 		},
 		SET_MESSAGE(state,{payload}:{payload:{message:string,messageColor:string}}){
 			state.message = payload.message
