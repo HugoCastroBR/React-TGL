@@ -1,16 +1,47 @@
 import api from '../../services/api';
-import { SetGamesData } from '../actions';
+import { SavedGame } from '../../types/types';
+import { SetGamesData, SetRecentGames } from '../actions';
 
 export const getUserBets = () => {
-    const config = {
-        headers: { Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsImlhdCI6MTYyMDkyODc4NX0.xtUeYHI5TecgFaU5fexZQsu-ny_X8B4Rcj9G3TTwe_E'}
-    }
+    
 
+
+
+    const token = localStorage.getItem("token")
+    api.defaults.headers.Authorization = `Bearer ${token}`
+    const config = {
+        headers: { Authorization: `Bearer ${token}`}
+    
+    }
     return (dispatch:any) => {
         api
-            .get('/user-bets/1', config)
+            .get('/user-bets/0/1', config)
             .then(res =>  {
-                dispatch(SetGamesData(res.data))
+                console.log(res)
+                let NewData = res.data.map((e:any) => {
+                    if(typeof(e.numbers) === "string"){
+                        let NewNumbers = e.numbers.split(",")
+                        NewNumbers = NewNumbers.map((e:string) => Number(e))
+                        const NewE = {...e,numbers:NewNumbers}
+                        return NewE
+                    }else{
+                        return e
+                    }
+                })
+
+                NewData = NewData.map((element:any) => {
+                    const NewE:SavedGame = {
+                        numbers:element.numbers,
+                        price:Number(element.game.price),
+                        color:element.game.color,
+                        type:element.game.type,
+                        data:element.created_at.slice(0,10).replaceAll("-","/"),
+                    }
+                    return NewE
+                })
+
+                const FinalData:SavedGame[] = [...NewData]
+                dispatch(SetRecentGames(FinalData))
             })
             .catch(console.log)
     }
@@ -32,27 +63,16 @@ export const addToUserBets = ( Bets: SaveBets[] ) => {
 
 
 
-    const config = {
-        headers: { 
-            Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsImlhdCI6MTYyMDkyODc4NX0.xtUeYHI5TecgFaU5fexZQsu-ny_X8B4Rcj9G3TTwe_E'
-        }
-        
-    }
 
     const body = {
         bets: BetsToSave
     }
 
-    // return (res:any) => {
-    //     api
-    //         .post('/bets', config)
-    //         .then(res =>  {
-    //             return res
-    //         })
-    //         .catch(console.log)
-    // }
-    api.defaults.headers.Authorization = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsImlhdCI6MTYyMDkyODc4NX0.xtUeYHI5TecgFaU5fexZQsu-ny_X8B4Rcj9G3TTwe_E"
-    return  api
+
+    const token = localStorage.getItem("token")
+    console.log(body)
+    api.defaults.headers.Authorization = `Bearer ${token}`
+        api
             .post('/bets',body)
             .then(res =>  {
                 console.log(res.data)

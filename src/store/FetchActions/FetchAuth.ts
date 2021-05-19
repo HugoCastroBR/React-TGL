@@ -1,5 +1,6 @@
 import api from "../../services/api";
-import { SetToken } from "../actions";
+import { UpdateInfos } from "../../types/types";
+import { SetToken, UsersResetRegisterSuccess } from "../actions";
 import { AuthSetMessage, AuthLogin, UsersRegisterSuccess } from "./../actions";
 
 export const tryAuth = (email: string, password: string) => {
@@ -112,7 +113,6 @@ export const tryUpdatePassword = (
 	return (dispatch: any) => {
 		api.put("/reset-password", body)
 			.then((res) => {
-                console.log("updated")
 				dispatch(AuthSetMessage("Success", "green"));
 				dispatch(UsersRegisterSuccess());
 			})
@@ -132,3 +132,80 @@ export const tryUpdatePassword = (
 			});
 	};
 };
+
+export const getUserInfos = () => {
+    const token = localStorage.getItem("token")
+    if(typeof(token) === "string"){
+        api.defaults.headers.Authorization = `Bearer ${token}`
+        return (dispatch: any) => {
+            api.get("/user")
+                .then((res) => {
+                    dispatch(AuthSetMessage("Success", "green"));
+                    dispatch(UsersRegisterSuccess());
+                })
+                .catch((err) => {
+                    dispatch(AuthLogin(false));
+                    console.log(err.response.data);
+                    if (err.response.status === 404) {
+                        dispatch(
+                            AuthSetMessage(
+                                `Expired Token`,
+                                "red",
+                            ),
+                        );
+                    } else {
+                        dispatch(AuthSetMessage("Error", "red"));
+                    }
+                });
+        };
+    }else{
+        return (dispatch: any) => {
+            dispatch(UsersResetRegisterSuccess())
+        }
+        // redirect to login
+    }
+    
+
+}
+
+
+
+
+export const UpdateProfile = (Infos:UpdateInfos) => {
+
+    
+    
+    let Body:any = {...Infos}
+
+    Object.entries(Infos).forEach(e => {
+        if(!e[1] || e[1]?.length < 2){
+            delete Body[e[0]]
+        }
+    })
+
+    console.log(Body)
+    const token = localStorage.getItem("token")
+    api.defaults.headers.Authorization = `Bearer ${token}`
+        return (dispatch: any) => {
+            api.put("/update-user", Body)
+                .then((res) => {
+                    console.log("updated")
+                    dispatch(AuthSetMessage("Success", "green"));
+                    dispatch(UsersRegisterSuccess());
+                })
+                .catch((err) => {
+                    dispatch(AuthLogin(false));
+                    console.log(err.response.data);
+                    if (err.response.status === 404) {
+                        dispatch(
+                            AuthSetMessage(
+                                `Expired Token`,
+                                "red",
+                            ),
+                        );
+                    } else {
+                        dispatch(AuthSetMessage("Error", "red"));
+                    }
+                });
+        };
+}

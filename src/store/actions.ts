@@ -42,7 +42,6 @@ export const SyncUserRecentGames = () => {  // Verify if user and user in users 
 }
 
 export const SetToken =  (token:string) => {
-    console.log("foi: ",token)
     return AuthActions.SET_USER_TOKEN(token)
 }
 

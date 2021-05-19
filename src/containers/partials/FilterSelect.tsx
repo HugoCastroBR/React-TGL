@@ -75,6 +75,7 @@ const FilterSelect = () => {
 
 
 const SelectGame = (element:string) => {
+    console.log(element)
     dispatch(SelectFilter(element))
 }
 

@@ -63,8 +63,6 @@ const Login = () => {
 
                 dispatch(tryAuth(user.name,user.password))
                 setMessage("Tentando entrar...","green")
-
-
                 // setTimeout(() => {
                 //     if(states.Auth.isAuth){
                 //         setMessage('Sucesso',"green")

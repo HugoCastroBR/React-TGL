@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Page from '../components/partials/Page';
 import styled from 'styled-components';
+import api from '../services/api';
+import { UpdateProfile } from '../store/FetchActions/FetchAuth';
+import useTGL from './../hooks/useStore';
+import { UpdateInfos } from '../types/types';
 
 
 const ProfileContainer = styled.div`
@@ -29,7 +33,7 @@ const ProfileInfosForm = styled.form`
     align-items: center;
     
 `
-const InputsContainer= styled.div`
+const InputsContainer = styled.div`
     width: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -106,7 +110,7 @@ const ProfileAboutMe = styled.div`
         }
     }
 `
-    
+
 const ProfileSendFormBtn = styled.button`
     height: 60px;
     width: 200px;
@@ -121,8 +125,8 @@ const ProfileSendFormBtn = styled.button`
     color: #27C383;
 
 `
-const ProfileChangeError = styled.span<{color:string}>`
-    color: ${props =>`${props.color}`};
+const ProfileChangeError = styled.span<{ color: string }>`
+    color: ${props => `${props.color}`};
     font: normal bold 16px "Helvetica Neue light";
     display: flex;
     justify-content: center;
@@ -131,7 +135,55 @@ const ProfileChangeError = styled.span<{color:string}>`
     height: 20px;
 `
 const Account = () => {
-    return(
+
+    const { dispatch } = useTGL()
+
+    type UserRes = {
+        id: number
+        username: string
+        email: string
+        phone_number: string
+        about: string
+    }
+
+    const usernameInput = useRef<HTMLInputElement>(null)
+    const numberInput = useRef<HTMLInputElement>(null)
+    const emailInput = useRef<HTMLInputElement>(null)
+    const passwordInput = useRef<HTMLInputElement>(null)
+    const passwordInput2 = useRef<HTMLInputElement>(null)
+    const aboutMeTextArea = useRef<HTMLTextAreaElement>(null)
+
+    const [userInfos, SetUserInfos] = useState({} as UserRes)
+
+    useEffect(() => {
+        const token = localStorage.getItem("token")
+        if(typeof (token) === "string"){
+            api.defaults.headers.Authorization = `Bearer ${token}`
+            api.get("/user")
+                .then((res) => {
+                    SetUserInfos({...res.data[0]})
+                })
+                .catch((err) => {
+                    console.log(err)
+                });
+        }
+    }, [])
+
+    const SetNewProfileInfos = (event:React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        const Infos:UpdateInfos = {
+            phone_number: numberInput.current?.value,
+            password: passwordInput.current?.value,
+            password_confirmation: passwordInput2.current?.value,
+            username: usernameInput.current?.value,
+            email: emailInput.current?.value,
+            about: aboutMeTextArea.current?.value
+        }
+        dispatch(UpdateProfile(Infos))
+        console.log(Infos)
+    }
+
+    return (
         <Page>
             <ProfileContainer>
 
@@ -139,41 +191,37 @@ const Account = () => {
                     <h1>Profile</h1>
                 </ProfileTitle>
                 <ProfileInfos>
-                    <ProfileInfosForm action="">
+                    <ProfileInfosForm onSubmit={event =>  SetNewProfileInfos(event)}>
                         <InputsContainer>
                             <ProfileInputContainer>
                                 <label htmlFor="usernameInput">Username</label>
-                                <input type="text" placeholder="New Username" id="usernameInput"/>
+                                <input ref={usernameInput} type="text" placeholder="New Username" id="usernameInput" defaultValue={userInfos.username}/>
                             </ProfileInputContainer>
                             <ProfileInputContainer>
-                                <label htmlFor="fullNameInput">Full name</label>
-                                <input type="text" placeholder="Full name" id="fullNameInput"/>
+                                <label htmlFor="numberInput">Number</label>
+                                <input ref={numberInput} type="text" placeholder="(XX) 9XXXX XXXX" id="numberInput" defaultValue={userInfos.phone_number}/>
+                            </ProfileInputContainer>
+                            <ProfileInputContainer>
+                                <label htmlFor="emailInput">Email</label>
+                                <input ref={emailInput} type="email" placeholder="Email" id="emailInput" defaultValue={userInfos.email}/>
+                            </ProfileInputContainer>
+                            <ProfileInputContainer>
+                                <label htmlFor="passwordInput">New Password</label>
+                                <input ref={passwordInput} type="password" placeholder="New Password" id="PasswordInput" defaultValue=""/>
                             </ProfileInputContainer>
 
                             <ProfileInputContainer>
-                                <label htmlFor="numberInput">Number</label>
-                                <input type="text" placeholder="(XX) 9XXXX XXXX" id="numberInput"/>
+                                <label htmlFor="passwordInput2">New Password Confirmation</label>
+                                <input ref={passwordInput2} type="password" placeholder="Confirm Password" id="PasswordInput2" defaultValue=""/>
                             </ProfileInputContainer>
-                            <ProfileInputContainer>
-                                <label htmlFor="number2Input">Number 2</label>
-                                <input type="text" placeholder="(XX) 9XXXX XXXX" id="number2Input"/>
-                            </ProfileInputContainer>
-                            <ProfileInputContainer>
-                                <label htmlFor="twitterInput">Twitter</label>
-                                <input type="text" placeholder="@twitter" id="twitterInput"/>
-                            </ProfileInputContainer>
-                            <ProfileInputContainer>
-                                <label htmlFor="twitterInput">Facebook</label>
-                                <input type="text" placeholder="Facebook name" id="twitterInput"/>
-                            </ProfileInputContainer>
-                            
+
                         </InputsContainer>
                         <ProfileAboutMe>
                             <label htmlFor="aboutMeTextArea">About me</label>
-                            <textarea  placeholder="About me" id="aboutMeTextArea"/>
+                            <textarea ref={aboutMeTextArea} placeholder="About me" id="aboutMeTextArea" defaultValue={userInfos.about}/>
                         </ProfileAboutMe>
                         <ProfileChangeError color="red">
-
+                            
                         </ProfileChangeError>
                         <ProfileSendFormBtn>Save</ProfileSendFormBtn>
                     </ProfileInfosForm>

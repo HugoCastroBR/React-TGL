@@ -35,6 +35,7 @@ export const GameSlice = createSlice({
 		SELECT_FILTER(state,{payload}:{payload:string}){
 			state.CurrentFilters = current(state).CurrentFilters.map( element => {
 				if(element.type === payload){
+					console.log(element)
 					const NewElement = {...element}
 					NewElement.active = !element.active
 					return NewElement
@@ -53,6 +54,11 @@ export const GameSlice = createSlice({
 		},
 		SET_RECENT_GAMES(state,{payload}:{payload:SavedGame[]}){
 			state.RecentGames = [...payload]
+			state.CurrentFilters = state.RecentGames.map(element => {
+				const NewElement:any = {...element}
+				NewElement.active = false
+				return NewElement
+			})
 		},
         ADD_TO_RECENT_GAMES(state,{payload}:{payload:SavedGame[]}){
             state.RecentGames = [...state.RecentGames,...payload]

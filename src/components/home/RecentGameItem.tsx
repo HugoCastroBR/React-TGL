@@ -67,6 +67,8 @@ const GameType = styled.span<SavedGame>`
 
 const RecentGameItem = ({type,price,color,data,numbers}:SavedGame) => {
     const props = {type,price,color,data,numbers}
+
+    
     return (
         <RecentGameItemContainer>
             <PreBar color={color}>
@@ -76,7 +78,7 @@ const RecentGameItem = ({type,price,color,data,numbers}:SavedGame) => {
 
                 <RecentGameNumbers>
 
-                    {numbers.map((element,index) => NumbersFormatter(numbers.length,element,index))}
+                    {numbers.map((element:number,index:number) => NumbersFormatter(numbers.length,element,index))}
 
                 </RecentGameNumbers>
                 <GameDataPrice>

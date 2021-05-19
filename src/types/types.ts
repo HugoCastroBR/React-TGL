@@ -23,7 +23,7 @@ export type SavedGame ={
     price: number
     color: string
     data: string
-    numbers: number[]
+    numbers: number[] 
 }
 
 export type UserProps = {
@@ -58,4 +58,13 @@ export type GameDataProps = GameData & {
 export type NumberBtnProps = {
     number: number,
     selected: boolean
+}
+
+export type UpdateInfos = {
+    phone_number?:string,
+    password?:string,
+    password_confirmation?:string,
+    username?:string,
+    email?:string,
+    about?:string
 }

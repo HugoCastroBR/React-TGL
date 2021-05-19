@@ -113,6 +113,8 @@ const CartItem = ({
     const {dispatch} = useTGL()
 
 
+
+
     const DeleteFunction = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         dispatch(DeleteCartItem(index))
     }
@@ -126,7 +128,7 @@ const CartItem = ({
             </DeleteContainer>
             <ItemInfosContainer color={color}>
                 <ItemInfosNumbers>
-                    {numbers.map((element,index) => NumbersFormatter(numbers.length,element,index))}
+                    {numbers.map((element:any,index:number) => NumbersFormatter(numbers.length,element,index))}
                 </ItemInfosNumbers>
                 <GameTypePriceContainer>
                     <GameTypeText color={color}>

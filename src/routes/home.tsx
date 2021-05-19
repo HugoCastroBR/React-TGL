@@ -9,6 +9,8 @@ import { CurrentFiltersProps } from '../types/types';
 import { Link } from 'react-router-dom';
 import useTGL from '../hooks/useStore';
 import { SetRecentGames, SyncGameRecentGames, SyncUserRecentGames } from '../store/actions';
+import api from '../services/api';
+import { getUserBets } from './../store/FetchActions/FetchBets';
 
 
 const RecentGamesTitle = styled.div`
@@ -163,7 +165,10 @@ const Home = () => {
 
         dispatch(SyncUserRecentGames())
         dispatch(SyncGameRecentGames(states.Auth.User.RecentGames))
-        dispatch(SetRecentGames(states.Auth.User.RecentGames))
+        // dispatch(SetRecentGames(states.Auth.User.RecentGames))
+
+        dispatch(getUserBets())
+
     }, [states.Auth.User])
 
 
@@ -171,68 +176,86 @@ const Home = () => {
         InitialSync()
     }, [])
 
-    const Organize = (ToOrganize: CurrentFiltersProps[]) => {
-        let GamesToShow = [...ToOrganize]
-        let TypesExist: any = []
+    // const Organize = (ToOrganize: CurrentFiltersProps[]) => {
+    //     let GamesToShow = [...ToOrganize]
+    //     let TypesExist: any = []
 
-        GamesToShow.forEach(element => {
-            if (TypesExist.includes(element.type)) {
+    //     GamesToShow.forEach(element => {
+    //         if (TypesExist.includes(element.type)) {
 
-            } else {
-                TypesExist.push(element.type)
-            }
-        })
-        const fullLength = GamesToShow.length
-        let ExitList: CurrentFiltersProps[] = []
+    //         } else {
+    //             TypesExist.push(element.type)
+    //         }
+    //     })
+    //     const fullLength = GamesToShow.length
+    //     let ExitList: CurrentFiltersProps[] = []
 
-        if (TypesExist.length > 0) {
-            while (ExitList.length < fullLength) {
-                GamesToShow.forEach((element, index) => {
-                    if (index === (GamesToShow.length - 1)) {
-                        if (element.type === TypesExist[0]) {
-                            ExitList.push(element)
-                            GamesToShow.slice(index, 1)
-                        }
-                        TypesExist.shift(index)
-                    } else {
-                        if (element.type === TypesExist[0]) {
-                            ExitList.push(element)
-                            GamesToShow.slice(index, 1)
-                        }
-                    }
-                })
-            }
+    //     if (TypesExist.length > 0) {
+    //         while (ExitList.length < fullLength) {
+    //             GamesToShow.forEach((element, index) => {
+    //                 if (index === (GamesToShow.length - 1)) {
+    //                     if (element.type === TypesExist[0]) {
+    //                         ExitList.push(element)
+    //                         GamesToShow.slice(index, 1)
+    //                     }
+    //                     TypesExist.shift(index)
+    //                 } else {
+    //                     if (element.type === TypesExist[0]) {
+    //                         ExitList.push(element)
+    //                         GamesToShow.slice(index, 1)
+    //                     }
+    //                 }
+    //             })
+    //         }
+    //     }
+    //     return ExitList
+
+    // }
+
+
+    // const GetRecentToShow = () => {
+    //     console.log(states.Game.RecentGames)
+    //     if (states.Game.RecentGames.length > 0) {
+    //         let isAllFalse = true
+    //         // eslint-disable-next-line array-callback-return
+    //         let toShow = Organize(states.Game.CurrentFilters).map((element, index) => {
+    //             if (element.active) {
+    //                 isAllFalse = false
+    //                 return <RecentGameItem {...element} key={index}></RecentGameItem>
+    //             }
+    //         })
+    //         if (isAllFalse) {
+    //             console.log(states.Game.CurrentFilters)
+    //             return Organize(states.Game.CurrentFilters).map((element, index) => {
+    //                 return <RecentGameItem {...element} key={index}></RecentGameItem>
+    //             })
+    //         } else {
+    //             return toShow
+    //         }
+    //     } else {
+    //         //  show empty recent games 
+    //         return <EmptyRecentGames>No Recent games</EmptyRecentGames>
+    //     }
+    // }
+
+    console.log(states.Game.RecentGames)
+
+    
+    const GenItems = () => {
+        let toReturn;
+        console.log(states.Game.CurrentFilters.length )
+        if(!states.Game.CurrentFilters.find(e => e.active === true)){
+            toReturn = states.Game.RecentGames.map((element,index) => <RecentGameItem {...element} key={index}></RecentGameItem>)
+        }else{
+            toReturn = states.Game.CurrentFilters
+                .filter(element => element.active)
+                .map((element,index) => <RecentGameItem {...element} key={index}></RecentGameItem>)
         }
-        return ExitList
-
-    }
-
-
-    const GetRecentToShow = () => {
-        if (states.Game.RecentGames.length > 0) {
-            let isAllFalse = true
-            // eslint-disable-next-line array-callback-return
-            let toShow = Organize(states.Game.CurrentFilters).map((element, index) => {
-                if (element.active) {
-                    isAllFalse = false
-                    return <RecentGameItem {...element} key={index}></RecentGameItem>
-                }
-            })
-            if (isAllFalse) {
-                console.log(states.Game.CurrentFilters)
-                return Organize(states.Game.CurrentFilters).map((element, index) => {
-                    return <RecentGameItem {...element} key={index}></RecentGameItem>
-                })
-            } else {
-                return toShow
-            }
-        } else {
-            //  show empty recent games 
-            return <EmptyRecentGames>No Recent games</EmptyRecentGames>
-        }
+        return toReturn
     }
 
     return (
+        
         <Page WithHomeBtn={false}>
             <HomeContainer>
 
@@ -256,7 +279,7 @@ const Home = () => {
 
                 <RecentGamesContainer>
                     {/* For Recent Games make a Recent Game Item in page */}
-                    {GetRecentToShow()}
+                    {GenItems()}
                 </RecentGamesContainer>
 
             </HomeContainer>
