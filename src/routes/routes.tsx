@@ -7,7 +7,7 @@ import Login from './login';
 import ResetPassword from './resetPassword';
 import NewBet from './newBet';
 import useTGL from './../hooks/useStore';
-import { SetRecentGames, SyncGameRecentGames, SyncUserRecentGames } from '../store/actions';
+import { SetRecentGames } from '../store/actions';
 import Account from './account';
 import UpdatePassword from './updatePassword';
 
@@ -22,14 +22,15 @@ const Routes = () => {
     }
 
     const { states,dispatch } = useTGL()
-    const InitialSync = useCallback(() => {
-        dispatch(SyncUserRecentGames())
-        dispatch(SyncGameRecentGames(states.Auth.User.RecentGames))
-        dispatch(SetRecentGames(states.Auth.User.RecentGames))
-    },[states.Auth.User])
-    useMemo(() => {
-        InitialSync()
-    },[])
+
+    // const InitialSync = useCallback(() => {
+    //     dispatch(SyncUserRecentGames())
+    //     dispatch(SyncGameRecentGames(states.Auth.User.RecentGames))
+    //     dispatch(SetRecentGames(states.Auth.User.RecentGames))
+    // },[states.Auth.User])
+    // useMemo(() => {
+    //     InitialSync()
+    // },[])
 
     return (
         <BrowserRouter>
