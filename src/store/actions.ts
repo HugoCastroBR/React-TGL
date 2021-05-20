@@ -1,5 +1,5 @@
 import { AuthActions } from "."
-import { GameDataProps, SavedGame, UserInfos, UserProps } from "../types/types"
+import { GameDataProps, SavedGame } from "../types/types"
 import { GameActions } from './index';
 
 
@@ -25,21 +25,6 @@ export const UsersResetRegisterSuccess = () => {  // After Register, reset 2 tem
     return AuthActions.RESET_SUCCESS()
 }
 
-// export const ValidNewEmail = (email:string) => {  // Valid if the email is not in use and if the email is a valid email( using Regex )
-//     return AuthActions.IS_EMAIL_VALID_AND_NEW({email})
-// }
-
-export const AuthResetPassword = (email:string,NewPassword:string) => {  // Reset Password action to change the password
-    return AuthActions.RESET_PASSWORD({email:email,password:NewPassword})
-}
-
-// export const AddToUserRecentGames = (RecentGames:SavedGame[]) => {  // Add a game to the user recent games list
-//     return  AuthActions.ADD_TO_USER_RECENT_GAMES(RecentGames)
-// }
-
-// export const SyncUserRecentGames = () => {  // Verify if user and user in users list have the same recent games, if don't, fix it
-//     return  AuthActions.SYNC_USER_RECENT_GAMES()
-// }
 
 export const SetToken =  (token:string) => {
     return AuthActions.SET_USER_TOKEN(token)
@@ -48,7 +33,7 @@ export const SetToken =  (token:string) => {
 // -- Game Actions -- //
 
 export const SetGamesData = (GamesData:GameDataProps[]) => {
-    console.log("SetGameDataAction:", GamesData)  // Set the available games
+    // Set the available games
     return GameActions.SET_GAMES_DATA(GamesData)
 }
 
@@ -79,10 +64,6 @@ export const DeleteCartItem = (index:number) => {  // Delete a game from cart
 export const SetCartErrorMsg = (msg:string,color:string) =>{  // Set a error/success in Cart container
     return GameActions.SET_CART_MSG({msg,color})
 }
-
-// export const SyncGameRecentGames = (RecentGames:SavedGame[]) => {  // Sync/Set Recent Games in Game Slice
-//     return  GameActions.SYNC_RECENT_GAMES(RecentGames)
-// }
 
 export const ResetCart = () => {  // Clean the Cart
     return GameActions.RESET_CART()

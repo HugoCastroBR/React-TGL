@@ -1,6 +1,6 @@
 import api from '../../services/api';
 import { SavedGame } from '../../types/types';
-import { SetGamesData, SetRecentGames } from '../actions';
+import {  SetRecentGames } from '../actions';
 
 export const getUserBets = () => {
     
@@ -17,7 +17,6 @@ export const getUserBets = () => {
         api
             .get('/user-bets/0/1', config)
             .then(res =>  {
-                console.log(res)
                 let NewData = res.data.map((e:any) => {
                     if(typeof(e.numbers) === "string"){
                         let NewNumbers = e.numbers.split(",")
@@ -35,7 +34,7 @@ export const getUserBets = () => {
                         price:Number(element.game.price),
                         color:element.game.color,
                         type:element.game.type,
-                        data:element.created_at.slice(0,10).replaceAll("-","/"),
+                        data:element.created_at,
                     }
                     return NewE
                 })
@@ -43,7 +42,7 @@ export const getUserBets = () => {
                 const FinalData:SavedGame[] = [...NewData]
                 dispatch(SetRecentGames(FinalData))
             })
-            .catch(console.log)
+            .catch(err => {})
     }
 }
 
@@ -62,21 +61,17 @@ export const addToUserBets = ( Bets: SaveBets[] ) => {
     })
 
 
-
-
     const body = {
         bets: BetsToSave
     }
 
 
     const token = localStorage.getItem("token")
-    console.log(body)
     api.defaults.headers.Authorization = `Bearer ${token}`
         api
             .post('/bets',body)
             .then(res =>  {
-                console.log(res.data)
                 return res.data
             })
-            .catch(console.log)
+            .catch(err => {})
 } 

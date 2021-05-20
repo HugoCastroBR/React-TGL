@@ -40,7 +40,6 @@ export const tryRegister = (
 		password_confirmation,
 	};
 
-	console.log(body);
 	return (dispatch: any) => {
 		api.post("/register", body)
 			.then((res) => {
@@ -50,7 +49,6 @@ export const tryRegister = (
 			})
 			.catch((err) => {
 				dispatch(AuthLogin(false));
-				console.log(err.response.data);
 				if (err.response.status === 401) {
 					dispatch(AuthSetMessage("Invalid User!", "red"));
 				} else if (err.response.status === 400) {
@@ -72,7 +70,6 @@ export const tryResetPassword = (email: string) => {
 		email,
 	};
 
-	console.log(body);
 	return (dispatch: any) => {
 		api.post("/reset-password", body)
 			.then((res) => {
@@ -81,8 +78,7 @@ export const tryResetPassword = (email: string) => {
 			})
 			.catch((err) => {
 				dispatch(AuthLogin(false));
-				console.log(err.response.data);
-				if (err.response.status === 401) {
+				if (err.response.status === 401 || err.response.status === 404 ) {
 					dispatch(AuthSetMessage("Invalid Email", "red"));
 				} else if (err.response.status === 400) {
 					dispatch(
@@ -109,7 +105,6 @@ export const tryUpdatePassword = (
 		token,
 	};
 
-	console.log(body);
 	return (dispatch: any) => {
 		api.put("/reset-password", body)
 			.then((res) => {
@@ -118,7 +113,6 @@ export const tryUpdatePassword = (
 			})
 			.catch((err) => {
 				dispatch(AuthLogin(false));
-				console.log(err.response.data);
 				if (err.response.status === 404) {
 					dispatch(
 						AuthSetMessage(
@@ -136,6 +130,7 @@ export const tryUpdatePassword = (
 export const getUserInfos = () => {
     const token = localStorage.getItem("token")
     if(typeof(token) === "string"){
+		
         api.defaults.headers.Authorization = `Bearer ${token}`
         return (dispatch: any) => {
             api.get("/user")
@@ -145,7 +140,6 @@ export const getUserInfos = () => {
                 })
                 .catch((err) => {
                     dispatch(AuthLogin(false));
-                    console.log(err.response.data);
                     if (err.response.status === 404) {
                         dispatch(
                             AuthSetMessage(
@@ -183,18 +177,15 @@ export const UpdateProfile = (Infos:UpdateInfos) => {
         }
     })
 
-    console.log(Body)
     const token = localStorage.getItem("token")
     api.defaults.headers.Authorization = `Bearer ${token}`
         return (dispatch: any) => {
             api.put("/update-user", Body)
                 .then((res) => {
-                    console.log("updated")
                     dispatch(AuthSetMessage("Success", "green"));
                     dispatch(UsersRegisterSuccess());
                 })
                 .catch((err) => {
-                    console.log(err.response.data);
                     dispatch(
                         AuthSetMessage(
                             `${err.response.data[0].message.replaceAll("_"," ")}`,

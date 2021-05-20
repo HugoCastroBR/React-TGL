@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useCallback, useMemo } from 'react';
+import React from 'react';
 import { Route, Switch, BrowserRouter, Redirect } from "react-router-dom"
 import Home from './home';
 import Register from './register';
@@ -7,7 +7,6 @@ import Login from './login';
 import ResetPassword from './resetPassword';
 import NewBet from './newBet';
 import useTGL from './../hooks/useStore';
-import { SetRecentGames } from '../store/actions';
 import Account from './account';
 import UpdatePassword from './updatePassword';
 
@@ -21,16 +20,7 @@ const Routes = () => {
         return token?.length && true
     }
 
-    const { states,dispatch } = useTGL()
-
-    // const InitialSync = useCallback(() => {
-    //     dispatch(SyncUserRecentGames())
-    //     dispatch(SyncGameRecentGames(states.Auth.User.RecentGames))
-    //     dispatch(SetRecentGames(states.Auth.User.RecentGames))
-    // },[states.Auth.User])
-    // useMemo(() => {
-    //     InitialSync()
-    // },[])
+    const { states } = useTGL()
 
     return (
         <BrowserRouter>
