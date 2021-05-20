@@ -24,32 +24,9 @@ export type SavedGame ={
     color: string
     data: string
     numbers: number[] 
+    active: boolean
 }
 
-export type UserProps = {
-    name: string
-    password: string;
-    RecentGames: SavedGame[]
-}
-
-export type UserInfos = {
-    name: string
-    password: string
-    email: string
-    RecentGames: SavedGame[]
-}
-
-export type UserPublicInfos = {
-    id?: number
-    name?: string
-    email?: string
-    fullName?: string
-    about?:string
-}
-
-export type CurrentFiltersProps = SavedGame & {
-	active: boolean
-}
 
 export type GameDataProps = GameData & {
 	active: boolean

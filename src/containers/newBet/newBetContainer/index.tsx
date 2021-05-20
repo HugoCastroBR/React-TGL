@@ -89,7 +89,8 @@ const NewBetContainer = (props: GameDataProps) => {
                 data,
                 numbers: NumberList,
                 price: props.price,
-                type: props.type
+                type: props.type,
+                active: props.active
             }))
         } else {
             const Iindex = OldState.numbers.indexOf(NumberToAdd)
@@ -100,7 +101,8 @@ const NewBetContainer = (props: GameDataProps) => {
                     data,
                     numbers: NumberList,
                     price: props.price,
-                    type: props.type
+                    type: props.type,
+                    active: props.active
                 }))
             }
         }
@@ -120,7 +122,8 @@ const NewBetContainer = (props: GameDataProps) => {
             data,
             numbers: numbers,
             price: props.price,
-            type: props.type
+            type: props.type,
+            active: props.active
         }))
     }
 

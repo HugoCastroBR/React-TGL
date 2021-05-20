@@ -35,6 +35,7 @@ export const getUserBets = () => {
                         color:element.game.color,
                         type:element.game.type,
                         data:element.created_at,
+                        active: false
                     }
                     return NewE
                 })

@@ -4,8 +4,8 @@ import React from 'react';
 import { RecentGameItemContainer, PreBar, RecentGameItemStyle, RecentGameNumbers, GameDataPrice, GameType } from './style';
 
 
-const RecentGameItem = ({type,price,color,data,numbers}:SavedGame) => {
-    const props = {type,price,color,data,numbers}
+const RecentGameItem = ({type,price,color,data,numbers,active}:SavedGame) => {
+    const props = {type,price,color,data,numbers,active}
 
     const ItemDate = new Date(data)
     return (

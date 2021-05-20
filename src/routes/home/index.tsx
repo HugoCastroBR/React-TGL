@@ -32,10 +32,10 @@ const Home = () => {
     const GenItems = () => {
         let toReturn;
 
-        if(!states.Game.CurrentFilters.find(e => e.active === true)){
+        if(!states.Game.RecentGames.find(e => e.active === true)){
             toReturn = states.Game.RecentGames.map((element,index) => <RecentGameItem {...element} key={index}></RecentGameItem>)
         }else{
-            toReturn = states.Game.CurrentFilters
+            toReturn = states.Game.RecentGames
                 .filter(element => element.active)
                 .map((element,index) => <RecentGameItem {...element} key={index}></RecentGameItem>)
         }

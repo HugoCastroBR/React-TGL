@@ -26,7 +26,7 @@ const SelectGame = (element:string) => {
 
 const GenerateToShow = () => {
 
-    let Filters = [...states.Game.CurrentFilters]
+    let Filters = [...states.Game.RecentGames]
     let exist:string[] = []
     // eslint-disable-next-line array-callback-return
     Filters = Filters.filter((element) => {

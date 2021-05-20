@@ -1,5 +1,5 @@
 import { createSlice, current } from "@reduxjs/toolkit";
-import {  SavedGame, CurrentFiltersProps,GameDataProps } from "../../types/types";
+import {  SavedGame, GameDataProps } from "../../types/types";
 
 
 
@@ -7,7 +7,6 @@ export const GameSlice = createSlice({
 	name: "GameSlice",
 	initialState: {
 		GamesData: [] as GameDataProps[],
-		CurrentFilters: [] as CurrentFiltersProps[],
 		RecentGames: [] as SavedGame[],
 		Cart: [] as SavedGame[],
 		CurrentGame: {} as SavedGame,
@@ -23,17 +22,11 @@ export const GameSlice = createSlice({
 				state.GamesData = [...payload]
 			}
 			
-			if(current(state).RecentGames.length > 0){
-				state.CurrentFilters = current(state).RecentGames.map(element => {
-					const NewElement:CurrentFiltersProps = {...element,active:false}
-					return NewElement
-				})
-			}else{
-			}
+			
 			
 		},
 		SELECT_FILTER(state,{payload}:{payload:string}){
-			state.CurrentFilters = current(state).CurrentFilters.map( element => {
+			state.RecentGames = current(state).RecentGames.map( element => {
 				if(element.type === payload){
 					const NewElement = {...element}
 					NewElement.active = !element.active
@@ -45,7 +38,7 @@ export const GameSlice = createSlice({
 			)
 		},
 		RESET_FILTERS(state){
-			state.CurrentFilters = state.CurrentFilters.map(element => {
+			state.RecentGames = state.RecentGames.map(element => {
 				const NewElement = {...element}
 				NewElement.active = false
 				return NewElement
@@ -54,7 +47,7 @@ export const GameSlice = createSlice({
 		SET_RECENT_GAMES(state,{payload}:{payload:SavedGame[]}){
 			if(payload?.length >= 1){
 				state.RecentGames = [...payload]
-				state.CurrentFilters = state.RecentGames.map(element => {
+				state.RecentGames = state.RecentGames.map(element => {
 				const NewElement:any = {...element}
 				NewElement.active = false
 				return NewElement
