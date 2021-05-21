@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import AuthErrorText from '../../containers/auth/authErrorText';
 import useTGL from '../../hooks/useStore';
 import { AuthSetMessage} from '../../store/actions';
-import { SavedGame, UserInfos } from '../../types/types';
 import { tryRegister } from '../../store/FetchActions/FetchAuth';
 import { ButtonText } from '../login/style';
 
@@ -33,18 +32,21 @@ const Register = () => {
     },[states.Auth.message])
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() =>  setMessage(),[])
+    useEffect(() =>  {
+        setMessage()
+        document.title = "TGL | Register"
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[])
 
     const FunctionRegister= (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         if(ValidAllInputs()){
             if(registerUsername.current?.value && confirmPassword.current?.value &&
                 registerPassword.current?.value && registerEmail.current?.value){
-                const user:UserInfos = {
+                const user:{name:string,password:string,email:string} = {
                     name: registerUsername.current.value,
                     password:  registerPassword.current.value,
-                    email: registerEmail.current.value,
-                    RecentGames: [] as SavedGame[]
+                    email: registerEmail.current.value
                 }
                 dispatch(tryRegister(user.name,user.email,user.password,confirmPassword.current.value))
                 setMessage('trying to register user...',"green")

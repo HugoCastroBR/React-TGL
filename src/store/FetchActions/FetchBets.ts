@@ -5,7 +5,7 @@ import {  SetRecentGames } from '../actions';
 export const getUserBets = () => {
     
 
-
+    // Get the user bets of the API
 
     const token = localStorage.getItem("token")
     api.defaults.headers.Authorization = `Bearer ${token}`
@@ -56,6 +56,7 @@ export interface SaveBets  {
 
 export const addToUserBets = ( Bets: SaveBets[] ) => {
 
+    // Add a new bet to User Bets
 
     const BetsToSave = Bets.map(e => {
         return {...e, numbers: e.numbers.join(',')}

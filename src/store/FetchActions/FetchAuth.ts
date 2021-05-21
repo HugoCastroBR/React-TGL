@@ -4,6 +4,7 @@ import { SetToken, UsersResetRegisterSuccess } from "../actions";
 import { AuthSetMessage, AuthLogin, UsersRegisterSuccess } from "./../actions";
 
 export const tryAuth = (email: string, password: string) => {
+	// pass email and password to API ant try to get the token
 	const body = {
 		email,
 		password,
@@ -33,6 +34,7 @@ export const tryRegister = (
 	password: string,
 	password_confirmation: string,
 ) => {
+	// Try to post a new user to API
 	const body = {
 		username,
 		email,
@@ -66,6 +68,7 @@ export const tryRegister = (
 };
 
 export const tryResetPassword = (email: string) => {
+	// Try to get a token to reset password and send to user email
 	const body = {
 		email,
 	};
@@ -73,7 +76,7 @@ export const tryResetPassword = (email: string) => {
 	return (dispatch: any) => {
 		api.post("/reset-password", body)
 			.then((res) => {
-				dispatch(AuthSetMessage("Email sent", "green"));
+				dispatch(AuthSetMessage("A recover email had been sent to your email", "green"));
 				// dispatch(AuthLogin(true));
 			})
 			.catch((err) => {
@@ -99,6 +102,8 @@ export const tryUpdatePassword = (
 	password_confirmation: string,
 	token: string,
 ) => {
+	// Try to update the password
+
 	const body = {
 		password,
 		password_confirmation,
@@ -128,6 +133,9 @@ export const tryUpdatePassword = (
 };
 
 export const getUserInfos = () => {
+
+	// get the user infos
+
     const token = localStorage.getItem("token")
     if(typeof(token) === "string"){
 		

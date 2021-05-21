@@ -20,10 +20,9 @@ const Home = () => {
 
     const { states, dispatch } = useTGL()
 
-
-
     useEffect(() => {
         dispatch(getUserBets())
+        document.title = "TGL | Recent Bets"
     }, [])
 
     

@@ -46,6 +46,7 @@ const Account = () => {
                 });
         }
         SetMessage("")
+        document.title = "TGL | Account"
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 

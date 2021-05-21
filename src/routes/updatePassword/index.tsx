@@ -9,6 +9,7 @@ import AuthErrorText from '../../containers/auth/authErrorText';
 import { AuthSetMessage } from '../../store/actions';
 import { tryUpdatePassword } from '../../store/FetchActions/FetchAuth';
 import { ButtonContainer,ButtonText } from '../resetPassword/style';
+import { useEffect } from 'react';
 
 
 
@@ -19,7 +20,10 @@ const UpdatePassword = () => {
 
     const { dispatch } = useTGL()
 
-    
+    useEffect(() => {
+        dispatch(AuthSetMessage("","red"))
+        document.title = "TGL | Update password"
+    },[])
 
     const resetPass = useRef<HTMLInputElement>(null)
     const resetPass2 = useRef<HTMLInputElement>(null)
@@ -65,7 +69,7 @@ const UpdatePassword = () => {
                         <div>
                             <ButtonContainer >
                                 <SimpleButton Arrow={true} Color={"#B5C401"} ArrowSize={[50, 40]}>
-                                    <ButtonText Color={"#B5C401"} >Send</ButtonText>
+                                    <ButtonText Color={"#B5C401"} >Change</ButtonText>
                                 </SimpleButton>
                             </ButtonContainer>
                         </div>

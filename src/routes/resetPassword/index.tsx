@@ -1,10 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import SimpleButton from '../../components/buttons/arrowButton';
 import AuthFormTemplate from '../../components/auth/authFormTemplate';
 import AuthContainer from '../../components/auth/authContainer';
 import { Link } from 'react-router-dom';
-
 import useTGL from '../../hooks/useStore';
 import AuthErrorText from '../../containers/auth/authErrorText';
 import { AuthSetMessage } from '../../store/actions';
@@ -22,6 +21,10 @@ const ResetPassword = () => {
     
     const resetEmail = useRef<HTMLInputElement>(null)
 
+    useEffect(() => {
+        dispatch(AuthSetMessage("","red"))
+        document.title = "TGL | Forgot password"
+    },[])
 
     const ResetPassSubmit = () => {
         if(resetEmail.current?.value){

@@ -20,6 +20,7 @@ const NewBet = () => {
     useEffect(() => {
         dispatch(ResetFilters())
         dispatch(getGames())
+        document.title = "TGL | New Bet"
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 

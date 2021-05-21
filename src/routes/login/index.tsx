@@ -4,7 +4,6 @@ import AuthFormTemplate from '../../components/auth/authFormTemplate';
 import AuthContainer from '../../components/auth/authContainer';
 import { Link } from 'react-router-dom';
 import useTGL from '../../hooks/useStore';
-import { SavedGame, UserProps } from '../../types/types';
 import { AuthSetMessage, UsersResetRegisterSuccess } from '../../store/actions';
 import AuthErrorText from '../../containers/auth/authErrorText';
 import { tryAuth } from '../../store/FetchActions/FetchAuth';
@@ -23,7 +22,7 @@ const Login = () => {
     useEffect(() => {
         dispatch(UsersResetRegisterSuccess())
         setMessage('')
-        
+        document.title = "TGL | Login"
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
@@ -50,10 +49,9 @@ const Login = () => {
         if(ValidAllInputs()){
             if(loginEmail.current?.value && loginPassword.current?.value){
 
-                const user:UserProps = {
+                const user:{name:string,password:string} = {
                     name: loginEmail.current.value,
-                    password:  loginPassword.current.value,
-                    RecentGames: [] as SavedGame[]
+                    password:  loginPassword.current.value
                 }
 
                 dispatch(tryAuth(user.name,user.password))
